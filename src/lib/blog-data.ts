@@ -45,7 +45,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     image:
       "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1200&h=630&auto=format&fit=crop&q=80",
     author: {
-      name: "Bg Fardi (Selempang Aceh Barat)",
+      name: "Fardi hd, S.P. (Selempang Aceh Barat)",
       role: "Head Stylist & Founder",
       avatar: "/Gambar/LOGOFHD.png",
     },
@@ -116,7 +116,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     image:
       "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&h=630&auto=format&fit=crop&q=80",
     author: {
-      name: "Bg Fardi (Selempang Aceh Barat)",
+      name: "Fardi hd, S.P. (Selempang Aceh Barat)",
       role: "Head Stylist & Founder",
       avatar: "/Gambar/LOGOFHD.png",
     },
@@ -185,7 +185,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     image:
       "https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?w=1200&h=630&auto=format&fit=crop&q=80",
     author: {
-      name: "Bg Fardi (Selempang Aceh Barat)",
+      name: "Fardi hd, S.P. (Selempang Aceh Barat)",
       role: "Head Stylist & Founder",
       avatar: "/Gambar/LOGOFHD.png",
     },

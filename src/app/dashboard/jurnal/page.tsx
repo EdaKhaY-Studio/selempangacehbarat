@@ -53,7 +53,7 @@ export default function DashboardJurnalPage() {
     category: "Tips Wisuda",
     thumbnail:
       "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1200&h=630&auto=format&fit=crop&q=80",
-    author: "Bg Fardi",
+    author: "Fardi hd, S.P.",
     status: "PUBLISHED",
     tags: ["Wisuda Meulaboh", "Tips Busana"],
   });
@@ -109,7 +109,7 @@ export default function DashboardJurnalPage() {
       category: "Tips Wisuda",
       thumbnail:
         "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1200&h=630&auto=format&fit=crop&q=80",
-      author: "Bg Fardi",
+      author: "Fardi hd, S.P.",
       status: "PUBLISHED",
       tags: ["Wisuda Meulaboh"],
     });

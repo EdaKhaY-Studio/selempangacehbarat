@@ -178,7 +178,7 @@ export function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarProps) {
           </div>
           <div className="flex flex-col min-w-0 flex-1">
             <span className="text-xs font-semibold text-white truncate">
-              Bg Fardi (Admin Utama)
+              Fardi hd, S.P. (Admin Utama)
             </span>
             <span className="text-[10px] text-slate-400 font-mono truncate">
               admin@selempangacehbarat.com

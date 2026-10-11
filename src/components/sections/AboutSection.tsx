@@ -309,13 +309,14 @@ export function AboutSection() {
             {/* Foto Pendiri */}
             <div className="lg:col-span-5 relative">
               <div className="bg-white p-4 sm:p-5 rounded-2xl shadow-md border border-[#cbd5e1]/70 overflow-hidden relative antigravity float-slow antigravity-shadow">
-                <div className="aspect-[4/5] rounded-xl overflow-hidden relative bg-[#f1f5f9]">
+                <div className="aspect-[3/4] rounded-xl overflow-hidden relative bg-[#f1f5f9]">
                   <Image
-                    src="/Gambar/bg-fardi-portrait.png"
-                    alt="Potret Pendiri Selempang Aceh Barat FHD"
+                    src="/Gambar/Foto-Owner.png"
+                    alt="Foto Fardi hd, S.P. - Founder Selempang Aceh Barat"
                     fill
-                    className="object-cover"
+                    className="object-cover object-center"
                     sizes="(max-width: 1024px) 100vw, 420px"
+                    priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/85 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -323,7 +324,7 @@ export function AboutSection() {
                       FOUNDER &amp; BESPOKE TAILOR
                     </span>
                     <p className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white">
-                      Bg Fardi, S.P.
+                      Fardi hd, S.P.
                     </p>
                     <p className="text-xs text-slate-200 mt-0.5 font-light">
                       Alumni Perguruan Tinggi Meulaboh &amp; Praktisi Kriya Tekstil
@@ -368,7 +369,7 @@ export function AboutSection() {
 
               <div className="space-y-3 text-sm sm:text-base text-[#475569] leading-relaxed font-light">
                 <p>
-                  Sebagai mantan mahasiswa di Meulaboh, Bg Fardi mengingat betul kegelisahan menjelang sidang komprehensif dan hari wisuda. Kala itu, sulit sekali menemukan setelan jas berpotongan modern dengan bahan yang nyaman di cuaca pesisir pantai barat Aceh. Pilihan yang ada kerap kali jas lungsuran yang terlalu longgar, atau selempang nama yang hurufnya miring dan benang mudah terurai.
+                  Sebagai mantan mahasiswa di Meulaboh, Fardi hd, S.P. mengingat betul kegelisahan menjelang sidang komprehensif dan hari wisuda. Kala itu, sulit sekali menemukan setelan jas berpotongan modern dengan bahan yang nyaman di cuaca pesisir pantai barat Aceh. Pilihan yang ada kerap kali jas lungsuran yang terlalu longgar, atau selempang nama yang hurufnya miring dan benang mudah terurai.
                 </p>
                 <p>
                   Dari workshop di Meureubo dengan komitmen teguh, Selempang Aceh Barat FHD bertumbuh menjadi rujukan utama mahasiswa Universitas Teuku Umar (UTU), STAIN Teungku Dirundeng, AKN Aceh Barat, serta instansi daerah.

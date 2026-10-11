@@ -8,7 +8,7 @@ export interface BlogPost {
   content: string; // HTML atau Markdown string
   category: string; // "Tips Wisuda" | "Info Toko" | "Seputar Kampus" dll
   thumbnail: string;
-  author: string; // default: "Bg Fardi"
+  author: string; // default: "Fardi hd, S.P."
   status: PostStatus;
   publishedAt: string;
   views: number;
@@ -38,7 +38,7 @@ export const INITIAL_MOCK_POSTS: BlogPost[] = [
     category: "Tips Wisuda",
     thumbnail:
       "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1200&h=630&auto=format&fit=crop&q=80",
-    author: "Bg Fardi (Selempang Aceh Barat)",
+    author: "Fardi hd, S.P. (Selempang Aceh Barat)",
     status: "PUBLISHED",
     publishedAt: "28 Feb 2026",
     views: 1420,
@@ -75,7 +75,7 @@ Di workshop Selempang Aceh Barat (Alpen Store), kami menyediakan sesi fitting gr
     category: "Info Toko",
     thumbnail:
       "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&h=630&auto=format&fit=crop&q=80",
-    author: "Bg Fardi (Selempang Aceh Barat)",
+    author: "Fardi hd, S.P. (Selempang Aceh Barat)",
     status: "PUBLISHED",
     publishedAt: "15 Feb 2026",
     views: 980,
@@ -108,7 +108,7 @@ Bordir komputer menjamin font proporsional, kerapatan tusukan benang tebal, tida
     category: "Seputar Kampus",
     thumbnail:
       "https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?w=1200&h=630&auto=format&fit=crop&q=80",
-    author: "Bg Fardi (Selempang Aceh Barat)",
+    author: "Fardi hd, S.P. (Selempang Aceh Barat)",
     status: "PUBLISHED",
     publishedAt: "02 Feb 2026",
     views: 1840,
@@ -234,7 +234,7 @@ export const blogService = {
       ...input,
       id: "post-" + Date.now(),
       slug: slug || "jurnal-" + Date.now(),
-      author: input.author || "Bg Fardi",
+      author: input.author || "Fardi hd, S.P.",
       publishedAt: dateFormatted,
       views: 0,
     };

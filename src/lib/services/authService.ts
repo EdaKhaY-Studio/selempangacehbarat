@@ -10,7 +10,7 @@ export interface AdminUser {
 
 export const DEFAULT_ADMIN: AdminUser = {
   id: "admin-1",
-  name: "Bg Fardi (Selempang Aceh Barat)",
+  name: "Fardi hd, S.P. (Selempang Aceh Barat)",
   email: "admin@selempangacehbarat.com",
   role: "Super Admin",
   avatar: "/Gambar/LOGOFHD.png",
