@@ -25,12 +25,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "Selempang Aceh Barat",
-    template: "%s | Selempang Aceh Barat",
-  },
+  metadataBase: new URL("https://selempangacehbarat.com"),
+  title: "Selempang Aceh Barat (FHD) — Pusat Selempang & Sewa Jas Meulaboh",
   description:
-    "Pusat produksi selempang wisuda (bahan bludru & satin), konveksi seragam (PDH, kaos, almamater, ID card & medali), serta jasa persewaan jas formal & sepatu pantofel di Meulaboh, Aceh Barat.",
+    "Pusat produksi selempang wisuda bordir kilat 1 hari, sewa jas formal & pantofel di Meulaboh. Buka sampai jam 23:00 di Jln Alpen Meureubo (Dekat Kampus UTU & STAIN).",
   keywords: [
     "selempang aceh barat",
     "selempang wisuda meulaboh",
@@ -42,22 +40,34 @@ export const metadata: Metadata = {
     "selempang bludru aceh barat",
     "selempang satin aceh barat",
   ],
-  authors: [{ name: "Selempang Aceh Barat", url: "https://sewajasacehbarat.com" }],
+  authors: [{ name: "Selempang Aceh Barat", url: "https://selempangacehbarat.com" }],
   creator: "Selempang Aceh Barat",
   publisher: "Selempang Aceh Barat",
+  alternates: {
+    canonical: "https://selempangacehbarat.com",
+  },
   openGraph: {
-    type: "website",
-    locale: "id_ID",
-    url: "https://sewajasacehbarat.com",
-    title: "Selempang Aceh Barat",
+    title: "Selempang Aceh Barat (FHD) — Pusat Selempang & Sewa Jas Meulaboh",
     description:
-      "Pusat produksi selempang wisuda bludru & satin, seragam konveksi, dan persewaan jas formal & sepatu pantofel di Aceh Barat.",
+      "Buka sampai jam 23:00! Sewa jas rapi & selempang wisuda bordir kilat 1 hari Meulaboh. Order online via web.",
+    url: "https://selempangacehbarat.com",
     siteName: "Selempang Aceh Barat",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Selempang Aceh Barat (FHD)",
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Selempang Aceh Barat",
-    description: "Pusat produksi selempang wisuda dan jasa sewa jas formal & sepatu pantofel di Meulaboh, Aceh Barat.",
+    title: "Selempang Aceh Barat (FHD)",
+    description: "Pusat selempang wisuda & sewa jas formal Meulaboh.",
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -74,19 +84,16 @@ export const metadata: Metadata = {
     icon: "/Gambar/LOGOFHD.png",
     apple: "/Gambar/LOGOFHD.png",
   },
-  alternates: {
-    canonical: "https://sewajasacehbarat.com",
-  },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": ["ClothingStore", "LocalBusiness"],
   name: "Selempang Aceh Barat",
-  alternateName: ["Sewa Jas Sepatu Aceh Barat", "Selempang Wisuda Aceh Barat"],
+  alternateName: ["Sewa Jas Sepatu Aceh Barat", "Selempang Wisuda Aceh Barat", "FHD Selempang"],
   description:
     "Pusat produksi selempang wisuda bludru & satin, konveksi PDH/almamater/medali, serta persewaan jas formal dan sepatu pantofel di Aceh Barat.",
-  url: "https://sewajasacehbarat.com",
+  url: "https://selempangacehbarat.com",
   telephone: "+6282299256343",
   address: {
     "@type": "PostalAddress",
