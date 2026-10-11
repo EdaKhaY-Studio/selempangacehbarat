@@ -84,6 +84,9 @@ export const metadata: Metadata = {
     icon: "/Gambar/LOGOFHD.png",
     apple: "/Gambar/LOGOFHD.png",
   },
+  verification: {
+    google: "NcApH-TXrnGY14mm3ebmb05zqlKtnUaBJsjkmTlW2oE",
+  },
 };
 
 const jsonLd = {
