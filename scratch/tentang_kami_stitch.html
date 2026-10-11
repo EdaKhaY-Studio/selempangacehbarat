@@ -1,0 +1,433 @@
+<!DOCTYPE html><html class="light" lang="id" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-tint": "#545f73",
+          "on-primary-container": "#ffffff",
+          "outline": "#75777d",
+          "on-primary-fixed-variant": "#3c475a",
+          "error": "#ba1a1a",
+          "surface-variant": "#e3e2e0",
+          "surface-container-highest": "#e2e8f0",
+          "secondary-fixed-dim": "#eec058",
+          "on-surface": "#0f172a",
+          "secondary": "#785a00",
+          "gold-accent": "#b48c28",
+          "gold-light": "#fef3c7",
+          "gold-border": "#fde68a",
+          "on-primary-fixed": "#111c2d",
+          "primary-fixed-dim": "#bcc7de",
+          "on-secondary-fixed-variant": "#5b4300",
+          "on-secondary": "#ffffff",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed": "#131b2e",
+          "primary": "#0f172a",
+          "on-secondary-container": "#755700",
+          "surface": "#faf9f6",
+          "on-secondary-fixed": "#251a00",
+          "surface-container-low": "#f8fafc",
+          "surface-container-lowest": "#ffffff",
+          "on-tertiary-fixed-variant": "#3f465c",
+          "inverse-on-surface": "#f2f1ee",
+          "tertiary-container": "#20283c",
+          "on-background": "#0f172a",
+          "surface-container": "#f1f5f9",
+          "on-error-container": "#93000a",
+          "on-tertiary": "#ffffff",
+          "background": "#faf9f6",
+          "surface-dim": "#dbdad7",
+          "tertiary-fixed": "#dae2fd",
+          "surface-container-high": "#e2e8f0",
+          "surface-bright": "#faf9f6",
+          "tertiary": "#0b1426",
+          "secondary-fixed": "#ffdf9d",
+          "primary-container": "#1e293b",
+          "on-tertiary-container": "#888fa7",
+          "outline-variant": "#cbd5e1",
+          "on-primary": "#ffffff",
+          "primary-fixed": "#d8e3fb",
+          "inverse-primary": "#bcc7de",
+          "on-error": "#ffffff",
+          "secondary-container": "#fef08a",
+          "on-surface-variant": "#475569",
+          "tertiary-fixed-dim": "#bec6e0",
+          "inverse-surface": "#1e293b"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter": "1.5rem",
+          "space-2xl": "3rem",
+          "xs": "4px",
+          "lg": "24px",
+          "md": "16px",
+          "space-sm": "0.5rem",
+          "2xl": "48px",
+          "3xl": "64px",
+          "gutter-mobile": "1rem",
+          "sm": "8px",
+          "margin": "3rem",
+          "margin-mobile": "1.25rem",
+          "space-xs": "0.25rem",
+          "space-lg": "1.5rem",
+          "space-3xl": "4rem",
+          "space-xl": "2rem",
+          "xl": "32px",
+          "space-md": "1rem"
+        },
+        "fontFamily": {
+          "headline-sm": ["Playfair Display", "serif"],
+          "headline-md": ["Playfair Display", "serif"],
+          "headline-lg": ["Playfair Display", "serif"],
+          "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "headline-lg-mobile": ["Playfair Display", "serif"],
+          "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+          "label-lg": ["Plus Jakarta Sans", "sans-serif"],
+          "body-md": ["Plus Jakarta Sans", "sans-serif"],
+          "display-lg-mobile": ["Playfair Display", "serif"],
+          "label-md": ["Plus Jakarta Sans", "sans-serif"],
+          "display-lg": ["Playfair Display", "serif"],
+          "mono-price": ["JetBrains Mono", "monospace"],
+          "label-mono-sm": ["JetBrains Mono", "monospace"],
+          "label-mono-price": ["JetBrains Mono", "monospace"],
+          "h1": ["Playfair Display", "serif"],
+          "h2": ["Playfair Display", "serif"],
+          "h3": ["Playfair Display", "serif"],
+          "caption": ["Plus Jakarta Sans", "sans-serif"]
+        },
+        "fontSize": {
+          "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+          "headline-md": ["26px", {"lineHeight": "34px", "fontWeight": "600"}],
+          "headline-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+          "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+          "body-sm": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+          "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+          "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+          "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+          "body-md": ["15px", {"lineHeight": "24px", "fontWeight": "400"}],
+          "display-lg-mobile": ["34px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+          "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "h1": ["3.25rem", {"lineHeight": "1.15", "letterSpacing": "-0.025em", "fontWeight": "700"}],
+          "h2": ["2.25rem", {"lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "h3": ["1.5rem", {"lineHeight": "1.35", "fontWeight": "600"}],
+          "caption": ["0.75rem", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500"}]
+        }
+      }
+    }
+  }
+</script><style>@keyframes fardiMarquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } } @keyframes fardiMarqueeReverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0%); } } .marquee-track-scroll { display: flex; width: max-content; animation: fardiMarquee 38s linear infinite; } .marquee-track-scroll-rev { display: flex; width: max-content; animation: fardiMarqueeReverse 42s linear infinite; } .marquee-container:hover .marquee-track-scroll, .marquee-container:hover .marquee-track-scroll-rev { animation-play-state: paused; }</style></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-outline-variant/60 shadow-sm"><div class="h-20 w-full px-gutter lg:px-margin flex items-center justify-between gap-md"><div class="flex items-center gap-md"><img alt="Fardi Atelier Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UBI9TLAAwnsW7-Bs_gIr5DXfXu0AW56Z64JiHEyoc0ZnrYFP95dGVLl4jQ0Q9Bm_4dHKQBQNfd4ZJIRawIrWB9QuTgaL4Bb2x2pRVJk65qCraoSCAFbipPF8eLZlQNfLz-D1BBJybjJ9wtOygd8oJGfiXN_EmpM28UYoOvcgD0mz7Y_oKr2LKJjyrSYLyVByklPjOqgIMrwYEsSiqkpzG8RShpbW2ytris3O5_nJtPIInjMUsfCKDWExE"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-primary">FARDI ATELIER</span><span class="font-caption text-caption text-gold-accent font-semibold tracking-widest uppercase">Meulaboh • Bespoke &amp; Rental</span></div></div><nav class="hidden xl:flex items-center gap-space-lg"><a class="px-space-md py-space-sm text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm font-medium" data-path="beranda" href="#">Beranda</a><a aria-current="page" class="transition-colors text-primary font-bold border-b-2 border-primary pb-1 font-body-sm text-body-sm" data-path="tentang-kami" href="#">Tentang Kami</a><a class="px-space-md py-space-sm text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm font-medium" data-path="katalog-produk" href="#katalog">Katalog Produk</a><a class="px-space-md py-space-sm text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm font-medium" data-path="galeri" href="#customizer">Galeri</a><a class="px-space-md py-space-sm text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm font-medium" data-path="blog" href="#">Blog</a></nav><div class="flex items-center gap-space-md"><a class="hidden sm:inline-flex items-center justify-center px-lg py-sm rounded-lg bg-primary text-white font-headline-sm text-body-sm font-semibold hover:bg-slate-800 transition-all shadow-md shadow-primary/10" data-path="booking-dan-konsultasi" href="#">Konsultasi &amp; Booking</a><div class="w-9 h-9 rounded-full bg-gold-accent/15 border border-gold-border flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px] text-primary">person</span></div><button aria-controls="mobile-drawer" aria-expanded="false" aria-label="Buka Menu Navigasi" class="xl:hidden w-10 h-10 rounded-lg bg-surface-container-low hover:bg-surface-container border border-outline-variant/60 flex items-center justify-center text-primary transition-colors focus:outline-none" id="mobile-menu-btn" onclick="document.getElementById('mobile-drawer').classList.remove('hidden'); document.body.style.overflow='hidden';"><span class="material-symbols-outlined text-[24px]">menu</span></button></div></div><div class="hidden fixed inset-0 z-50 transition-all" id="mobile-drawer"><div class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"></div><div class="relative ml-auto w-full max-w-sm h-full bg-surface-container-lowest shadow-2xl flex flex-col justify-between border-l border-outline-variant/60 overflow-y-auto"><div class="p-space-md border-b border-outline-variant/60 flex items-center justify-between bg-surface"><div class="flex items-center gap-space-sm"><div class="flex flex-col"><span class="font-headline-sm text-[16px] font-bold text-primary tracking-tight">FARDI ATELIER</span><span class="font-caption text-[10px] text-gold-accent font-semibold tracking-widest uppercase">Menu &amp; Navigasi Halaman</span></div></div><button aria-label="Tutup Menu" class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-primary transition-colors" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="material-symbols-outlined text-[20px]">close</span></button></div><div class="p-space-md flex flex-col gap-space-md"><div class="flex flex-col gap-1"><span class="font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-space-sm">Halaman Utama</span><a class="px-space-sm py-2 rounded-lg text-body-sm font-medium text-on-surface hover:bg-surface-container transition-colors flex items-center justify-between" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">home</span>Beranda</span><span class="material-symbols-outlined text-[14px] text-on-surface-variant">chevron_right</span></a><a class="px-space-sm py-2 rounded-lg text-body-sm font-bold bg-primary text-white flex items-center justify-between shadow-sm" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary-container text-[18px]">info</span>Tentang Kami</span><span class="material-symbols-outlined text-[14px] text-secondary-container">check</span></a><a class="px-space-sm py-2 rounded-lg text-body-sm font-medium text-on-surface hover:bg-surface-container transition-colors flex items-center justify-between" href="#katalog" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">checkroom</span>Katalog Produk</span><span class="material-symbols-outlined text-[14px] text-on-surface-variant">chevron_right</span></a><a class="px-space-sm py-2 rounded-lg text-body-sm font-medium text-on-surface hover:bg-surface-container transition-colors flex items-center justify-between" href="#customizer" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">photo_library</span>Galeri</span><span class="material-symbols-outlined text-[14px] text-on-surface-variant">chevron_right</span></a><a class="px-space-sm py-2 rounded-lg text-body-sm font-medium text-on-surface hover:bg-surface-container transition-colors flex items-center justify-between" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">newspaper</span>Blog</span><span class="material-symbols-outlined text-[14px] text-on-surface-variant">chevron_right</span></a></div><div class="border-t border-outline-variant/60 pt-space-sm flex flex-col gap-1"><span class="font-label-sm text-[10px] uppercase tracking-wider text-secondary font-bold px-space-sm">Section Halaman Ini</span><a class="px-space-sm py-2 rounded-lg text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center gap-2" href="#filosofi" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>1. Filosofi &amp; Dedikasi</a><a class="px-space-sm py-2 rounded-lg text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center gap-2" href="#keunggulan" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>2. 4 Pilar Keunggulan Atelier</a><a class="px-space-sm py-2 rounded-lg text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center gap-2" href="#mitra-kampus" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>3. Mitra Kampus &amp; Korps Resmi</a><a class="px-space-sm py-2 rounded-lg text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center gap-2" href="#founder-ceo" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>4. Cerita Founder (Bg Fardi, S.P)</a><a class="px-space-sm py-2 rounded-lg text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center gap-2" href="#lokasi-workshop" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>5. Lokasi Workshop Meulaboh</a><a class="px-space-sm py-2 rounded-lg text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center gap-2" href="#reservasi" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>6. Booking &amp; Reservasi Fitting</a></div></div><div class="p-space-md border-t border-outline-variant/60 bg-surface flex flex-col gap-space-sm"><a class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-primary text-white font-label-md text-label-md font-bold hover:bg-slate-800 transition-colors shadow-md" href="#reservasi" onclick="document.getElementById('mobile-drawer').classList.add('hidden'); document.body.style.overflow='';"><span class="material-symbols-outlined text-[18px]">calendar_month</span>Konsultasi &amp; Booking</a><a class="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-surface-container-lowest border border-outline-variant/60 text-primary font-label-sm text-label-sm font-semibold hover:bg-surface-container transition-colors" href="https://wa.me/6285260880000" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-[16px] text-emerald-600">chat</span>WhatsApp Atelier Meulaboh</a></div></div></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Sub-Navigation Bar indicator sync with Shell -->
+<div class="w-full bg-surface-container-low py-space-sm px-gutter lg:px-margin shadow-sm">
+<div class="max-w-7xl mx-auto flex items-center justify-between text-on-surface-variant font-label-md text-label-md">
+<div class="flex items-center gap-space-xs">
+<span class="text-on-surface-variant/70">Beranda</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-secondary font-bold">Tentang Kami</span>
+</div>
+
+</div>
+</div>
+<!-- Hero & Core Story Section (Aligned with Reference Composition) -->
+<section class="w-full py-space-xl lg:py-space-3xl px-gutter lg:px-margin bg-surface" id="filosofi">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Left Editorial Story Column -->
+<div class="lg:col-span-6 flex flex-col gap-space-lg">
+<div class="flex items-center gap-space-xs">
+<span class="inline-block w-8 h-0.5 bg-secondary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-bold">Sartorial Craftsmanship • Meulaboh</span>
+</div>
+<div class="flex flex-col gap-space-xs relative">
+<h1 class="font-headline-lg text-headline-lg lg:text-display-lg text-primary leading-tight font-serif">
+            Perjuangan Bertahun-tahun Layak Ditutup dengan
+            <span class="relative inline-block text-secondary mt-1">
+              Penampilan Paling Membanggakan.
+              <svg class="absolute -bottom-2.5 left-0 w-full h-3 text-secondary-container" fill="none" preserveAspectRatio="none" viewBox="0 0 380 12">
+<path d="M2.5 9.5C65.5 3 190.5 1.5 377.5 7.5" stroke="currentColor" stroke-linecap="round" stroke-width="4.5"></path>
+</svg>
+</span>
+</h1>
+</div>
+<div class="flex flex-col gap-space-md text-on-surface-variant font-body-md text-body-md leading-relaxed">
+<p class="">
+            Kami tahu rasanya begadang mengejar revisi skripsi dan menanti hari kelulusan tiba. Di hari bersejarah ketika orang tua Anda tersenyum bangga di kursi wisudawan, Anda tidak boleh dipusingkan oleh jas yang kedodoran, selempang yang kusut, atau bordir nama yang berantakan.
+          </p>
+<p class="">
+            Berawal dari workshop di Meulaboh, Atelier Fardi hadir bukan sekadar menyewakan jas atau menjahit kain. Kami memastikan setiap detail pakaian dan atribut wisuda Anda tampil presisi, wangi, pas di badan, dan siap mengabadikan momen terbaik kelulusan Anda.
+          </p>
+</div>
+<!-- WhatsApp CTA matching reference button -->
+<div class="pt-space-xs">
+<a class="inline-flex items-center gap-space-sm px-space-lg py-space-md rounded-full bg-surface-container-lowest text-primary shadow-md hover:shadow-lg hover:bg-surface-container-low transition-all group" href="https://wa.me/6285260880000?text=Halo%20Bg%20Fardi,%20saya%20ingin%20konsultasi%20ukuran%20dan%20jadwal%20sewa%20jas" rel="noopener noreferrer" target="_blank">
+<span class="w-8 h-8 rounded-full bg-secondary/15 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</span>
+<span class="font-label-lg text-label-lg font-bold uppercase tracking-wider text-primary">Konsultasi Ukuran &amp; Jadwal via WhatsApp</span>
+<span class="material-symbols-outlined text-secondary text-[20px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</a>
+</div>
+<!-- Metric Counter Grid (Direct reference alignment) -->
+<div class="pt-space-lg grid grid-cols-3 gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-0.5">
+<span class="font-headline-lg text-headline-lg font-serif font-bold text-primary">487</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">+</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium mt-0.5">Wisudawan Terlayani</span>
+</div>
+<div class="flex flex-col pl-space-md bg-gradient-to-r from-surface-container-high/40 to-transparent">
+<div class="flex items-baseline gap-0.5">
+<span class="font-headline-lg text-headline-lg font-serif font-bold text-primary">20</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">+</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium mt-0.5">Kampus &amp; Instansi Mitra</span>
+</div>
+<div class="flex flex-col pl-space-md bg-gradient-to-r from-surface-container-high/40 to-transparent">
+<div class="flex items-baseline gap-1">
+<span class="font-headline-lg text-headline-lg font-serif font-bold text-primary">5.0</span>
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium mt-0.5">Ulasan Google Maps</span>
+</div>
+</div>
+</div>
+<!-- Right 4 Key Pillars Cards (Card Layout Directly from Reference) -->
+<div class="lg:col-span-6 flex flex-col gap-space-md" id="keunggulan">
+<!-- Pillar Card 1: Presisi Bordir -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between mb-space-sm">
+<h3 class="font-headline-sm text-headline-sm font-serif font-semibold text-primary">Presisi Bordir Komputer Benang Emas</h3>
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">auto_fix_high</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Ratusan huruf gelar, nama lengkap, dan logo resmi universitas diproses dengan ketelitian digital. Menghasilkan kontur timbul yang simetris, padat, dan berkilau mewah tanpa benang sisa.
+          </p>
+</div>
+<!-- Pillar Card 2 & 3: Dual Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- Pillar Card 2: Fitting Pas -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div>
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface mb-space-sm">
+<span class="material-symbols-outlined text-[20px]">straighten</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm font-serif font-semibold text-primary mb-space-xs">Fitting Pas di Badan</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                Setelan jas, celana wol, dan kemeja disiapkan sesuai proporsi tubuh Anda dengan layanan fitting langsung di workshop Meulaboh.
+              </p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center gap-1.5 text-secondary font-label-sm text-label-sm font-bold">
+<span class="">Tailored Adjustments</span>
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+</div>
+<!-- Pillar Card 3: Siap Pakai & Higienis -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div>
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface mb-space-sm">
+<span class="material-symbols-outlined text-[20px]">iron</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm font-serif font-semibold text-primary mb-space-xs">Siap Pakai &amp; Higienis</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                Melalui proses dry clean dan setrika uap sebelum serah terima. Siap langsung dipakai di hari sidang maupun wisuda tanpa perlu dicuci ulang.
+              </p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center gap-1.5 text-secondary font-label-sm text-label-sm font-bold">
+<span class="">100% Sanitized &amp; Fragrant</span>
+<span class="material-symbols-outlined text-[14px]">verified</span>
+</div>
+</div>
+</div>
+<!-- Pillar Card 4: Anti Double-Booking with Green Badge -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container/40 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm font-serif font-semibold text-primary">Sistem Kalender Anti Double-Booking</h4>
+</div>
+<div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-label-sm font-label-sm font-bold self-start sm:self-auto">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+              100% On-Time Guarantee
+            </div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed pl-0 sm:pl-14">
+            Menjamin ketersediaan jas dan ketepatan waktu serah terima pesanan sebelum hari H acara. Setiap busana yang direservasi dikunci rapat dalam sistem inventaris digital kami.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Founder Story Section: Bg Fardi & Brand Values -->
+<section class="w-full py-space-lg lg:py-space-xl bg-surface-container border-y border-outline-variant/60 overflow-hidden marquee-container relative" id="mitra-kampus"><div class="max-w-7xl mx-auto px-gutter lg:px-margin mb-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><span class="w-6 h-0.5 bg-secondary"></span><span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-bold">Jejaring Mitra Kampus &amp; Korps Resmi</span></div><div class="flex items-center gap-2 text-on-surface-variant font-caption text-caption"><span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span><span class="">Standar Atribut &amp; Kalibrasi Warna Resmi 15+ Institusi Terdaftar</span></div></div><div class="relative w-full overflow-hidden flex flex-col gap-space-sm"><div class="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-surface-container to-transparent z-10 pointer-events-none"></div><div class="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-surface-container to-transparent z-10 pointer-events-none"></div><div class="marquee-track-scroll flex items-center gap-space-sm"><div class="flex items-center gap-space-sm flex-shrink-0"><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UTU</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Teuku Umar</span><span class="font-caption text-caption text-on-surface-variant">Kampus Utama Meulaboh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">USK</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Syiah Kuala</span><span class="font-caption text-caption text-on-surface-variant">Banda Aceh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UIN</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">UIN Ar-Raniry</span><span class="font-caption text-caption text-on-surface-variant">Banda Aceh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">STN</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">STAIN Teungku Dirundeng</span><span class="font-caption text-caption text-on-surface-variant">Meulaboh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UNIMAL</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Malikussaleh</span><span class="font-caption text-caption text-on-surface-variant">Lhokseumawe</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UT</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Terbuka</span><span class="font-caption text-caption text-on-surface-variant">UPBJJ Banda Aceh &amp; Pokjar Barat</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UNAYA</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Abulyatama</span><span class="font-caption text-caption text-on-surface-variant">Aceh Besar</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">POLRI</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Kepolisian Negara RI</span><span class="font-caption text-caption text-on-surface-variant">Polres &amp; Korps Daerah Aceh</span></div></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UTU</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Teuku Umar</span><span class="font-caption text-caption text-on-surface-variant">Kampus Utama Meulaboh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">USK</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Syiah Kuala</span><span class="font-caption text-caption text-on-surface-variant">Banda Aceh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UIN</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">UIN Ar-Raniry</span><span class="font-caption text-caption text-on-surface-variant">Banda Aceh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">STN</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">STAIN Teungku Dirundeng</span><span class="font-caption text-caption text-on-surface-variant">Meulaboh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UNIMAL</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Malikussaleh</span><span class="font-caption text-caption text-on-surface-variant">Lhokseumawe</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UT</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Terbuka</span><span class="font-caption text-caption text-on-surface-variant">UPBJJ Banda Aceh &amp; Pokjar Barat</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UNAYA</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Abulyatama</span><span class="font-caption text-caption text-on-surface-variant">Aceh Besar</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-primary text-secondary-container flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">POLRI</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Kepolisian Negara RI</span><span class="font-caption text-caption text-on-surface-variant">Polres &amp; Korps Daerah Aceh</span></div></div></div></div><div class="marquee-track-scroll-rev flex items-center gap-space-sm"><div class="flex items-center gap-space-sm flex-shrink-0"><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UBBG</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas BBG</span><span class="font-caption text-caption text-on-surface-variant">Banda Aceh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UUI</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Ubudiyah</span><span class="font-caption text-caption text-on-surface-variant">Banda Aceh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UNPRI</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Prima Indonesia</span><span class="font-caption text-caption text-on-surface-variant">Medan</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">PLTK</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Poltekkes Kemenkes</span><span class="font-caption text-caption text-on-surface-variant">Aceh Kampus Meulaboh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">ASEL</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Politeknik ASEL</span><span class="font-caption text-caption text-on-surface-variant">Aceh Selatan</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">STIK</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">STIKes Medika Seramoe Barat</span><span class="font-caption text-caption text-on-surface-variant">Meulaboh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">TNI</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">TNI-AD &amp; TNI-AL</span><span class="font-caption text-caption text-on-surface-variant">PDU &amp; Jas Seremonial Militer</span></div></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UBBG</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas BBG</span><span class="font-caption text-caption text-on-surface-variant">Banda Aceh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UUI</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Ubudiyah</span><span class="font-caption text-caption text-on-surface-variant">Banda Aceh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">UNPRI</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Universitas Prima Indonesia</span><span class="font-caption text-caption text-on-surface-variant">Medan</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">PLTK</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Poltekkes Kemenkes</span><span class="font-caption text-caption text-on-surface-variant">Aceh Kampus Meulaboh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">ASEL</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">Politeknik ASEL</span><span class="font-caption text-caption text-on-surface-variant">Aceh Selatan</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">STIK</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">STIKes Medika Seramoe Barat</span><span class="font-caption text-caption text-on-surface-variant">Meulaboh</span></div></div><div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/60 shadow-sm hover:shadow-md transition-shadow cursor-default"><div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-label-sm font-label-sm shadow-inner">TNI</div><div class="flex flex-col"><span class="font-label-md text-label-md font-bold text-primary leading-tight">TNI-AD &amp; TNI-AL</span><span class="font-caption text-caption text-on-surface-variant">PDU &amp; Jas Seremonial Militer</span></div></div></div></div></div></section><section class="w-full py-space-xl lg:py-space-3xl px-gutter lg:px-margin bg-surface-container-low" id="founder-ceo">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Founder Photo & Signature Card -->
+<div class="lg:col-span-5 relative">
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-xl overflow-hidden relative">
+<div class="aspect-[4/5] rounded-xl overflow-hidden relative bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Potret inspiratif Bg Fardi pendiri Fardi Atelier Meulaboh, seorang pria muda bersahaja dengan senyum ramah mengenakan kemeja putih dan rompi jas wol navy bergaris elegan di ruang kerja tailor workshop Meulaboh, memegang meteran jahit kulit, pencahayaan hangat keemasan, latar belakang rol kain premium dan selempang wisuda bertuliskan benang emas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2tewszlycS2fXzweHI6N6iSi1jutZnLeseceAEZSPeVeGR9eqlFGf-aZ_DDQTVvlVwtjtsihmx0EHQTHwokQiUgIVZH9LxNboKeKgb2dInrAjkhj-XaIfZ2IEV77N6xTnHmCtcmUhtAqRcf9R0270ojfUxZqU24EwyhD1TuhiJzTJ-vrN1_p90mZBwol4MXDGZsV-h6v0qlT3ybAcqAG27xhWF86LhS6QV0RYwGEcpqpdefUtWe12">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 text-on-primary">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary-container">FOUNDER &amp; CEO</span>
+<p class="font-headline-md text-headline-md font-serif font-semibold">Bg Fardi, S.P.</p>
+<p class="font-body-sm text-body-sm text-slate-200">Alumni Perguruan Tinggi Meulaboh &amp; Praktisi Kriya Tekstil</p>
+</div>
+</div>
+<!-- Floating Authenticity Seal -->
+<div class="mt-space-md p-space-sm bg-surface-container-low rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[24px]">verified_user</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-primary">Komitmen Putra Daerah</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Melayani wisudawan Barat Selatan Aceh</span>
+</div>
+</div>
+<span class="font-headline-sm text-headline-sm font-serif italic text-secondary">Est. 2023</span>
+</div>
+</div>
+</div>
+<!-- Narrative & Ethos Column -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="w-8 h-0.5 bg-secondary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-bold">Kisah di Balik Layar</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-serif text-primary">
+          Dedikasi Nyata untuk Senyum Orang Tua di Hari Kelulusan
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+          Sebagai mantan mahasiswa di Meulaboh, Bg Fardi mengingat betul kegelisahan menjelang sidang komprehensif dan hari wisuda. Kala itu, sulit sekali menemukan setelan jas berpotongan modern dengan bahan yang tidak panas di cuaca pesisir pantai barat Aceh. Pilihan yang ada kerap kali jas lungsuran yang terlalu longgar, atau selempang nama yang hurufnya miring dan benang mudah terurai.
+        </p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Dari sebuah kamar kontrakan di Drien Rampak dengan satu mesin jahit dan komitmen teguh, Fardi Atelier bertumbuh menjadi atelier rujukan utama mahasiswa Universitas Teuku Umar (UTU), STAIN Teungku Dirundeng, AKN Aceh Barat, serta jajaran pejabat daerah dan calon pengantin.
+        </p>
+<!-- Transparency & Core Values Bento Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md pt-space-sm">
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center gap-space-sm mb-space-xs text-secondary">
+<span class="material-symbols-outlined text-[20px]">price_check</span>
+<span class="font-label-lg text-label-lg font-bold text-primary">Transparan Tanpa Biaya Tersembunyi</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Deposit jaminan jelas, biaya sewa tercantum gamblang, dan garansi tukar size bebas denda apabila tidak sesuai pada sesi fitting.
+            </p>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center gap-space-sm mb-space-xs text-secondary">
+<span class="material-symbols-outlined text-[20px]">school</span>
+<span class="font-label-lg text-label-lg font-bold text-primary">Standar Akademik Kampus</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Memahami spesifikasi format nama, gelar, warna beludru fakultas, dan logo sah resmi universitas di wilayah Aceh Barat.
+            </p>
+</div>
+</div>
+<div class="pt-space-xs flex items-center gap-space-md">
+<div class="flex -space-x-3 overflow-hidden">
+<div class="inline-block h-10 w-10 rounded-full ring-2 ring-surface bg-surface-container-highest flex items-center justify-center font-bold text-label-sm text-primary">UTU</div>
+<div class="inline-block h-10 w-10 rounded-full ring-2 ring-surface bg-surface-container-high flex items-center justify-center font-bold text-label-sm text-secondary">STN</div>
+<div class="inline-block h-10 w-10 rounded-full ring-2 ring-surface bg-surface-container flex items-center justify-center font-bold text-label-sm text-primary">AKN</div>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">
+            Dipercaya 480+ wisudawan reguler dan program magister setiap periodenya.
+          </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Local Workshop Experience & Atelier Visuals -->
+
+<!-- Interactive Campus Faculty Palette Guide -->
+
+<!-- Location & Route Section with Map Placeholder -->
+<section class="w-full py-space-xl lg:py-space-3xl px-gutter lg:px-margin bg-surface" id="lokasi-workshop">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-bold">Akses &amp; Lokasi Workshop</span>
+<h3 class="font-headline-lg text-headline-lg font-serif text-primary">
+          Dekat dari Pusat Kampus &amp; Mudah Dijangkau
+        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Workshop kami beralamat di Jl. Imam Bonjol, Drien Rampak (kawasan Johan Pahlawan), hanya 7-10 menit dari gerbang utama kampus UTU Alue Peunyareng dan pusat kota Meulaboh. Parkir luas untuk kendaraan roda dua maupun mobil keluarga.
+        </p>
+<div class="flex flex-col gap-space-sm pt-space-xs font-body-sm text-body-sm text-on-surface">
+<div class="flex items-center gap-space-sm p-space-sm bg-surface-container-lowest rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary">pin_drop</span>
+<span class="">Jl. Imam Bonjol, Drien Rampak, Meulaboh, Aceh Barat 23681</span>
+</div>
+<div class="flex items-center gap-space-sm p-space-sm bg-surface-container-lowest rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary">access_time</span>
+<span class="">Buka Setiap Hari: Pukul 09.00 - 21.00 WIB</span>
+</div>
+<div class="flex items-center gap-space-sm p-space-sm bg-surface-container-lowest rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary">call</span>
+<span class="">Hotline Konsultasi Langsung: 0852-6088-XXXX</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7">
+<div class="bg-surface-container-lowest p-space-sm rounded-2xl shadow-md overflow-hidden">
+<div class="w-full h-80 rounded-xl bg-cover bg-center shadow-inner relative flex items-end p-space-md" data-location="Jl. Imam Bonjol, Drien Rampak, Meulaboh, Aceh Barat, Indonesia" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxDwk7n85DYrFpfeA0uSe_HiTS5o6XZW-7tLXC5Qk749bWyKIk13OKG-0s-cMxlee-p1UJEigBoWBqXIA7lDjxze1ZyMKcNRKIs-YwzIXORkSUukL70PMuqmcT3nl5KzerLY5Uop8WjZ6I9KlUBxfmzzKdyBVsijPdaUqAE92hFbcCnMah8XSk3yX8WL8NvBROK2lB8qkWbioOsOfiWokI7GD0Q4bdvqEhg5AJghoRcv9hmhC7UpHC')">
+<div class="bg-primary/95 text-on-primary p-space-sm rounded-lg backdrop-blur-sm shadow-md flex items-center justify-between w-full">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary-container">store</span>
+<span class="font-label-md text-label-md font-bold">Fardi Atelier Meulaboh</span>
+</div>
+<a class="px-space-md py-1 rounded bg-secondary text-on-secondary font-label-sm text-label-sm font-bold hover:brightness-110 transition-all flex items-center gap-1" href="https://maps.google.com" rel="noopener noreferrer" target="_blank">
+                Petunjuk Arah
+                <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom CTA: Fitting Appointment Invitation -->
+<section class="w-full py-space-xl lg:py-space-2xl px-gutter lg:px-margin bg-primary text-on-primary" id="reservasi">
+<div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-space-lg text-center md:text-left">
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary-container font-bold">Jangan Biarkan Ukuranmu Diundi</span>
+<h3 class="font-headline-lg text-headline-lg font-serif font-bold text-white">
+          Amankan Jas Wisudamu Jauh Hari Sebelum Kehabisan.
+        </h3>
+<p class="font-body-md text-body-md text-slate-300 max-w-xl">
+          Periode wisuda selalu padat. Booking jadwal fitting Anda hari ini untuk jaminan setelan terbaik dan anti double-booking.
+        </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-space-sm flex-shrink-0">
+<a class="inline-flex items-center justify-center gap-2 px-space-lg py-space-md rounded-lg bg-secondary-container text-on-secondary-container font-label-lg text-label-lg font-bold hover:bg-yellow-400 transition-all shadow-md" href="https://wa.me/6285260880000" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+          Reservasi Jadwal Fitting
+        </a>
+</div>
+</div>
+</section>
+</div></main><footer class="w-full bg-slate-900 text-slate-200 border-t border-slate-800"><div class="w-full max-w-7xl mx-auto px-gutter lg:px-margin py-space-xl lg:py-space-2xl grid grid-cols-1 md:grid-cols-12 gap-space-xl"><div class="md:col-span-5 flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="Fardi Atelier Logo" class="h-8 w-auto object-contain brightness-200" src="https://lh3.googleusercontent.com/aida/AEtjO1UBI9TLAAwnsW7-Bs_gIr5DXfXu0AW56Z64JiHEyoc0ZnrYFP95dGVLl4jQ0Q9Bm_4dHKQBQNfd4ZJIRawIrWB9QuTgaL4Bb2x2pRVJk65qCraoSCAFbipPF8eLZlQNfLz-D1BBJybjJ9wtOygd8oJGfiXN_EmpM28UYoOvcgD0mz7Y_oKr2LKJjyrSYLyVByklPjOqgIMrwYEsSiqkpzG8RShpbW2ytris3O5_nJtPIInjMUsfCKDWExE"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm font-bold text-white tracking-tight">FARDI ATELIER</span><span class="font-caption text-caption text-gold-accent font-semibold tracking-widest uppercase">Bespoke &amp; Rental</span></div></div><p class="font-body-sm text-body-sm text-slate-400 leading-relaxed max-w-sm mt-1">Bespoke tailoring, persewaan jas formal wisuda &amp; selempang bordir presisi di Meulaboh, Aceh Barat.</p><div class="pt-space-xs"><span class="font-caption text-caption text-slate-400 tracking-wider uppercase font-medium">Est. 2023 • Meulaboh, Aceh Barat</span></div></div><div class="md:col-span-3 flex flex-col gap-space-sm"><h4 class="font-label-lg text-label-lg font-bold text-white uppercase tracking-wider">Navigasi Cepat</h4><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-slate-400"><li class=""><a class="hover:text-amber-300 transition-colors" href="#">Beranda</a></li><li class=""><a class="hover:text-amber-300 transition-colors" href="#">Tentang Kami</a></li><li class=""><a class="hover:text-amber-300 transition-colors" href="#katalog">Katalog Produk</a></li><li class=""><a class="hover:text-amber-300 transition-colors" href="#customizer">Galeri</a></li><li class=""><a class="hover:text-amber-300 transition-colors" href="#">Blog</a></li><li class=""><a class="hover:text-amber-300 transition-colors" href="#">Syarat &amp; Ketentuan Sewa</a></li></ul></div><div class="md:col-span-4 flex flex-col gap-space-sm"><h4 class="font-label-lg text-label-lg font-bold text-white uppercase tracking-wider">Kontak &amp; Workshop</h4><div class="flex flex-col gap-space-sm font-body-sm text-body-sm text-slate-400"><div class="flex items-start gap-space-xs"><span class="material-symbols-outlined text-gold-accent text-[18px] mt-0.5 flex-shrink-0">location_on</span><span class="leading-relaxed">Jl. Imam Bonjol, Drien Rampak &amp; Workshop Selempang Gunong Kleng, Meureubo, Aceh Barat</span></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-gold-accent text-[18px] flex-shrink-0">chat</span><span class="">Hotline: 0822-9925-6343 / 0852-6088-XXXX</span></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-gold-accent text-[18px] flex-shrink-0">schedule</span><span class="">Setiap Hari: 09.00 - 21.00 WIB</span></div></div></div></div><div class="w-full border-t border-slate-800 bg-slate-950 py-space-md px-gutter lg:px-margin"><div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-space-sm text-slate-400 font-caption text-caption"><span class="">© 2026 Fardi Atelier. All rights reserved. Designed &amp; Developed by Knyexus Studio Agency</span><div class="flex items-center gap-space-md"><a class="hover:text-slate-200 transition-colors" href="#">Privasi &amp; Keamanan</a><span class="text-slate-700">•</span><a class="hover:text-slate-200 transition-colors" href="#">Syarat Layanan</a></div></div></div></footer>
+
+
+
+
+
+
+
+
+
+
+<div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2.5 select-none"><div class="bg-slate-900/90 text-white text-xs px-3.5 py-1.5 rounded-full shadow-lg border border-slate-700/60 backdrop-blur-md flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span class="font-medium tracking-wide">Konsultasi Wisuda Meulaboh</span></div><a class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-lg px-3.5 py-2 rounded-full flex items-center gap-2.5 text-xs font-semibold transition-all group" href="#" onclick="event.preventDefault();"><span class="w-7 h-7 rounded-full bg-secondary/15 flex items-center justify-center text-secondary group-hover:scale-105 transition-transform"><span class="material-symbols-outlined text-[18px]">smart_toy</span></span><div class="flex flex-col text-left"><span class="leading-tight text-slate-900 font-bold">Tanya Kanda AI</span><span class="text-[10px] text-emerald-600 font-semibold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>Online 24/7</span></div></a><a class="bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 transition-all transform hover:scale-105 active:scale-95" href="https://wa.me/6285260880000?text=Halo%20Bg%20Fardi,%20saya%20ingin%20konsultasi%20ukuran%20dan%20sewa%20jas" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-[20px]">chat</span><span class="tracking-wide">Hubungi Sekarang!</span></a></div>
+
+
+
+</body></html>

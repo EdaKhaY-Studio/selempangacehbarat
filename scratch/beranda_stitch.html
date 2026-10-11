@@ -1,0 +1,904 @@
+<!DOCTYPE html><html class="light" lang="id" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-tint": "#545f73",
+          "on-primary-container": "#ffffff",
+          "outline": "#75777d",
+          "on-primary-fixed-variant": "#3c475a",
+          "error": "#ba1a1a",
+          "surface-variant": "#e3e2e0",
+          "surface-container-highest": "#e2e8f0",
+          "secondary-fixed-dim": "#eec058",
+          "on-surface": "#0f172a",
+          "secondary": "#785a00",
+          "gold-accent": "#b48c28",
+          "gold-light": "#fef3c7",
+          "gold-border": "#fde68a",
+          "on-primary-fixed": "#111c2d",
+          "primary-fixed-dim": "#bcc7de",
+          "on-secondary-fixed-variant": "#5b4300",
+          "on-secondary": "#ffffff",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed": "#131b2e",
+          "primary": "#0f172a",
+          "on-secondary-container": "#755700",
+          "surface": "#faf9f6",
+          "on-secondary-fixed": "#251a00",
+          "surface-container-low": "#f8fafc",
+          "surface-container-lowest": "#ffffff",
+          "on-tertiary-fixed-variant": "#3f465c",
+          "inverse-on-surface": "#f2f1ee",
+          "tertiary-container": "#20283c",
+          "on-background": "#0f172a",
+          "surface-container": "#f1f5f9",
+          "on-error-container": "#93000a",
+          "on-tertiary": "#ffffff",
+          "background": "#faf9f6",
+          "surface-dim": "#dbdad7",
+          "tertiary-fixed": "#dae2fd",
+          "surface-container-high": "#e2e8f0",
+          "surface-bright": "#faf9f6",
+          "tertiary": "#0b1426",
+          "secondary-fixed": "#ffdf9d",
+          "primary-container": "#1e293b",
+          "on-tertiary-container": "#888fa7",
+          "outline-variant": "#cbd5e1",
+          "on-primary": "#ffffff",
+          "primary-fixed": "#d8e3fb",
+          "inverse-primary": "#bcc7de",
+          "on-error": "#ffffff",
+          "secondary-container": "#fef08a",
+          "on-surface-variant": "#475569",
+          "tertiary-fixed-dim": "#bec6e0",
+          "inverse-surface": "#1e293b"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter": "1.5rem",
+          "space-2xl": "3rem",
+          "xs": "4px",
+          "lg": "24px",
+          "md": "16px",
+          "space-sm": "0.5rem",
+          "2xl": "48px",
+          "3xl": "64px",
+          "gutter-mobile": "1rem",
+          "sm": "8px",
+          "margin": "3rem",
+          "margin-mobile": "1.25rem",
+          "space-xs": "0.25rem",
+          "space-lg": "1.5rem",
+          "space-3xl": "4rem",
+          "space-xl": "2rem",
+          "xl": "32px",
+          "space-md": "1rem"
+        },
+        "fontFamily": {
+          "headline-sm": ["Playfair Display", "serif"],
+          "headline-md": ["Playfair Display", "serif"],
+          "headline-lg": ["Playfair Display", "serif"],
+          "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+          "headline-lg-mobile": ["Playfair Display", "serif"],
+          "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+          "label-lg": ["Plus Jakarta Sans", "sans-serif"],
+          "body-md": ["Plus Jakarta Sans", "sans-serif"],
+          "display-lg-mobile": ["Playfair Display", "serif"],
+          "label-md": ["Plus Jakarta Sans", "sans-serif"],
+          "display-lg": ["Playfair Display", "serif"],
+          "mono-price": ["JetBrains Mono", "monospace"],
+          "label-mono-sm": ["JetBrains Mono", "monospace"],
+          "label-mono-price": ["JetBrains Mono", "monospace"],
+          "h1": ["Playfair Display", "serif"],
+          "h2": ["Playfair Display", "serif"],
+          "h3": ["Playfair Display", "serif"],
+          "caption": ["Plus Jakarta Sans", "sans-serif"]
+        },
+        "fontSize": {
+          "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+          "headline-md": ["26px", {"lineHeight": "34px", "fontWeight": "600"}],
+          "headline-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+          "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+          "body-sm": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+          "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+          "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+          "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+          "body-md": ["15px", {"lineHeight": "24px", "fontWeight": "400"}],
+          "display-lg-mobile": ["34px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+          "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "h1": ["3.25rem", {"lineHeight": "1.15", "letterSpacing": "-0.025em", "fontWeight": "700"}],
+          "h2": ["2.25rem", {"lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "h3": ["1.5rem", {"lineHeight": "1.35", "fontWeight": "600"}],
+          "caption": ["0.75rem", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500"}]
+        }
+      }
+    }
+  }
+</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-outline-variant/60 shadow-sm"><div class="h-20 w-full px-gutter lg:px-margin flex items-center justify-between gap-md"><div class="flex items-center gap-md"><img alt="Fardi Atelier Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UBI9TLAAwnsW7-Bs_gIr5DXfXu0AW56Z64JiHEyoc0ZnrYFP95dGVLl4jQ0Q9Bm_4dHKQBQNfd4ZJIRawIrWB9QuTgaL4Bb2x2pRVJk65qCraoSCAFbipPF8eLZlQNfLz-D1BBJybjJ9wtOygd8oJGfiXN_EmpM28UYoOvcgD0mz7Y_oKr2LKJjyrSYLyVByklPjOqgIMrwYEsSiqkpzG8RShpbW2ytris3O5_nJtPIInjMUsfCKDWExE"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-primary">FARDI ATELIER</span><span class="font-caption text-caption text-gold-accent font-semibold tracking-widest uppercase">Meulaboh • Bespoke &amp; Rental</span></div></div><nav class="hidden xl:flex items-center gap-space-lg"><a aria-current="page" class="transition-colors text-primary font-bold border-b-2 border-primary pb-1 font-body-sm text-body-sm" data-path="beranda" href="#">Beranda</a><a class="px-space-md py-space-sm text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm font-medium" data-path="tentang-kami" href="#">Tentang Kami</a><a class="px-space-md py-space-sm text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm font-medium" data-path="katalog-produk" href="#katalog">Katalog Produk</a><a class="px-space-md py-space-sm text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm font-medium" data-path="galeri" href="#customizer">Galeri</a><a class="px-space-md py-space-sm text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm font-medium" data-path="blog" href="#">Blog</a></nav><div class="flex items-center gap-space-md"><a class="hidden sm:inline-flex items-center justify-center px-lg py-sm rounded-lg bg-primary text-white font-headline-sm text-body-sm font-semibold hover:bg-slate-800 transition-all shadow-md shadow-primary/10" data-path="booking-dan-konsultasi" href="#">Konsultasi &amp; Booking</a><div class="w-9 h-9 rounded-full bg-gold-accent/15 border border-gold-border flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px] text-primary">person</span></div><button id="mobileMenuOpenBtn" class="xl:hidden w-10 h-10 rounded-lg bg-surface-container border border-outline-variant/70 flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors focus:outline-none" aria-label="Buka Menu Navigasi" onclick="toggleMobileNav(true)"><span class="material-symbols-outlined text-[24px]">menu</span></button></div></div></header><div id="mobileNavDrawer" class="fixed inset-0 z-50 hidden select-none"><div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300" onclick="toggleMobileNav(false)"></div><div class="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl flex flex-col justify-between overflow-hidden z-10 border-l border-outline-variant/70"><div class="flex items-center justify-between p-space-md border-b border-outline-variant/60 bg-surface-container-low"><div class="flex items-center gap-2"><img alt="Fardi Atelier Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UBI9TLAAwnsW7-Bs_gIr5DXfXu0AW56Z64JiHEyoc0ZnrYFP95dGVLl4jQ0Q9Bm_4dHKQBQNfd4ZJIRawIrWB9QuTgaL4Bb2x2pRVJk65qCraoSCAFbipPF8eLZlQNfLz-D1BBJybjJ9wtOygd8oJGfiXN_EmpM28UYoOvcgD0mz7Y_oKr2LKJjyrSYLyVByklPjOqgIMrwYEsSiqkpzG8RShpbW2ytris3O5_nJtPIInjMUsfCKDWExE"><div class="flex flex-col"><span class="font-headline-sm text-body-sm font-bold text-primary leading-tight">FARDI ATELIER</span><span class="font-caption text-[10px] text-gold-accent font-semibold tracking-wider uppercase">Menu Mobile &amp; Navigasi</span></div></div><button class="w-9 h-9 rounded-lg bg-white border border-outline-variant/60 text-on-surface-variant hover:text-primary flex items-center justify-center transition-colors" onclick="toggleMobileNav(false)" aria-label="Tutup Menu"><span class="material-symbols-outlined text-[22px]">close</span></button></div><div class="flex-1 overflow-y-auto p-space-md flex flex-col gap-space-lg"><div class="flex flex-col gap-1"><span class="font-caption text-[11px] text-on-surface-variant font-bold uppercase tracking-wider px-2">Halaman Utama</span><nav class="flex flex-col gap-1"><a class="flex items-center justify-between px-3 py-2.5 rounded-xl bg-surface-container-low text-primary font-bold text-body-sm border border-outline-variant/40 hover:bg-surface-container transition-colors" data-path="beranda" href="#" onclick="toggleMobileNav(false)"><span class="flex items-center gap-2.5"><span class="material-symbols-outlined text-gold-accent text-[20px]">home</span>Beranda</span><span class="material-symbols-outlined text-on-surface-variant text-[16px]">chevron_right</span></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl text-on-surface hover:bg-surface-container-low font-medium text-body-sm transition-colors" data-path="tentang-kami" href="#" onclick="toggleMobileNav(false)"><span class="flex items-center gap-2.5"><span class="material-symbols-outlined text-slate-400 text-[20px]">info</span>Tentang Kami</span><span class="material-symbols-outlined text-on-surface-variant text-[16px]">chevron_right</span></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl text-on-surface hover:bg-surface-container-low font-medium text-body-sm transition-colors" data-path="katalog-produk" href="#katalog" onclick="toggleMobileNav(false)"><span class="flex items-center gap-2.5"><span class="material-symbols-outlined text-slate-400 text-[20px]">shopping_bag</span>Katalog Produk</span><span class="material-symbols-outlined text-on-surface-variant text-[16px]">chevron_right</span></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl text-on-surface hover:bg-surface-container-low font-medium text-body-sm transition-colors" data-path="galeri" href="#customizer" onclick="toggleMobileNav(false)"><span class="flex items-center gap-2.5"><span class="material-symbols-outlined text-slate-400 text-[20px]">photo_library</span>Galeri Atelier</span><span class="material-symbols-outlined text-on-surface-variant text-[16px]">chevron_right</span></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl text-on-surface hover:bg-surface-container-low font-medium text-body-sm transition-colors" data-path="blog" href="#" onclick="toggleMobileNav(false)"><span class="flex items-center gap-2.5"><span class="material-symbols-outlined text-slate-400 text-[20px]">article</span>Blog &amp; Tips Wisuda</span><span class="material-symbols-outlined text-on-surface-variant text-[16px]">chevron_right</span></a></nav></div><div class="flex flex-col gap-1.5 pt-space-xs border-t border-outline-variant/60"><div class="flex items-center justify-between px-2"><span class="font-caption text-[11px] text-on-surface-variant font-bold uppercase tracking-wider">Pintasan Section Beranda</span><span class="font-caption text-[10px] text-gold-accent font-semibold bg-amber-50 px-2 py-0.5 rounded-full border border-gold-border">Lompat Cepat</span></div><div class="flex flex-col gap-1"><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-surface-container text-body-sm text-primary transition-colors" href="#keunggulan" onclick="toggleMobileNav(false)"><span class="material-symbols-outlined text-gold-accent text-[18px]">verified</span><span class="font-medium">1. Mengapa Fardi Atelier</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-surface-container text-body-sm text-primary transition-colors" href="#katalog" onclick="toggleMobileNav(false)"><span class="material-symbols-outlined text-gold-accent text-[18px]">checkroom</span><span class="font-medium">2. Paket Sewa &amp; Custom Wisuda</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-surface-container text-body-sm text-primary transition-colors" href="#bundling-sultan" onclick="toggleMobileNav(false)"><span class="material-symbols-outlined text-gold-accent text-[18px]">stars</span><span class="font-medium">3. Paket Bundling Sultan 2-in-1</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-surface-container text-body-sm text-primary transition-colors" href="#kalkulator-ukuran" onclick="toggleMobileNav(false)"><span class="material-symbols-outlined text-gold-accent text-[18px]">straighten</span><span class="font-medium">4. Kalkulator Ukuran &amp; Cek Tanggal</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-surface-container text-body-sm text-primary transition-colors" href="#metode-pembayaran" onclick="toggleMobileNav(false)"><span class="material-symbols-outlined text-gold-accent text-[18px]">payments</span><span class="font-medium">5. Pembayaran Cepat &amp; Aman</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-surface-container text-body-sm text-primary transition-colors" href="#lokasi-workshop" onclick="toggleMobileNav(false)"><span class="material-symbols-outlined text-gold-accent text-[18px]">location_on</span><span class="font-medium">6. Lokasi Workshop &amp; Kontak</span></a></div></div></div><div class="p-space-md border-t border-outline-variant/60 bg-surface-container-low flex flex-col gap-2"><a class="w-full py-2.5 rounded-xl bg-primary text-white font-headline-sm text-body-sm font-semibold flex items-center justify-center gap-2 shadow-md hover:bg-slate-800 transition-colors" data-path="booking-dan-konsultasi" href="#katalog" onclick="toggleMobileNav(false)"><span class="material-symbols-outlined text-[18px]">calendar_today</span><span class="">Konsultasi &amp; Booking</span></a><a class="w-full py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-headline-sm text-body-sm font-semibold flex items-center justify-center gap-2 shadow-sm transition-colors" href="https://wa.me/6285260880000?text=Halo%20Bg%20Fardi,%20saya%20ingin%20konsultasi%20sewa%20jas%20wisuda" target="_blank"><span class="material-symbols-outlined text-[18px]">chat</span><span class="">Hubungi WhatsApp</span></a></div></div></div><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- HERO SECTION (Light Luxury Atelier) -->
+<section class="relative w-full overflow-hidden bg-gradient-to-b from-white via-surface to-surface-container-low py-space-3xl lg:py-3xl border-b border-outline-variant/40">
+<div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+<div class="w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(180,140,40,0.12)_0%,transparent_60%)]"></div>
+<div class="absolute bottom-0 left-0 w-96 h-96 bg-slate-200/50 rounded-full blur-3xl"></div>
+</div>
+<div class="relative z-10 w-full px-gutter lg:px-margin max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-xl items-center">
+<div class="lg:col-span-7 flex flex-col gap-space-lg">
+<!-- Live Status Badge -->
+
+<!-- Headline & Subheadline -->
+<div class="flex flex-col gap-space-sm">
+<h1 class="font-h1 text-headline-lg lg:text-h1 font-bold text-primary tracking-tight leading-tight">
+            Kemewahan Jahitan Formal &amp; Kebanggaan Wisuda — <span class="text-gold-accent italic font-serif">Tampil Berwibawa di Hari Bersejarah.</span>
+</h1>
+<p class="font-body-lg text-body-md lg:text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+            Pusat persewaan paket jas pria lengkap (jas, rompi, celana wol, kemeja, sepatu pantofel kilap) &amp; bordir selempang wisuda bludru komputer presisi #1 di Meulaboh, Aceh Barat. Jaminan fitting presisi &amp; sistem anti double-booking.
+          </p>
+</div>
+<!-- Dual CTA -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md pt-space-xs">
+<a class="inline-flex items-center justify-center gap-space-sm px-xl py-space-md rounded-lg bg-primary text-white font-headline-sm text-body-md font-semibold shadow-lg shadow-primary/20 hover:bg-slate-800 transition-all duration-300" href="#katalog">
+<span class="">Pilih Paket &amp; Booking Sekarang</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</a>
+<a class="inline-flex items-center justify-center gap-space-sm px-xl py-space-md rounded-lg bg-white border border-outline-variant text-primary hover:bg-surface-container hover:border-gold-accent transition-all duration-200 shadow-sm font-semibold" href="#customizer">
+<span class="material-symbols-outlined text-gold-accent text-[20px]">draw</span>
+<span class="">Custom Selempang Nama</span>
+</a>
+</div>
+<!-- Trust Metric Bar -->
+<div class="grid grid-cols-3 gap-space-md pt-space-md bg-white border border-outline-variant/80 p-space-md rounded-xl shadow-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs text-amber-500">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-mono-price text-body-sm font-bold text-primary">5.0 / 5.0</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">500+ Wisudawan Aceh</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs text-gold-accent">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-body-sm text-body-sm font-bold text-primary">100% Pas</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">Garansi Fitting Gratis</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs text-emerald-600">
+<span class="material-symbols-outlined text-[18px]">local_laundry_service</span>
+<span class="font-body-sm text-body-sm font-bold text-primary">Higienis</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">Dry Clean Steril Wangi</span>
+</div>
+</div>
+</div>
+<!-- Hero Visual Composition -->
+<div class="lg:col-span-5 relative">
+<div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-xl bg-white border border-outline-variant/60">
+<img class="w-full h-full object-cover" data-alt="A luxury bespoke atelier corner displaying a premium black wool graduation tuxedo on a mannequin with gold embroidered sash and polished Oxford shoes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgHlOgF4V7Xj8MQJpl8f_Qx7xqQWcUIwazxGf-CmHA322OfVhRNbRk-xjnZiYlcAOPL6T-h8rClR7o3ZvPfPeNHYa01jvg42L7hsSgxkKCJe0HTvJpDaE2Fhwa60luzortUrfBQZ8_wYSs85qKPvVXQx9bo2pHaOJkqQizWkgbPWBhBI8S9OBegJi9seU6mngFGVF8Z1FTip2p945sRq_4TLGOAaLbRFaWIiPJxCh4vqQfiqQa3tNe">
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent"></div>
+<!-- Floating Atelier Badge -->
+<div class="absolute bottom-6 left-6 right-6 p-space-md rounded-xl bg-white/95 backdrop-blur-md shadow-lg border border-outline-variant/60 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-gold-accent tracking-widest uppercase font-bold">Fardi Atelier Signature</span>
+<span class="font-headline-sm text-body-sm font-bold text-primary">Paket Komplit Wisudawan UTU &amp; STAIN</span>
+</div>
+<div class="text-right">
+<span class="font-caption text-caption text-on-surface-variant block font-medium">Mulai</span>
+<span class="font-label-mono-price text-body-md text-primary font-bold">Rp 120k</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4 VALUE PILLARS (Clean White Cards) -->
+<section class="w-full bg-white py-space-3xl px-gutter lg:px-margin border-b border-outline-variant/50" id="keunggulan">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-2xl">
+<div class="flex flex-col items-center text-center gap-space-xs max-w-2xl mx-auto">
+<span class="font-label-mono-sm text-caption text-gold-accent tracking-widest uppercase font-bold">Standar Keunggulan</span>
+<h2 class="font-h2 text-headline-lg font-bold text-primary">Mengapa Fardi Atelier Menjadi Pilihan Utama di Aceh Barat?</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+<!-- Pilar 1 -->
+<div class="p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/70 shadow-sm flex flex-col gap-space-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+<div class="w-12 h-12 rounded-lg bg-amber-50 border border-gold-border/60 flex items-center justify-center text-gold-accent">
+<span class="material-symbols-outlined text-[28px]">straighten</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Jaminan Pas &amp; Rapi</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Cutting slimfit Eropa yang menyesuaikan lekuk tubuh. Wol blend anti kusut memastikan Anda tetap segar saat foto seremonial wisuda.
+          </p>
+</div>
+<!-- Pilar 2 -->
+<div class="p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/70 shadow-sm flex flex-col gap-space-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+<div class="w-12 h-12 rounded-lg bg-amber-50 border border-gold-border/60 flex items-center justify-center text-gold-accent">
+<span class="material-symbols-outlined text-[28px]">pattern</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Bordir Komputer Presisi</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Bahan kain bludru dobel lapis dengan benang emas kilau tinggi. Logo resmi UTU &amp; STAIN dijamin detail, tegas, dan simetris tanpa cacat.
+          </p>
+</div>
+<!-- Pilar 3 -->
+<div class="p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/70 shadow-sm flex flex-col gap-space-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+<div class="w-12 h-12 rounded-lg bg-amber-50 border border-gold-border/60 flex items-center justify-center text-gold-accent">
+<span class="material-symbols-outlined text-[28px]">checkroom</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Head-to-Toe Complete</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Solusi praktis 1 pintu: Dasi sutra, kemeja katun, rompi, celana wol, jas, hingga sepatu kulit pantofel kilap tersedia lengkap ukuran 39-44.
+          </p>
+</div>
+<!-- Pilar 4 -->
+<div class="p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/70 shadow-sm flex flex-col gap-space-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+<div class="w-12 h-12 rounded-lg bg-amber-50 border border-gold-border/60 flex items-center justify-center text-gold-accent">
+<span class="material-symbols-outlined text-[28px]">event_available</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Anti Double-Booking</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Sistem penguncian tanggal akurat. Jas dan ukuran yang Anda reservasi dijamin aman 100% dan tidak akan disewakan ke pihak lain.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- KATALOG SEMI TOKO ONLINE (Light Card Design) -->
+<section class="w-full bg-surface py-space-3xl px-gutter lg:px-margin" id="katalog">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-2xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-mono-sm text-caption text-gold-accent tracking-widest uppercase font-bold">Katalog Pilihan Fardi Atelier</span>
+<h2 class="font-h2 text-headline-lg font-bold text-primary">Paket Sewa &amp; Custom Wisuda</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pilih paket siap pakai atau custom satuan sesuai kebutuhan hari istimewa Anda.</p>
+</div>
+<!-- Interactive Category Switcher -->
+<div class="flex flex-wrap items-center gap-space-xs bg-white border border-outline-variant/80 p-1.5 rounded-xl shadow-sm">
+<button class="catalog-tab-btn px-space-md py-space-xs rounded-lg text-caption font-semibold bg-primary text-white shadow-sm transition-all" onclick="filterCatalog('all', this)">Semua</button>
+<button class="catalog-tab-btn px-space-md py-space-xs rounded-lg text-caption font-medium text-on-surface-variant hover:text-primary transition-all" onclick="filterCatalog('paket', this)">Paket Lengkap</button>
+<button class="catalog-tab-btn px-space-md py-space-xs rounded-lg text-caption font-medium text-on-surface-variant hover:text-primary transition-all" onclick="filterCatalog('jas', this)">Jas &amp; Rompi</button>
+<button class="catalog-tab-btn px-space-md py-space-xs rounded-lg text-caption font-medium text-on-surface-variant hover:text-primary transition-all" onclick="filterCatalog('sepatu', this)">Sepatu Pantofel</button>
+<button class="catalog-tab-btn px-space-md py-space-xs rounded-lg text-caption font-medium text-on-surface-variant hover:text-primary transition-all" onclick="filterCatalog('selempang', this)">Selempang Bludru</button>
+</div>
+</div>
+<!-- Product Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-xl" id="productGrid">
+<!-- Card 1: Paket Lengkap Wisuda -->
+<div class="product-item paket p-space-md rounded-2xl bg-white border border-outline-variant/70 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group">
+<div class="flex flex-col gap-space-md">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A complete elegant male graduation suit bundle set arranged neatly on dark slate surface. Includes deep obsidian black slimfit blazer jacket, white tailored shirt, dark formal waistcoat vest, charcoal wool trousers, silk black necktie, and high-shine gloss Oxford shoes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr-e_rGospVQPboskLeppHkkNvw5cKBoMLWiQszAbmnwrL97XVB2IdbN0DrYgXfXz481mZdol_oz8khfUPE402EnxDq9kdwu14H62QLVw2hE_mlI_LNlhgu5pWisITMYtDSjZlyhNNH6VkNmK-Ou1wNkk8ZMyeijmYTIpx5UrybfLltwi-Zo4SN4Oc2VSWcAEDWrkY4P-Jed-KLg-WL34fvMAH7dCL2CEJvC0S-GGAzQqLboF5dNf4">
+<span class="absolute top-3 left-3 bg-amber-500 text-white font-caption text-caption font-bold px-space-sm py-1 rounded-full uppercase tracking-wider shadow-sm">Paling Populer ⭐</span>
+<span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm text-primary font-label-mono-sm text-caption px-space-sm py-1 rounded-md border border-outline-variant/60 font-semibold">Size S - XXL</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-gold-accent uppercase font-bold tracking-wide">Paket 3 Hari Sewa</span>
+<span class="font-caption text-caption text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Stok Aman (18 Set)</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Paket Lengkap Wisuda Mahasiswa</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Jas Slimfit Hitam/Navy + Rompi + Kemeja Putih + Celana Wol + Dasi Sutra + Sepatu Pantofel Kilap.</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-md pt-space-md mt-space-sm border-t border-outline-variant/50">
+<div class="flex items-baseline justify-between">
+<span class="font-caption text-caption text-on-surface-variant">Biaya Sewa</span>
+<div class="text-right">
+<span class="font-label-mono-price text-headline-sm text-primary font-bold">Rp 120.000</span>
+<span class="font-caption text-caption text-on-surface-variant"> / 3 Hari</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="w-full py-space-sm rounded-lg bg-primary text-white font-headline-sm text-body-sm font-semibold hover:bg-slate-800 transition-colors text-center shadow-sm" onclick="openBookingModal('Paket Lengkap Wisuda', 120000)">
+                Sewa Sekarang
+              </button>
+<button class="w-full py-space-sm rounded-lg bg-surface-container-low border border-outline-variant text-primary font-body-sm text-body-sm hover:bg-surface-container transition-colors text-center font-medium" onclick="viewDetails('Paket Lengkap Wisuda')">
+                Detail Set
+              </button>
+</div>
+</div>
+</div>
+<!-- Card 2: Paket Resepsi & Eksekutif -->
+<div class="product-item paket p-space-md rounded-2xl bg-white border border-outline-variant/70 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group">
+<div class="flex flex-col gap-space-md">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A luxurious groom wedding tuxedo set featuring a deep navy blue blazer with black satin shawl lapel, jacquard patterned waistcoat, matching tailored trousers, black velvet bow tie, and glossy patent leather dress shoes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg6U_Dk2uibp68llXo4dyaKecUCUk5vieQQwU78-DOBgKrbgxU8aIB61r8cpn3qC8zpcPMB4mfYjyNDEzUO2qYb_nyk6YcyPRlN6WK14LP3d1mRU5vZnor4WHA8Dy5vkH_O4cAXslyXDqwOlXFoUSAWdHrS_tc8b_qt_HIRwalPAju85QLk4OQ6Up8yeV1LJdrZDCokqru7hnfmqqjyQdI5h2GSSBNvikGDFprDGMa9EPQMzae_5JK">
+<span class="absolute top-3 left-3 bg-slate-900 text-white font-caption text-caption font-bold px-space-sm py-1 rounded-full uppercase tracking-wider shadow-sm">Premium Tuxedo</span>
+<span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm text-primary font-label-mono-sm text-caption px-space-sm py-1 rounded-md border border-outline-variant/60 font-semibold">Shawl Lapel</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-gold-accent uppercase font-bold tracking-wide">Resepsi &amp; Sidang Terbuka</span>
+<span class="font-caption text-caption text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Stok Ready (6 Set)</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Paket Resepsi &amp; Eksekutif Groom</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Setelan Tuxedo Navy Midnight / Charcoal, Vest Jacquard, Dasi Kupu-Kupu Sutra, &amp; Sepatu Oxford Glossy.</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-md pt-space-md mt-space-sm border-t border-outline-variant/50">
+<div class="flex items-baseline justify-between">
+<span class="font-caption text-caption text-on-surface-variant">Biaya Sewa</span>
+<div class="text-right">
+<span class="font-label-mono-price text-headline-sm text-primary font-bold">Rp 175.000</span>
+<span class="font-caption text-caption text-on-surface-variant"> / 3 Hari</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="w-full py-space-sm rounded-lg bg-primary text-white font-headline-sm text-body-sm font-semibold hover:bg-slate-800 transition-colors text-center shadow-sm" onclick="openBookingModal('Paket Resepsi &amp; Eksekutif', 175000)">
+                Sewa Sekarang
+              </button>
+<button class="w-full py-space-sm rounded-lg bg-surface-container-low border border-outline-variant text-primary font-body-sm text-body-sm hover:bg-surface-container transition-colors text-center font-medium" onclick="viewDetails('Paket Resepsi')">
+                Detail Set
+              </button>
+</div>
+</div>
+</div>
+<!-- Card 3: Selempang Wisuda Bludru 2 Lapis -->
+<div class="product-item selempang p-space-md rounded-2xl bg-white border border-outline-variant/70 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group">
+<div class="flex flex-col gap-space-md">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up high-resolution shot of a deep black velvet graduation sash lined with inner gold satin furing. Crisp metallic gold computer embroidery showcases academic honors and graduation insignia with neat stitched gold edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACGb4x2T6Ey5MqMf2FS15rYdtYlVPM8sNxUDMnOd8Dkmxa1jBs_eT9IXzl8LfSgXjDDgve0S5qx5Bo28kSB5YtdCeVGKnTbBqABt7KtrvyDb5dvXHZ0coHthBjU5CpW1KwCuV0PBNo-9LBzXhQeZgBS9pKYjbosSCshPwBoHR2PV7wZ5AW_n6I_cf02YXECTjF7BPV1EdTp_z-ekTKmvvP9WH-Sm6KejQYPeGhlfRtjw5ShwR9hugT">
+<span class="absolute top-3 left-3 bg-amber-500 text-white font-caption text-caption font-bold px-space-sm py-1 rounded-full uppercase tracking-wider shadow-sm">Custom Hak Milik</span>
+<span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm text-primary font-label-mono-sm text-caption px-space-sm py-1 rounded-md border border-outline-variant/60 font-semibold">Bordir 24 Jam</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-gold-accent uppercase font-bold tracking-wide">Custom Bordir Emas</span>
+<span class="font-caption text-caption text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Bahan Kain Premium</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Selempang Bludru 2 Lapis Satin</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Bludru tebal 2 sisi furing satin rapi. Bordir komputer benang emas/silver, termasuk logo resmi UTU/STAIN/USK.</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-md pt-space-md mt-space-sm border-t border-outline-variant/50">
+<div class="flex items-baseline justify-between">
+<span class="font-caption text-caption text-on-surface-variant">Harga Pembuatan</span>
+<div class="text-right">
+<span class="font-label-mono-price text-headline-sm text-primary font-bold">Rp 65.000</span>
+<span class="font-caption text-caption text-on-surface-variant"> / pcs</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<a class="w-full py-space-sm rounded-lg bg-primary text-white font-headline-sm text-body-sm font-semibold hover:bg-slate-800 transition-colors text-center shadow-sm" href="#customizer">
+                Custom Desain
+              </a>
+<button class="w-full py-space-sm rounded-lg bg-surface-container-low border border-outline-variant text-primary font-body-sm text-body-sm hover:bg-surface-container transition-colors text-center font-medium" onclick="viewDetails('Selempang Bludru 2 Lapis')">
+                Spesifikasi
+              </button>
+</div>
+</div>
+</div>
+<!-- Card 4: Sepatu Pantofel Kilap -->
+<div class="product-item sepatu p-space-md rounded-2xl bg-white border border-outline-variant/70 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group">
+<div class="flex flex-col gap-space-md">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A pair of impeccably polished high-gloss black leather dress shoes set on an obsidian stone pedestal with subtle reflection, showing soft interior padded sole and classic Oxford formal lace-up design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyPYkVj9Hlt7dMpjNZkYtmyjmxcN3Zo_gOfJcvOC-dkEugOpLMdXKVPP7f09Gw14LWrg37G61DN_hbI_f-SBl8Dz6CQH7dLnWalW9w6QNM7ekE2SASgw5VfTP0jJs7rEUdmVZBNZv-gKnzqWiUtxkYIVuwJ0j6-2n38XzBxJ7MDLOxfiCDCl44DtQ2j_V_DQ5iOJaQ_jV1JrpJWvIslAjAuTu9sIw1eNIL6asVqa9UkmBYlXZRfjb2">
+<span class="absolute top-3 left-3 bg-slate-800 text-white font-caption text-caption font-bold px-space-sm py-1 rounded-full uppercase tracking-wider shadow-sm">Sol Empuk</span>
+<span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm text-primary font-label-mono-sm text-caption px-space-sm py-1 rounded-md border border-outline-variant/60 font-semibold">Size 39 - 44</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-gold-accent uppercase font-bold tracking-wide">Pria &amp; Wanita</span>
+<span class="font-caption text-caption text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Ready Stock</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Sepatu Pantofel Kilap Formal</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Kulit sintetis gloss reflektif, insole busa empuk anti lecet, siap melangkah tegap di panggung auditorium.</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-md pt-space-md mt-space-sm border-t border-outline-variant/50">
+<div class="flex items-baseline justify-between">
+<span class="font-caption text-caption text-on-surface-variant">Biaya Sewa</span>
+<div class="text-right">
+<span class="font-label-mono-price text-headline-sm text-primary font-bold">Rp 35.000</span>
+<span class="font-caption text-caption text-on-surface-variant"> / 3 Hari</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="w-full py-space-sm rounded-lg bg-primary text-white font-headline-sm text-body-sm font-semibold hover:bg-slate-800 transition-colors text-center shadow-sm" onclick="openBookingModal('Sepatu Pantofel Kilap', 35000)">
+                Sewa Sepatu
+              </button>
+<button class="w-full py-space-sm rounded-lg bg-surface-container-low border border-outline-variant text-primary font-body-sm text-body-sm hover:bg-surface-container transition-colors text-center font-medium" onclick="viewDetails('Sepatu Pantofel Kilap')">
+                Pilihan Ukuran
+              </button>
+</div>
+</div>
+</div>
+<!-- Card 5: Jas Blazer Satuan -->
+<div class="product-item jas p-space-md rounded-2xl bg-white border border-outline-variant/70 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group">
+<div class="flex flex-col gap-space-md">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern slim-fit charcoal gray and classic black formal men blazer hanging against a minimalist dark boutique interior, showcasing tailored lapels, functional interior pockets, and satin lining." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ2rnP9Qui1nPXu3S5X6n1ewNiFQYmeHwr9yK46CEziVy3OpEnWyPoQBwOFi8pyXJNeyrfQJygx63YSFYdX3inFoVBlvLOrJ9DEHf44JdXhz9SJA_IuZK0MVo30NrtjZ9rReVeC_38kGEtwcrVJ5AryOU-vggX1mcNVBphwqTAhJT0QB_2QfLlTFZkZ5VXdhpuITOvZ6MhLs1lkOTYYQ4n1E6gJOa1RyYtxokvs4e1n-be4NjkreYx">
+<span class="absolute top-3 left-3 bg-slate-800 text-white font-caption text-caption font-bold px-space-sm py-1 rounded-full uppercase tracking-wider shadow-sm">Satuan Jas</span>
+<span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm text-primary font-label-mono-sm text-caption px-space-sm py-1 rounded-md border border-outline-variant/60 font-semibold">Size S - XXL</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-gold-accent uppercase font-bold tracking-wide">Pilihan Fleksibel</span>
+<span class="font-caption text-caption text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Bahan Wool Anti Kusut</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Jas Blazer Formal Slimfit Satuan</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Khusus bagi Anda yang sudah memiliki kemeja dan celana sendiri namun membutuhkan jas blazer terstandar.</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-md pt-space-md mt-space-sm border-t border-outline-variant/50">
+<div class="flex items-baseline justify-between">
+<span class="font-caption text-caption text-on-surface-variant">Biaya Sewa</span>
+<div class="text-right">
+<span class="font-label-mono-price text-headline-sm text-primary font-bold">Rp 70.000</span>
+<span class="font-caption text-caption text-on-surface-variant"> / 3 Hari</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="w-full py-space-sm rounded-lg bg-primary text-white font-headline-sm text-body-sm font-semibold hover:bg-slate-800 transition-colors text-center shadow-sm" onclick="openBookingModal('Jas Blazer Slimfit', 70000)">
+                Sewa Jas Saja
+              </button>
+<button class="w-full py-space-sm rounded-lg bg-surface-container-low border border-outline-variant text-primary font-body-sm text-body-sm hover:bg-surface-container transition-colors text-center font-medium" onclick="viewDetails('Jas Blazer Slimfit')">
+                Chart Ukuran
+              </button>
+</div>
+</div>
+</div>
+<!-- Card 6: Selempang Wisuda 1 Lapis Bordir Silver -->
+<div class="product-item selempang p-space-md rounded-2xl bg-white border border-outline-variant/70 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group">
+<div class="flex flex-col gap-space-md">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A deep maroon velvet graduation sash draped gracefully, featuring shining silver computer embroidery letters and decorated with fine glitter lace border on its edges in dark studio atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOVNwBxqTyk3uRGT88S_AYGCZZbQ_TnLexHaXWvwm_sewcrhunr8Yb9kGLl6O6T9Ijywswyyb8wnkS86SF6QiswwNhf4z3zaJX0LS3WrQY6M0ObRoTPwoCVxorUohQUpbSl6J3rFguSwxHiOX5JeIGtW7R2qnWa2fYZeLqy4AwptyG1MAib8uK5QgYq7RbDgqEI25qFYaXX4_flT6FZyw-MI0W560i8pnWdD1Oqa7pAg2zhoKHqyQf">
+<span class="absolute top-3 left-3 bg-slate-800 text-white font-caption text-caption font-bold px-space-sm py-1 rounded-full uppercase tracking-wider shadow-sm">Ekonomis</span>
+<span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm text-primary font-label-mono-sm text-caption px-space-sm py-1 rounded-md border border-outline-variant/60 font-semibold">Bordir Renda</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-gold-accent uppercase font-bold tracking-wide">Pilihan Warna Maroon/Navy</span>
+<span class="font-caption text-caption text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Kilat 1 Hari Jadi</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Selempang 1 Lapis Renda Silver</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Kain bludru halus berbingkai renda glitter perak mengkilap, hasil tajam dan rapi tanpa benang bertumpuk.</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-md pt-space-md mt-space-sm border-t border-outline-variant/50">
+<div class="flex items-baseline justify-between">
+<span class="font-caption text-caption text-on-surface-variant">Harga Pembuatan</span>
+<div class="text-right">
+<span class="font-label-mono-price text-headline-sm text-primary font-bold">Rp 45.000</span>
+<span class="font-caption text-caption text-on-surface-variant"> / pcs</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<a class="w-full py-space-sm rounded-lg bg-primary text-white font-headline-sm text-body-sm font-semibold hover:bg-slate-800 transition-colors text-center shadow-sm" href="#customizer">
+                Pesan Selempang
+              </a>
+<button class="w-full py-space-sm rounded-lg bg-surface-container-low border border-outline-variant text-primary font-body-sm text-body-sm hover:bg-surface-container transition-colors text-center font-medium" onclick="viewDetails('Selempang 1 Lapis Silver')">
+                Pilihan Renda
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- INTERACTIVE BUNDLING BOOSTER (Warm Champagne Light Box) -->
+<section class="w-full bg-white py-space-3xl px-gutter lg:px-margin border-t border-b border-outline-variant/60" id="bundling-sultan">
+<div class="max-w-7xl mx-auto rounded-3xl bg-gradient-to-br from-amber-50/70 via-white to-amber-50/40 border border-gold-border p-space-xl lg:p-space-2xl relative overflow-hidden shadow-md">
+<!-- Subtle glow ambient -->
+<div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-amber-200/30 blur-3xl pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl items-center relative z-10">
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div class="inline-flex items-center gap-space-xs bg-amber-100 text-primary border border-gold-border/80 px-space-md py-1 rounded-full w-max">
+<span class="material-symbols-outlined text-gold-accent text-[18px]">verified</span>
+<span class="font-caption text-caption uppercase tracking-wider font-bold">Paket Bundling Paling Hemat 2026</span>
+</div>
+<h2 class="font-h2 text-headline-lg lg:text-h2 font-extrabold text-primary">
+            PAKET BUNDLING SULTAN WISUDA <span class="text-gold-accent">2-IN-1</span>
+</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl leading-relaxed">
+            Gabungkan sewa perlengkapan jas formal head-to-toe lengkap dengan pesanan kustom selempang bludru nama &amp; gelar emas Anda sendiri. Nikmati potongan langsung tanpa ribet cari vendor terpisah di Meulaboh!
+          </p>
+<!-- Included items checklist -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm pt-space-xs">
+<div class="flex items-center gap-space-sm text-primary">
+<span class="material-symbols-outlined text-emerald-600 text-[20px]">check_circle</span>
+<span class="font-body-sm text-body-sm font-medium">Paket Jas + Rompi + Celana + Dasi Sutra</span>
+</div>
+<div class="flex items-center gap-space-sm text-primary">
+<span class="material-symbols-outlined text-emerald-600 text-[20px]">check_circle</span>
+<span class="font-body-sm text-body-sm font-medium">Sepatu Pantofel Kilap (Size 39-44)</span>
+</div>
+<div class="flex items-center gap-space-sm text-primary">
+<span class="material-symbols-outlined text-emerald-600 text-[20px]">check_circle</span>
+<span class="font-body-sm text-body-sm font-medium">Custom Selempang Bludru 2 Lapis (Milik Pribadi)</span>
+</div>
+<div class="flex items-center gap-space-sm text-gold-accent">
+<span class="material-symbols-outlined text-gold-accent text-[20px]">stars</span>
+<span class="font-body-sm text-body-sm font-bold">FREE Kaos Kaki Baru &amp; Sarung Jas Mewah</span>
+</div>
+</div>
+</div>
+<!-- Pricing Card on right -->
+<div class="lg:col-span-4 bg-white p-space-xl rounded-2xl shadow-md border border-gold-border flex flex-col gap-space-md text-center">
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider font-semibold">Harga Bundling Lengkap</span>
+<div class="flex flex-col items-center">
+<span class="text-on-surface-variant/70 line-through font-label-mono-sm text-body-md">Rp 200.000</span>
+<span class="font-label-mono-price text-h2 text-primary font-extrabold leading-none">Rp 175.000</span>
+<span class="font-caption text-caption text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full font-bold mt-2 border border-emerald-200">Hemat Rp 25.000 Langsung!</span>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-sm">
+<button class="w-full py-space-md rounded-lg bg-primary text-white font-headline-sm text-body-sm font-bold shadow-md hover:bg-slate-800 transition-all duration-200" onclick="openBookingModal('Paket Sultan Wisuda 2-in-1', 175000)">
+              Booking Bundling Sultan
+            </button>
+<span class="font-caption text-caption text-on-surface-variant">Kuota 10 pemesan pertama per hari</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SMART SIZE RECOMMENDER & REALTIME AVAILABILITY -->
+<section class="w-full bg-surface py-space-3xl px-gutter lg:px-margin" id="kalkulator-ukuran">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-2xl">
+<div class="flex flex-col items-center text-center gap-space-xs max-w-2xl mx-auto">
+<span class="font-label-mono-sm text-caption text-gold-accent tracking-widest uppercase font-bold">Teknologi Fitting &amp; Reservasi</span>
+<h2 class="font-h2 text-headline-lg font-bold text-primary">Kalkulator Ukuran &amp; Cek Tanggal Realtime</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ketahui ukuran jas Anda yang ideal secara presisi dan pastikan tanggal acara Anda tersedia sebelum kehabisan slot.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-xl">
+<!-- Interactive Size Calculator -->
+<div class="p-space-xl rounded-2xl bg-white border border-outline-variant/70 shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-amber-50 border border-gold-border/60 flex items-center justify-center text-gold-accent">
+<span class="material-symbols-outlined text-[24px]">square_foot</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Cari Ukuran Jas Sempurna Anda</h3>
+<p class="font-caption text-caption text-on-surface-variant">Algoritma cutting slimfit Fardi Atelier</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Height Slider -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex justify-between items-center">
+<label class="font-body-sm text-body-sm text-primary font-semibold">Tinggi Badan</label>
+<span class="font-label-mono-sm text-body-sm text-gold-accent font-bold" id="heightDisplay">171 cm</span>
+</div>
+<input class="w-full accent-primary bg-slate-200 h-2 rounded-lg cursor-pointer" id="heightSlider" max="195" min="150" oninput="calculateSuitSize()" type="range" value="170">
+</div>
+<!-- Weight Slider -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex justify-between items-center">
+<label class="font-body-sm text-body-sm text-primary font-semibold">Berat Badan</label>
+<span class="font-label-mono-sm text-body-sm text-gold-accent font-bold" id="weightDisplay">78 kg</span>
+</div>
+<input class="w-full accent-primary bg-slate-200 h-2 rounded-lg cursor-pointer" id="weightSlider" max="120" min="40" oninput="calculateSuitSize()" type="range" value="65">
+</div>
+<!-- Calculation Output Box -->
+<div class="p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 flex items-center justify-between mt-space-xs">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant font-medium">Rekomendasi Terbaik</span>
+<span class="font-headline-sm text-h3 text-primary font-bold" id="recommendedSizeLabel">Ukuran L (Slimfit)</span>
+<span class="font-caption text-caption text-on-surface-variant mt-1" id="sizeDetailsSpec">Lingkar Dada: 102cm | Pjg Jas: 73cm | Celana: 32-34</span>
+</div>
+<div class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center font-label-mono-price text-h3 font-bold shadow-sm" id="sizeBadgeLetter">L</div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant italic">
+              *Bila ragu, Anda juga dapat mencoba fitting langsung di atelier kami di Jl. Imam Bonjol Drien Rampak Meulaboh secara gratis.
+            </p>
+</div>
+</div>
+<!-- Realtime Date Availability Checker -->
+<div class="p-space-xl rounded-2xl bg-white border border-outline-variant/70 shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-amber-50 border border-gold-border/60 flex items-center justify-center text-gold-accent">
+<span class="material-symbols-outlined text-[24px]">calendar_month</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary">Cek Ketersediaan Tanggal Rental</h3>
+<p class="font-caption text-caption text-on-surface-variant">Sistem anti double-booking real-time</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-body-sm text-body-sm text-primary font-semibold">Pilih Tanggal Hari-H Acara / Wisuda</label>
+<input class="w-full bg-surface-container-low border border-outline-variant px-space-md py-space-sm rounded-lg text-primary focus:outline-none focus:border-primary transition-colors font-medium" id="eventDatePicker" onchange="checkDateAvailability()" type="date" value="2026-04-18">
+</div>
+<!-- Calendar schedule explanation 3-days -->
+<div class="grid grid-cols-3 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container-low border border-outline-variant/60 text-center flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">H-1 (Ambil)</span>
+<span class="font-label-mono-sm text-caption text-primary font-bold" id="dateTake">17 Apr 2026</span>
+<span class="font-caption text-caption text-gold-accent font-semibold">Fitting Terakhir</span>
+</div>
+<div class="p-space-sm rounded-lg bg-amber-50 border border-gold-border text-center flex flex-col">
+<span class="font-caption text-caption text-gold-accent font-bold">Hari-H (Pakai)</span>
+<span class="font-label-mono-sm text-caption text-primary font-bold" id="dateMain">18 Apr 2026</span>
+<span class="font-caption text-caption text-emerald-700 font-semibold">Puncak Wisuda</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low border border-outline-variant/60 text-center flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">H+1 (Kembali)</span>
+<span class="font-label-mono-sm text-caption text-primary font-bold" id="dateReturn">19 Apr 2026</span>
+<span class="font-caption text-caption text-on-surface-variant">Maks 20.00 WIB</span>
+</div>
+</div>
+<!-- Live Status Alert -->
+<div class="p-space-md rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between" id="availabilityBox">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-emerald-600 text-[24px]">verified_user</span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-emerald-800 font-bold">Slot Masih Terbuka!</span>
+<span class="font-caption text-caption text-on-surface-variant" id="stockStatusCount">Tersedia 12 Set Jas untuk tanggal ini</span>
+</div>
+</div>
+<button class="px-space-md py-space-xs rounded-lg bg-primary text-white font-headline-sm text-caption font-bold hover:bg-slate-800 transition-colors shadow-sm" onclick="openBookingWithSelectedDate()">
+                Kunci Tanggal
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- LIVE SASH CUSTOMIZER PREVIEW -->
+
+<!-- PAYMENT & SANDBOX SIMULATOR (Crisp Clean White Container) -->
+<section class="w-full bg-surface py-space-3xl px-gutter lg:px-margin" id="metode-pembayaran">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-2xl">
+<div class="flex flex-col items-center text-center gap-space-xs max-w-2xl mx-auto">
+<span class="font-label-mono-sm text-caption text-gold-accent tracking-widest uppercase font-bold">Kemudahan Transaksi &amp; Booking</span>
+<h2 class="font-h2 text-headline-lg font-bold text-primary">Pembayaran Cepat &amp; Aman</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Didukung QRIS Instan, Virtual Account Bank Syariah Indonesia (BSI), Bank Aceh, BCA, Mandiri, dan BRI.</p>
+</div>
+<div class="max-w-5xl mx-auto w-full flex flex-col gap-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md"><div class="p-space-lg rounded-2xl bg-white border border-gold-border/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200"><div class="flex flex-col gap-space-sm"><div class="flex items-center justify-between"><div class="w-12 h-12 rounded-xl bg-amber-50 border border-gold-border flex items-center justify-center text-gold-accent"><span class="material-symbols-outlined text-[26px]">qr_code_scanner</span></div><span class="font-caption text-[10px] bg-amber-100 text-primary font-bold px-2 py-0.5 rounded-full border border-gold-border uppercase tracking-wide">Instan Realtime</span></div><div><h3 class="font-headline-sm text-body-lg font-bold text-primary">QRIS &amp; QR Internasional</h3><p class="font-caption text-caption text-on-surface-variant mt-1 leading-relaxed">Standar Nasional BI &amp; QR Cross-Border Malaysia (DuitNow), Singapore (NETS), &amp; Thailand (PromptPay).</p></div><div class="flex flex-wrap gap-1.5 pt-space-xs"><span class="px-2 py-0.5 rounded bg-surface-container text-[11px] font-bold text-primary border border-outline-variant/60">QRIS</span><span class="px-2 py-0.5 rounded bg-surface-container text-[11px] font-semibold text-on-surface-variant border border-outline-variant/60">GoPay</span><span class="px-2 py-0.5 rounded bg-surface-container text-[11px] font-semibold text-on-surface-variant border border-outline-variant/60">OVO</span><span class="px-2 py-0.5 rounded bg-surface-container text-[11px] font-semibold text-on-surface-variant border border-outline-variant/60">Dana</span><span class="px-2 py-0.5 rounded bg-surface-container text-[11px] font-semibold text-on-surface-variant border border-outline-variant/60">ShopeePay</span></div></div><div class="pt-space-md mt-space-sm border-t border-outline-variant/40 flex items-center gap-1.5 text-emerald-700 text-caption font-semibold"><span class="material-symbols-outlined text-[16px]">check_circle</span><span class="">Bebas Biaya Admin</span></div></div><div class="p-space-lg rounded-2xl bg-white border border-outline-variant/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200"><div class="flex flex-col gap-space-sm"><div class="flex items-center justify-between"><div class="w-12 h-12 rounded-xl bg-surface-container border border-outline-variant/70 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[26px]">account_balance</span></div><span class="font-caption text-[10px] bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-200 uppercase tracking-wide">Syariah &amp; Konven</span></div><div><h3 class="font-headline-sm text-body-lg font-bold text-primary">Transfer Bank &amp; VA</h3><p class="font-caption text-caption text-on-surface-variant mt-1 leading-relaxed">Verifikasi otomatis lewat Virtual Account dan konfirmasi transfer rekening resmi Fardi Atelier.</p></div><div class="flex flex-col gap-1.5 pt-space-xs"><div class="flex items-center justify-between py-1 px-2 rounded bg-surface-container-low border border-outline-variant/50 text-[11px]"><span class="font-bold text-primary">BSI (Bank Syariah)</span><span class="font-label-mono-sm font-semibold text-gold-accent">900 8123 4455</span></div><div class="flex items-center justify-between py-1 px-2 rounded bg-surface-container-low border border-outline-variant/50 text-[11px]"><span class="font-bold text-primary">Bank Aceh Syariah</span><span class="font-label-mono-sm font-semibold text-gold-accent">501 0244 8899</span></div><div class="flex items-center justify-between py-1 px-2 rounded bg-surface-container-low border border-outline-variant/50 text-[11px]"><span class="font-bold text-primary">BCA / Mandiri / BRI</span><span class="text-on-surface-variant">Tersedia VA</span></div></div></div><div class="pt-space-md mt-space-sm border-t border-outline-variant/40 flex items-center gap-1.5 text-primary text-caption font-semibold"><span class="material-symbols-outlined text-[16px] text-gold-accent">verified</span><span class="">Rekening Resmi Terdaftar</span></div></div><div class="p-space-lg rounded-2xl bg-white border border-outline-variant/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200"><div class="flex flex-col gap-space-sm"><div class="flex items-center justify-between"><div class="w-12 h-12 rounded-xl bg-surface-container border border-outline-variant/70 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[26px]">wallet</span></div><span class="font-caption text-[10px] bg-slate-100 text-slate-800 font-bold px-2 py-0.5 rounded-full border border-outline-variant/60 uppercase tracking-wide">Serba Praktis</span></div><div><h3 class="font-headline-sm text-body-lg font-bold text-primary">Dompet Digital / E-Wallet</h3><p class="font-caption text-caption text-on-surface-variant mt-1 leading-relaxed">Terima direct transfer atau tap transaksi cepat melalui platform dompet digital favorit Anda.</p></div><div class="flex flex-wrap gap-1.5 pt-space-xs"><span class="px-2.5 py-1 rounded bg-surface-container-low text-[11px] font-semibold text-primary border border-outline-variant/60">Dana</span><span class="px-2.5 py-1 rounded bg-surface-container-low text-[11px] font-semibold text-primary border border-outline-variant/60">OVO Cash</span><span class="px-2.5 py-1 rounded bg-surface-container-low text-[11px] font-semibold text-primary border border-outline-variant/60">GoPay Wallet</span><span class="px-2.5 py-1 rounded bg-surface-container-low text-[11px] font-semibold text-primary border border-outline-variant/60">LinkAja</span><span class="px-2.5 py-1 rounded bg-surface-container-low text-[11px] font-semibold text-primary border border-outline-variant/60">AstraPay</span></div></div><div class="pt-space-md mt-space-sm border-t border-outline-variant/40 flex items-center gap-1.5 text-primary text-caption font-semibold"><span class="material-symbols-outlined text-[16px] text-gold-accent">schedule</span><span class="">Konfirmasi &lt; 3 Menit</span></div></div><div class="p-space-lg rounded-2xl bg-white border border-outline-variant/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200"><div class="flex flex-col gap-space-sm"><div class="flex items-center justify-between"><div class="w-12 h-12 rounded-xl bg-amber-50 border border-gold-border flex items-center justify-center text-gold-accent"><span class="material-symbols-outlined text-[26px]">payments</span></div><span class="font-caption text-[10px] bg-amber-50 text-amber-800 font-bold px-2 py-0.5 rounded-full border border-amber-200 uppercase tracking-wide">Fitting On-Site</span></div><div><h3 class="font-headline-sm text-body-lg font-bold text-primary">Tunai / Cash di Workshop</h3><p class="font-caption text-caption text-on-surface-variant mt-1 leading-relaxed">Bayar langsung tunai di kasir atelier saat datang ukur fitting atau pengambilan perlengkapan wisuda.</p></div><div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/50 text-[11px] text-on-surface-variant flex flex-col gap-1"><div class="flex items-center gap-1 font-semibold text-primary"><span class="material-symbols-outlined text-[14px] text-gold-accent">location_on</span><span class="">Atelier Drien Rampak Meulaboh</span></div><span class="">Tersedia struk nota fisik bermaterai &amp; kuitansi resmi.</span></div></div><div class="pt-space-md mt-space-sm border-t border-outline-variant/40 flex items-center gap-1.5 text-emerald-700 text-caption font-semibold"><span class="material-symbols-outlined text-[16px]">receipt_long</span><span class="">Nota Fisik &amp; Garansi Pas</span></div></div></div><div class="p-space-md lg:p-space-lg rounded-2xl bg-white border border-outline-variant/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><div class="w-10 h-10 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 shrink-0"><span class="material-symbols-outlined text-[22px]">security</span></div><div class="flex flex-col"><span class="font-body-sm font-bold text-primary">Jaminan Keamanan Pembayaran &amp; Perlindungan Deposit 100%</span><span class="font-caption text-caption text-on-surface-variant">Setiap pembayaran terenkripsi standar Bank Indonesia. Deposit sewa dikembalikan utuh tepat saat pengembalian jas.</span></div></div><div class="flex items-center gap-space-xs shrink-0"><a class="inline-flex items-center gap-1 px-space-md py-space-xs rounded-lg bg-primary text-white font-headline-sm text-caption font-semibold hover:bg-slate-800 transition-colors shadow-sm" href="https://wa.me/6285260880000?text=Halo%20Bg%20Fardi,%20saya%20ingin%20konfirmasi%20pembayaran%20booking%20jas" target="_blank"><span class="material-symbols-outlined text-[16px]">send</span><span class="">Konfirmasi Bukti Transfer</span></a></div></div></div>
+</div>
+</section>
+<!-- ASISTEN KANDA FARDI AI & TOKO FISIK DRIEN RAMPAK -->
+<section class="w-full bg-white py-space-3xl px-gutter lg:px-margin border-t border-outline-variant/60" id="lokasi-workshop">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-xl"><div class="col-span-1 lg:col-span-12 p-space-xl lg:p-space-2xl rounded-3xl bg-surface-container-low border border-outline-variant/80 shadow-sm flex flex-col gap-space-lg"><div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md border-b border-outline-variant/60 pb-space-md"><div class="flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="font-label-mono-sm text-caption text-gold-accent tracking-widest uppercase font-bold">Kunjungi Atelier &amp; Workshop Fisik</span><span class="font-caption text-caption text-emerald-700 font-semibold flex items-center gap-1 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> 2 Lokasi Resmi di Aceh Barat</span></div><h3 class="font-headline-sm text-h2 font-bold text-primary">Atelier Pusat &amp; Workshop Selempang FHd</h3><p class="font-body-sm text-body-md text-on-surface-variant max-w-3xl">Kunjungi showroom kami untuk ukur fitting jas, konsultasi bahan wol premium, atau pembuatan selempang wisuda komputer kilat di dua lokasi strategis Meulaboh &amp; Meureubo.</p></div><div class="flex flex-wrap items-center gap-space-sm"><a class="px-space-md py-space-sm rounded-xl bg-primary text-white font-headline-sm text-caption font-bold shadow-md hover:bg-slate-800 transition-colors flex items-center gap-1.5" href="https://wa.me/6282299256343" rel="noopener" target="_blank"><span class="material-symbols-outlined text-[16px]">chat</span><span class="">CS Selempang FHd</span></a><a class="px-space-md py-space-sm rounded-xl bg-white border border-outline-variant text-primary font-headline-sm text-caption font-bold hover:bg-surface-container transition-colors flex items-center gap-1.5" href="https://maps.google.com" rel="noopener" target="_blank"><span class="material-symbols-outlined text-[16px] text-gold-accent">navigation</span><span class="">Rute Maps</span></a></div></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg"><div class="p-space-lg rounded-2xl bg-white border border-outline-variant/70 shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-all"><div class="flex flex-col gap-space-sm"><div class="flex items-center justify-between"><span class="font-caption text-[11px] bg-amber-50 text-gold-accent border border-gold-border px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Lokasi 1 • Atelier Pusat</span><span class="font-caption text-[11px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Fitting &amp; Persewaan Jas</span></div><h4 class="font-headline-sm text-headline-sm font-bold text-primary">Fardi Atelier Pusat (Jas &amp; Pantofel)</h4><p class="font-body-sm text-body-sm text-on-surface-variant">Pusat fitting jas eksekutif pria, setelan rompi, kemeja, celana wol, dan persewaan sepatu pantofel kilap bergaransi pas 100%.</p><div class="flex flex-col gap-1.5 pt-space-xs text-body-sm text-on-surface-variant"><div class="flex items-start gap-2"><span class="material-symbols-outlined text-gold-accent text-[18px] shrink-0 mt-0.5">location_on</span><span class="text-primary font-medium">Jl. Imam Bonjol, Drien Rampak, Johan Pahlawan, Meulaboh, Aceh Barat (Dekat Bundaran Pelor &amp; Kampus)</span></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-gold-accent text-[18px] shrink-0">schedule</span><span class="">Buka Setiap Hari: 09.00 - 21.00 WIB</span></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-gold-accent text-[18px] shrink-0">call</span><span class="">WhatsApp: 0852-6088-XXXX</span></div></div></div><div class="pt-space-sm border-t border-outline-variant/50 flex items-center justify-between"><span class="font-caption text-caption text-on-surface-variant font-medium">500+ Set Jas Siap Fitting</span><a class="inline-flex items-center gap-1 text-caption font-bold text-primary hover:text-gold-accent transition-colors" href="https://maps.google.com" target="_blank"><span class="">Buka di Peta</span><span class="material-symbols-outlined text-[14px]">arrow_forward</span></a></div></div><div class="p-space-lg rounded-2xl bg-white border border-gold-border shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-all relative overflow-hidden"><div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-amber-100/50 blur-2xl pointer-events-none"></div><div class="flex flex-col gap-space-sm relative z-10"><div class="flex items-center justify-between"><span class="font-caption text-[11px] bg-amber-100 text-primary border border-gold-border px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Lokasi 2 • Galeri Cabang</span><span class="font-caption text-[11px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Produksi Kilat 24 Jam</span></div><h4 class="font-headline-sm text-headline-sm font-bold text-primary">Selempang Aceh Barat FHd</h4><p class="font-body-sm text-body-sm text-on-surface-variant">Workshop produksi spesialis custom selempang bordir komputer untuk sidang meja hijau, yudisium, dan wisuda akbar dengan benang emas presisi tinggi, serta persewaan jas &amp; atribut pendukung.</p><div class="flex flex-col gap-1.5 pt-space-xs text-body-sm text-on-surface-variant"><div class="flex items-start gap-2"><span class="material-symbols-outlined text-gold-accent text-[18px] shrink-0 mt-0.5">location_on</span><span class="text-primary font-medium">Gunung Kleng, Jl. Alue Peunyareng, Gunong Kleng, Kec. Meureubo, Kabupaten Aceh Barat, Aceh 23615</span></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-gold-accent text-[18px] shrink-0">verified</span><span class="font-medium text-primary">Layanan: Selempang Wisuda/Sidang + Sewa Jas, Dasi, Kemeja &amp; Pantofel</span></div><div class="flex flex-wrap items-center gap-x-4 gap-y-1 pt-1"><a class="flex items-center gap-1.5 text-emerald-700 font-semibold text-caption hover:underline" href="https://wa.me/6282299256343" target="_blank"><span class="material-symbols-outlined text-[16px]">chat</span><span class="">WhatsApp: +62 822-9925-6343</span></a><a class="flex items-center gap-1.5 text-primary font-semibold text-caption hover:text-gold-accent" href="https://instagram.com/selempang_acehbarat" target="_blank"><span class="material-symbols-outlined text-[16px] text-amber-500">photo_camera</span><span class="">IG: @selempang_acehbarat</span></a></div></div></div><div class="pt-space-sm border-t border-outline-variant/50 flex items-center justify-between relative z-10"><span class="font-caption text-caption text-gold-accent font-bold">Official Atelier Partner</span><a class="inline-flex items-center gap-1 text-caption font-bold text-primary hover:text-gold-accent transition-colors" href="https://instagram.com/selempang_acehbarat" target="_blank"><span class="">Lihat Portofolio Selempang</span><span class="material-symbols-outlined text-[14px]">arrow_forward</span></a></div></div></div></div></div>
+</section>
+<!-- MODAL BOOKING POPUP -->
+<div class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm items-center justify-center p-gutter" id="bookingModal">
+<div class="w-full max-w-lg bg-white rounded-2xl p-space-xl shadow-2xl relative border border-outline-variant">
+<div class="flex items-center justify-between pb-space-sm border-b border-outline-variant/60">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-gold-accent uppercase font-bold tracking-wider">Konfirmasi Booking Atelier</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-primary" id="modalProductName">Paket Jas Wisuda</h3>
+</div>
+<button class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary" onclick="closeBookingModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-md pt-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-caption text-caption text-on-surface-variant font-semibold">Nama Pemesan</label>
+<input class="w-full bg-surface-container-low border border-outline-variant px-space-md py-space-sm rounded-lg text-primary focus:outline-none focus:border-primary font-medium" id="bookingClientName" placeholder="Nama Lengkap Anda" type="text">
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-space-xs">
+<label class="font-caption text-caption text-on-surface-variant font-semibold">Pilihan Ukuran</label>
+<select class="w-full bg-surface-container-low border border-outline-variant px-space-md py-space-sm rounded-lg text-primary focus:outline-none focus:border-primary font-medium" id="bookingSizeSelect">
+<option value="S">Size S (Slimfit)</option>
+<option selected="" value="M">Size M (Slimfit)</option>
+<option value="L">Size L (Reguler)</option>
+<option value="XL">Size XL</option>
+<option value="XXL">Size XXL</option>
+</select>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-caption text-caption text-on-surface-variant font-semibold">No. WhatsApp</label>
+<input class="w-full bg-surface-container-low border border-outline-variant px-space-md py-space-sm rounded-lg text-primary focus:outline-none focus:border-primary font-medium" id="bookingClientPhone" placeholder="08xxxxxxxxxx" type="tel">
+</div>
+</div>
+<div class="flex justify-between items-center p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60">
+<span class="font-body-sm text-body-sm text-primary font-semibold">Total Pembayaran:</span>
+<span class="font-label-mono-price text-headline-sm text-primary font-bold" id="modalTotalPrice">Rp 120.000</span>
+</div>
+<button class="w-full py-space-md rounded-lg bg-primary text-white font-headline-sm text-body-sm font-bold shadow-md hover:bg-slate-800 transition-colors" onclick="submitBookingToWhatsApp()">
+          Kirim Data &amp; Kunci Jadwal
+        </button>
+</div>
+</div>
+</div>
+<!-- INLINE CLIENT INTERACTION SCRIPTS -->
+<script>
+    // Category Filter in Catalog
+    function filterCatalog(category, el) {
+      document.querySelectorAll('.catalog-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-white', 'shadow-sm');
+        btn.classList.add('text-on-surface-variant');
+      });
+      el.classList.add('bg-primary', 'text-white', 'shadow-sm');
+      el.classList.remove('text-on-surface-variant');
+
+      const items = document.querySelectorAll('.product-item');
+      items.forEach(item => {
+        if (category === 'all' || item.classList.contains(category)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Smart Size Calculator Logic
+    function calculateSuitSize() {
+      const height = parseInt(document.getElementById('heightSlider').value);
+      const weight = parseInt(document.getElementById('weightSlider').value);
+      
+      document.getElementById('heightDisplay').textContent = height + ' cm';
+      document.getElementById('weightDisplay').textContent = weight + ' kg';
+
+      let size = 'M';
+      let spec = 'Lingkar Dada: 96cm | Pjg Jas: 71cm | Celana: 30-31';
+
+      if (weight < 54 || (height < 165 && weight < 58)) {
+        size = 'S';
+        spec = 'Lingkar Dada: 92cm | Pjg Jas: 68cm | Celana: 28-29';
+      } else if (weight <= 68 && height <= 175) {
+        size = 'M';
+        spec = 'Lingkar Dada: 96cm | Pjg Jas: 71cm | Celana: 30-31';
+      } else if (weight <= 78 && height <= 180) {
+        size = 'L';
+        spec = 'Lingkar Dada: 102cm | Pjg Jas: 73cm | Celana: 32-34';
+      } else if (weight <= 90) {
+        size = 'XL';
+        spec = 'Lingkar Dada: 108cm | Pjg Jas: 75cm | Celana: 35-37';
+      } else {
+        size = 'XXL';
+        spec = 'Lingkar Dada: 114cm+ | Pjg Jas: 77cm | Celana: 38-40';
+      }
+
+      document.getElementById('recommendedSizeLabel').textContent = 'Ukuran ' + size + ' (Slimfit)';
+      document.getElementById('sizeDetailsSpec').textContent = spec;
+      document.getElementById('sizeBadgeLetter').textContent = size;
+    }
+
+    // Realtime Date Checker
+    function checkDateAvailability() {
+      const pickedDate = new Date(document.getElementById('eventDatePicker').value);
+      if (isNaN(pickedDate.getTime())) return;
+
+      const takeDate = new Date(pickedDate);
+      takeDate.setDate(takeDate.getDate() - 1);
+
+      const returnDate = new Date(pickedDate);
+      returnDate.setDate(returnDate.getDate() + 1);
+
+      const options = { day: 'numeric', month: 'short', year: 'numeric' };
+      document.getElementById('dateMain').textContent = pickedDate.toLocaleDateString('id-ID', options);
+      document.getElementById('dateTake').textContent = takeDate.toLocaleDateString('id-ID', options);
+      document.getElementById('dateReturn').textContent = returnDate.toLocaleDateString('id-ID', options);
+    }
+
+    // Live Customizer Logic
+    function updateSashPreview() {
+      const name = document.getElementById('sashNameInput').value || 'Nama & Gelar Wisuda';
+      const campus = document.getElementById('campusSelect').value;
+      
+      document.getElementById('previewNameDisplay').textContent = name;
+      document.getElementById('previewCampusText').textContent = campus.toUpperCase();
+    }
+
+    function setSashColor(color, el) {
+      document.querySelectorAll('.sash-color-btn').forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-white', 'shadow-sm', 'font-bold');
+        btn.classList.add('bg-white', 'border', 'border-outline-variant', 'text-on-surface-variant');
+      });
+      el.classList.add('bg-primary', 'text-white', 'shadow-sm', 'font-bold');
+      el.classList.remove('bg-white', 'border', 'border-outline-variant', 'text-on-surface-variant');
+
+      const box = document.getElementById('sashMockupContainer');
+      if (color === 'black') box.style.backgroundColor = '#090A0F';
+      if (color === 'navy') box.style.backgroundColor = '#0c1626';
+      if (color === 'maroon') box.style.backgroundColor = '#2a0a10';
+    }
+
+    function setSashFont(font, el) {
+      document.querySelectorAll('.sash-font-btn').forEach(btn => {
+        btn.classList.remove('bg-amber-50', 'border-gold-border', 'text-primary', 'font-bold');
+        btn.classList.add('bg-white', 'border-outline-variant', 'text-on-surface-variant');
+      });
+      el.classList.add('bg-amber-50', 'border-gold-border', 'text-primary', 'font-bold');
+      el.classList.remove('bg-white', 'border-outline-variant', 'text-on-surface-variant');
+
+      const text = document.getElementById('previewNameDisplay');
+      text.classList.remove('font-serif', 'font-sans', 'font-mono');
+      if (font === 'serif') text.classList.add('font-serif');
+      if (font === 'sans') text.classList.add('font-sans');
+      if (font === 'mono') text.classList.add('font-mono');
+    }
+
+    function orderCustomSash() {
+      const name = document.getElementById('sashNameInput').value;
+      const campus = document.getElementById('campusSelect').value;
+      const msg = encodeURIComponent(`Halo Bg Fardi, saya ingin order Custom Selempang Bludru:\nNama & Gelar: ${name}\nAlmamater: ${campus}`);
+      window.open(`https://wa.me/6285260880000?text=${msg}`, '_blank');
+    }
+
+    // Interactive Booking Modal
+    let currentSelectedPrice = 120000;
+    let currentSelectedProduct = 'Paket Lengkap Wisuda';
+
+    function openBookingModal(productName, price) {
+      currentSelectedProduct = productName;
+      currentSelectedPrice = price;
+      document.getElementById('modalProductName').textContent = productName;
+      document.getElementById('modalTotalPrice').textContent = 'Rp ' + price.toLocaleString('id-ID');
+      const modal = document.getElementById('bookingModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function openBookingWithSelectedDate() {
+      const date = document.getElementById('eventDatePicker').value;
+      openBookingModal(`Paket Jas Wisuda (Tanggal: ${date})`, 120000);
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById('bookingModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function submitBookingToWhatsApp() {
+      const name = document.getElementById('bookingClientName').value || 'Wisudawan';
+      const size = document.getElementById('bookingSizeSelect').value;
+      const phone = document.getElementById('bookingClientPhone').value || '-';
+      const msg = encodeURIComponent(`Halo Fardi Atelier Meulaboh,\n\nSaya ingin konfirmasi booking:\n- Produk: ${currentSelectedProduct}\n- Nama: ${name}\n- Pilihan Size: ${size}\n- WhatsApp: ${phone}\n- Estimasi Total: Rp ${currentSelectedPrice.toLocaleString('id-ID')}\n\nMohon amankan ketersediaan slotnya. Terima kasih!`);
+      window.open(`https://wa.me/6285260880000?text=${msg}`, '_blank');
+      closeBookingModal();
+    }
+
+    function viewDetails(productName) {
+      openBookingModal(productName, 120000);
+    }
+
+    // Sandbox & Utilities
+    function copyToClipboard(text, btn) {
+      navigator.clipboard.writeText(text);
+      const originalText = btn.textContent;
+      btn.textContent = 'Tersalin!';
+      setTimeout(() => { btn.textContent = originalText; }, 2000);
+    }
+
+    function simulateMidtransSuccess() {
+      const notice = document.getElementById('paymentSuccessNotice');
+      notice.classList.remove('hidden');
+      notice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function sendQuickPrompt(promptText) {
+      const msg = encodeURIComponent(`Halo Kanda Fardi AI, ${promptText}`);
+      window.open(`https://wa.me/6285260880000?text=${msg}`, '_blank');
+    }
+
+    // QRIS Dynamic Countdown simulator
+    let timeLeft = 14 * 60 + 59;
+    const countdownEl = document.getElementById('qrisCountdown');
+    setInterval(() => {
+      if (timeLeft <= 0) return;
+      timeLeft--;
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      if (countdownEl) {
+        countdownEl.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      }
+    }, 1000);
+  </script>
+</div></main><footer class="w-full bg-[#0d111a] text-slate-300 border-t border-slate-800/80"><div class="max-w-7xl mx-auto px-6 py-12 lg:py-16"><div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12"><div class="md:col-span-5 flex flex-col gap-4"><div class="flex items-center gap-3"><img alt="Fardi Atelier Logo" class="h-8 w-auto object-contain brightness-200" src="https://lh3.googleusercontent.com/aida/AEtjO1UBI9TLAAwnsW7-Bs_gIr5DXfXu0AW56Z64JiHEyoc0ZnrYFP95dGVLl4jQ0Q9Bm_4dHKQBQNfd4ZJIRawIrWB9QuTgaL4Bb2x2pRVJk65qCraoSCAFbipPF8eLZlQNfLz-D1BBJybjJ9wtOygd8oJGfiXN_EmpM28UYoOvcgD0mz7Y_oKr2LKJjyrSYLyVByklPjOqgIMrwYEsSiqkpzG8RShpbW2ytris3O5_nJtPIInjMUsfCKDWExE"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-white">FARDI ATELIER</span><span class="font-caption text-[11px] text-amber-400 font-semibold tracking-widest uppercase">Meulaboh • Bespoke &amp; Rental</span></div></div><p class="font-body-sm text-body-sm text-slate-400 max-w-sm leading-relaxed mt-1">Bespoke tailoring, persewaan jas formal wisuda &amp; selempang bordir presisi di Meulaboh, Aceh Barat.</p><div class="flex items-center gap-2 text-[11px] tracking-wider text-slate-500 uppercase font-semibold mt-1"><span class="material-symbols-outlined text-[14px] text-amber-400">verified</span><span class="">EST. 2023 • MEULABOH, ACEH BARAT</span></div></div><div class="md:col-span-3 flex flex-col gap-3"><h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">NAVIGASI CEPAT</h3><nav class="flex flex-col gap-2.5 text-body-sm"><a class="text-slate-400 hover:text-white transition-colors duration-200" data-path="beranda" href="#">Beranda</a><a class="text-slate-400 hover:text-white transition-colors duration-200" data-path="tentang-kami" href="#">Tentang Kami</a><a class="text-slate-400 hover:text-white transition-colors duration-200" data-path="katalog-produk" href="#katalog">Katalog Produk</a><a class="text-slate-400 hover:text-white transition-colors duration-200" data-path="galeri" href="#customizer">Galeri</a><a class="text-slate-400 hover:text-white transition-colors duration-200" data-path="blog" href="#">Blog</a><a class="text-slate-400 hover:text-white transition-colors duration-200" href="#">Syarat &amp; Ketentuan Sewa</a></nav></div><div class="md:col-span-4 flex flex-col gap-3"><h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">KONTAK &amp; WORKSHOP</h3><div class="flex flex-col gap-3 text-body-sm text-slate-400"><div class="flex items-start gap-3"><span class="material-symbols-outlined text-[18px] text-amber-400 shrink-0 mt-0.5">location_on</span><span class="leading-relaxed">Jl. Imam Bonjol, Drien Rampak &amp; Workshop Selempang Gunong Kleng, Meureubo, Aceh Barat</span></div><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[18px] text-amber-400 shrink-0">call</span><span class="">Hotline: 0822-9925-6343 / 0852-6088-XXXX</span></div><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[18px] text-amber-400 shrink-0">schedule</span><span class="">Setiap Hari: 09.00 - 21.00 WIB</span></div></div></div></div><div class="border-t border-slate-800/80 pt-6 mt-12 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400"><p class="">© 2026 Fardi Atelier. All rights reserved. Designed &amp; Developed by Knyexus Studio Agency</p><div class="flex items-center gap-6"><a class="hover:text-slate-200 transition-colors" href="#">Privasi &amp; Keamanan</a><a class="hover:text-slate-200 transition-colors" href="#">Syarat Layanan</a></div></div></div></footer>
+
+
+<div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 select-none" id="kandaFloatingWidget"><div class="hidden w-[360px] max-w-[calc(100vw-2rem)] bg-white rounded-3xl shadow-2xl border border-outline-variant/80 overflow-hidden flex-col transition-all duration-300 mb-2" id="kandaChatPopover" style="box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.25);"><div class="bg-slate-900 text-white p-space-md flex items-center justify-between border-b border-slate-800 relative"><div class="flex items-center gap-space-sm"><div class="relative"><div class="w-10 h-10 rounded-full bg-amber-500/20 border border-gold-border flex items-center justify-center text-amber-400"><span class="material-symbols-outlined text-[24px]">smart_toy</span></div><span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-slate-900"></span></div><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-headline-sm text-body-sm font-bold text-white">Kanda Fardi AI</span><span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-1.5 py-0.2 rounded border border-emerald-400/40 uppercase">ONLINE</span></div><span class="font-caption text-[11px] text-slate-300">Asisten Fitting &amp; Konsultasi Wisuda</span></div></div><button class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors" onclick="toggleKandaChat()"><span class="material-symbols-outlined text-[18px]">close</span></button></div><div class="p-space-md bg-surface-container-low max-h-[380px] overflow-y-auto flex flex-col gap-space-sm"><div class="text-center"><span class="font-caption text-[10px] text-on-surface-variant/70 bg-white/80 px-2.5 py-0.5 rounded-full border border-outline-variant/40">Buka Setiap Hari 09.00 - 21.00 WIB</span></div><div class="flex items-start gap-space-xs"><div class="w-7 h-7 rounded-full bg-amber-50 border border-gold-border flex items-center justify-center text-gold-accent shrink-0 mt-0.5"><span class="material-symbols-outlined text-[16px]">smart_toy</span></div><div class="p-space-md rounded-2xl rounded-tl-sm bg-white border border-outline-variant/70 text-on-surface shadow-sm font-body-sm text-body-sm leading-relaxed"><p class=""><strong>Pue haba Rakan!</strong> Butuh info ketersediaan jas wisuda UTU/STAIN, rekomendasi ukuran fitting, atau custom selempang bordir kilat? Tanyakan langsung di sini!</p></div></div><div class="flex flex-col gap-1.5 pt-space-xs"><span class="font-caption text-[11px] text-on-surface-variant font-semibold">Opsi Cepat:</span><div class="flex flex-wrap gap-1.5"><button class="px-space-sm py-1 bg-white hover:bg-surface-container text-primary border border-outline-variant/70 rounded-full text-caption font-medium transition-colors shadow-sm" onclick="handleQuickAction('Cek Size Jas')">📏 Cek Size Jas</button><button class="px-space-sm py-1 bg-white hover:bg-surface-container text-primary border border-outline-variant/70 rounded-full text-caption font-medium transition-colors shadow-sm" onclick="handleQuickAction('Selempang Kilat')">🎖️ Selempang Kilat</button><button class="px-space-sm py-1 bg-white hover:bg-surface-container text-primary border border-outline-variant/70 rounded-full text-caption font-medium transition-colors shadow-sm" onclick="handleQuickAction('Jadwal Wisuda')">📅 Jadwal Wisuda</button></div></div><div class="pt-space-xs"><a class="w-full py-2.5 px-space-md rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-headline-sm text-body-sm font-bold flex items-center justify-center gap-2 shadow-md transition-all" href="https://wa.me/6285260880000?text=Halo%20Bg%20Fardi,%20saya%20ingin%20konsultasi%20sewa%20jas%20&amp;%20selempang%20wisuda" target="_blank"><span class="material-symbols-outlined text-[20px]">chat</span><span class="">WhatsApp Hubungi Sekarang!</span></a></div></div><div class="p-space-sm bg-white border-t border-outline-variant/60 flex items-center gap-space-xs"><input class="flex-1 bg-surface-container-low border border-outline-variant/70 rounded-xl px-space-md py-2 text-primary font-body-sm text-body-sm focus:outline-none focus:border-primary transition-colors" id="kandaChatInput" onkeydown="if(event.key==='Enter') sendKandaMessage()" placeholder="Ketik pertanyaan Anda..." type="text"><button class="w-10 h-10 rounded-xl bg-primary hover:bg-slate-800 text-white flex items-center justify-center shadow-sm shrink-0 transition-colors" onclick="sendKandaMessage()"><span class="material-symbols-outlined text-[18px]">send</span></button></div></div><div class="bg-slate-900/90 text-white text-xs px-3.5 py-1.5 rounded-full shadow-lg border border-slate-700/60 backdrop-blur-md flex items-center gap-2 mb-1"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span class="font-medium tracking-wide">Konsultasi Wisuda Meulaboh</span></div><button class="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-white hover:bg-surface-container text-primary font-semibold text-body-sm shadow-xl border border-outline-variant/80 transition-all transform hover:-translate-y-0.5 active:scale-95 duration-200 group cursor-pointer" onclick="toggleKandaChat()"><span class="w-7 h-7 rounded-full bg-amber-50 border border-gold-border flex items-center justify-center text-gold-accent shrink-0"><span class="material-symbols-outlined text-amber-500 text-[18px]" id="launcherIcon">smart_toy</span></span><span class="">Tanya Kanda AI</span><span class="flex items-center gap-1 text-[11px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>Online 24/7</span></button><a class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-4 py-2.5 rounded-full shadow-xl shadow-emerald-900/20 flex items-center gap-2.5 transition-all transform hover:scale-105 active:scale-95" href="https://wa.me/6285260880000?text=Halo%20Bg%20Fardi,%20saya%20ingin%20konsultasi%20persewaan%20jas%20dan%20selempang%20wisuda" target="_blank"><span class="material-symbols-outlined text-[20px]">chat</span><span class="">Hubungi Sekarang!</span></a></div><script>function toggleKandaChat() { const popover = document.getElementById('kandaChatPopover'); const icon = document.getElementById('launcherIcon'); if (popover.classList.contains('hidden')) { popover.classList.remove('hidden'); popover.classList.add('flex'); if (icon) icon.textContent = 'chat'; } else { popover.classList.add('hidden'); popover.classList.remove('flex'); if (icon) icon.textContent = 'smart_toy'; } } function handleQuickAction(actionType) { let query = ''; if (actionType === 'Cek Size Jas') query = 'Halo Bg Fardi, saya mau cek rekomendasi ukuran jas wisuda yang pas.'; if (actionType === 'Selempang Kilat') query = 'Halo Bg Fardi, saya mau pesan selempang bordir kilat 1 hari jadi.'; if (actionType === 'Jadwal Wisuda') query = 'Halo Bg Fardi, saya mau cek jadwal ketersediaan jas untuk tanggal wisuda.'; window.open('https://wa.me/6285260880000?text=' + encodeURIComponent(query), '_blank'); } function sendKandaMessage() { const input = document.getElementById('kandaChatInput'); const val = input.value.trim(); if (!val) return; window.open('https://wa.me/6285260880000?text=' + encodeURIComponent('Halo Kanda Fardi AI / Bg Fardi: ' + val), '_blank'); input.value = ''; }</script>
+
+
+
+
+
+
+
+
+
+<script id="mobileNavHandler">function toggleMobileNav(show) { const drawer = document.getElementById('mobileNavDrawer'); if (!drawer) return; if (show) { drawer.classList.remove('hidden'); document.body.style.overflow = 'hidden'; } else { drawer.classList.add('hidden'); document.body.style.overflow = ''; } }</script></body></html>

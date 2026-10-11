@@ -1,0 +1,442 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Modern Luxury Tailoring × Academic Elegance — Light Design System
+   Source of truth: PRD.md & Energetic Orange Color System (Light Mode)
+   ──────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Colors — Stitch Modern Elegant Boutique Store Palette */
+  --color-primary:               #0f172a;  /* Deep Slate / Dark Navy */
+  --color-gold-accent:           #b48c28;  /* Prestige Gold Accent */
+  --color-gold-light:            #fef3c7;  /* Soft Gold Glow */
+  --color-gold-border:           #fde68a;  /* Subtle Gold Line */
+  --color-surface:               #faf9f6;  /* Luxury Warm Canvas */
+  --color-surface-container:     #f1f5f9;  /* Container Surface */
+  --color-surface-container-low: #f8fafc;  /* Subtle Low Surface */
+  --color-surface-lowest:        #ffffff;  /* Pure White Card */
+  --color-background:            #faf9f6;  /* Canvas Background */
+  --color-on-surface:            #0f172a;  /* Primary Text */
+  --color-on-surface-variant:    #475569;  /* Muted Text */
+  --color-outline-variant:       #cbd5e1;  /* Dividers & Borders */
+
+  /* Legacy & Functional Aliases */
+  --color-secondary:             #785a00;
+  --color-brand-orange:          #F97316;
+  --color-text:                  #0f172a;
+  --color-muted:                 #475569;
+  --color-border:                #cbd5e1;
+  --color-success:               #10b981;
+  --color-warning:               #f59e0b;
+  --color-danger:                #ef4444;
+
+  /* Typography */
+  --font-serif:   var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-sans:    var(--font-jakarta), "Plus Jakarta Sans", sans-serif;
+  --font-mono:    var(--font-mono), "JetBrains Mono", monospace;
+
+  /* Radius */
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    16px;
+  --radius-xl:    24px;
+}
+
+/* ─── Base Styles ─────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: #faf9f6;
+    color: #0f172a;
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    min-width: 360px;
+  }
+
+  /* Editorial Serif Headings */
+  h1, h2 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.015em;
+    font-weight: 600;
+  }
+
+  h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FEFBE8;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D1D5DB;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #F97316;
+  }
+
+  /* Form & Date Inputs */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: none;
+    cursor: pointer;
+  }
+}
+
+/* ─── Custom Utilities ────────────────────────────────────────────────── */
+@layer utilities {
+  /* Headline Emphasis Gradient: #F97316 -> #EA580C */
+  .text-brand-gradient {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Academic Gold Gradient */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Monospace Price Styling */
+  .font-price {
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  /* Editorial Serif Utility */
+  .font-editorial {
+    font-family: var(--font-serif);
+  }
+
+  /* Section Spacing Standard */
+  .section-padding {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  @media (min-width: 1024px) {
+    .section-padding {
+      padding-top: 7rem;
+      padding-bottom: 7rem;
+    }
+  }
+
+  /* Subtle Luxury Grid Background (Light Mode) */
+  .bg-atelier-grid {
+    background-image: linear-gradient(to right, rgba(209, 213, 219, 0.4) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(209, 213, 219, 0.4) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Subtle Dot Background */
+  .bg-atelier-dots {
+    background-image: radial-gradient(circle at 1px 1px, rgba(249, 115, 22, 0.2) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+
+  /* Luxury Card Lift Micro-Interaction (Light Mode) */
+  .card-luxury {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .card-luxury:hover {
+    border-color: rgba(249, 115, 22, 0.5);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 0 15px -3px rgba(249, 115, 22, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Primary Button Press (CTA) */
+  .btn-primary {
+    background-color: #F97316;
+    color: #FFFFFF;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  .btn-primary:hover {
+    background-color: #FB923C;
+    box-shadow: 0 6px 20px -4px rgba(249, 115, 22, 0.35);
+  }
+  .btn-primary:active {
+    transform: scale(0.97);
+  }
+
+  /* Secondary Button */
+  .btn-secondary {
+    background-color: #FFFFFF;
+    color: #111827;
+    border: 1px solid #E5E7EB;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  .btn-secondary:hover {
+    background-color: #F3F4F6;
+    border-color: #D1D5DB;
+  }
+  .btn-secondary:active {
+    transform: scale(0.97);
+  }
+
+  /* ── Keyframe Animations ─────────────────────────────────────────── */
+  @keyframes subtle-zoom {
+    0%   { transform: scale(1.02); }
+    100% { transform: scale(1.07); }
+  }
+  .animate-subtle-zoom {
+    animation: subtle-zoom 20s ease-in-out alternate infinite;
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.6; }
+  }
+  .animate-pulse-subtle {
+    animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes typewriter-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+  .animate-typewriter-blink {
+    animation: typewriter-blink 0.8s infinite;
+  }
+
+  /* React Bits Marquee Loop */
+  @keyframes marquee-loop {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-marquee-loop {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: marquee-loop 60s linear infinite;
+  }
+  .animate-marquee-loop:hover,
+  .group\/marquee:hover .animate-marquee-loop {
+    animation-play-state: paused;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     ANTI-GRAVITY / FLOATING & LEVITATION SYSTEM
+     High-performance hardware-accelerated continuous levitation
+     ──────────────────────────────────────────────────────────────────────── */
+
+  /* Gentle / subtle float (default) */
+  @keyframes antigravity-gentle {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(0, -7px, 0) rotate(0.4deg);
+    }
+  }
+
+  /* Slow, deep cosmic levitation */
+  @keyframes antigravity-slow {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(0, -13px, 0) rotate(-0.8deg);
+    }
+  }
+
+  /* Medium balanced floating */
+  @keyframes antigravity-medium {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(0, -9px, 0) rotate(0.6deg);
+    }
+  }
+
+  /* Fast / lively orbit float */
+  @keyframes antigravity-fast {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(0, -5px, 0) rotate(-0.5deg);
+    }
+  }
+
+  /* Multi-axis drifting float (X + Y + Rotation) */
+  @keyframes antigravity-drift {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    33% {
+      transform: translate3d(4px, -8px, 0) rotate(0.7deg);
+    }
+    66% {
+      transform: translate3d(-4px, -11px, 0) rotate(-0.7deg);
+    }
+  }
+
+  /* Rhythmic bobbing for badges, icons, and pills */
+  @keyframes antigravity-bob {
+    0%, 100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -4px, 0);
+    }
+  }
+
+  /* Dynamic Anti-Gravity Shadow (Simulates detachment from ground) */
+  @keyframes antigravity-shadow-pulse {
+    0%, 100% {
+      box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+    }
+    50% {
+      box-shadow: 0 20px 32px -8px rgba(15, 23, 42, 0.12), 0 8px 16px -4px rgba(15, 23, 42, 0.06);
+    }
+  }
+
+  /* Ambient Gold Glow Levitation */
+  @keyframes antigravity-glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 15px -3px rgba(180, 140, 40, 0.15);
+    }
+    50% {
+      box-shadow: 0 0 30px 4px rgba(180, 140, 40, 0.35);
+    }
+  }
+
+  /* Base Anti-Gravity Classes */
+  .antigravity,
+  .antigravity-gentle,
+  .float-gentle {
+    animation: antigravity-gentle 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .antigravity-slow,
+  .float-slow {
+    animation: antigravity-slow 7s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .antigravity-medium,
+  .float-medium {
+    animation: antigravity-medium 4.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .antigravity-fast,
+  .float-fast {
+    animation: antigravity-fast 3.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .antigravity-drift,
+  .float-drift {
+    animation: antigravity-drift 6.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .antigravity-bob,
+  .float-bob {
+    animation: antigravity-bob 2.8s ease-in-out infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  /* Combined Floating + Dynamic Shadow */
+  .antigravity-shadow {
+    animation: antigravity-gentle 5.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+               antigravity-shadow-pulse 5.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    will-change: transform, box-shadow;
+  }
+
+  .antigravity-glow {
+    animation: antigravity-medium 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+               antigravity-glow-pulse 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    will-change: transform, box-shadow;
+  }
+
+  /* Hover pause helper (so users can interact or click comfortably) */
+  .antigravity-pause-hover:hover,
+  .float-pause-hover:hover {
+    animation-play-state: paused !important;
+  }
+
+  /* Stagger Delay Helpers */
+  .float-delay-100 { animation-delay: 0.1s; }
+  .float-delay-200 { animation-delay: 0.2s; }
+  .float-delay-300 { animation-delay: 0.3s; }
+  .float-delay-400 { animation-delay: 0.4s; }
+  .float-delay-500 { animation-delay: 0.5s; }
+  .float-delay-600 { animation-delay: 0.6s; }
+  .float-delay-700 { animation-delay: 0.7s; }
+  .float-delay-800 { animation-delay: 0.8s; }
+  .float-delay-900 { animation-delay: 0.9s; }
+  .float-delay-1000 { animation-delay: 1s; }
+  .float-delay-1200 { animation-delay: 1.2s; }
+  .float-delay-1500 { animation-delay: 1.5s; }
+  .float-delay-1800 { animation-delay: 1.8s; }
+  .float-delay-2000 { animation-delay: 2s; }
+  .float-delay-2500 { animation-delay: 2.5s; }
+  .float-delay-3000 { animation-delay: 3s; }
+
+  /* Duration Modifiers */
+  .float-duration-3s { animation-duration: 3s; }
+  .float-duration-4s { animation-duration: 4s; }
+  .float-duration-5s { animation-duration: 5s; }
+  .float-duration-6s { animation-duration: 6s; }
+  .float-duration-7s { animation-duration: 7s; }
+  .float-duration-8s { animation-duration: 8s; }
+
+  /* Accessibility: Respect Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .antigravity,
+    .antigravity-gentle,
+    .antigravity-slow,
+    .antigravity-medium,
+    .antigravity-fast,
+    .antigravity-drift,
+    .antigravity-bob,
+    .antigravity-shadow,
+    .antigravity-glow,
+    .float-slow,
+    .float-medium,
+    .float-fast,
+    .float-drift,
+    .float-bob,
+    .float-gentle {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+}

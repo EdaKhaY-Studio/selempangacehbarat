@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "stitch": {
+      "serverUrl": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "Authorization": "Bearer 66de3698ac394874af3fd5204ae619e3",
+        "X-Goog-User-Project": "3070793771598296371"
+      }
+    }
+  }
+}
