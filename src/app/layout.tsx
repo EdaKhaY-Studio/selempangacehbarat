@@ -94,57 +94,133 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": ["ClothingStore", "LocalBusiness"],
-  name: "Selempang Aceh Barat",
-  alternateName: ["Sewa Jas Sepatu Aceh Barat", "Selempang Wisuda Aceh Barat", "FHD Selempang"],
-  description:
-    "Pusat produksi selempang wisuda bludru & satin, konveksi PDH/almamater/medali, serta persewaan jas formal dan sepatu pantofel di Aceh Barat.",
-  url: "https://selempangacehbarat.com",
-  telephone: "+6282299256343",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Jln Alpen, Gampong Gunung Kleng, Kecamatan Meureubo",
-    addressLocality: "Meulaboh",
-    addressRegion: "Kabupaten Aceh Barat",
-    postalCode: "23681",
-    addressCountry: "ID",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 4.137,
-    longitude: 96.135,
-  },
-  openingHoursSpecification: [
+  "@graph": [
     {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
+      "@type": "WebSite",
+      "@id": "https://selempangacehbarat.com/#website",
+      url: "https://selempangacehbarat.com",
+      name: "Selempang Aceh Barat",
+      description:
+        "Pusat produksi selempang wisuda bordir kilat 1 hari, sewa jas formal & pantofel di Meulaboh.",
+      hasPart: [
+        {
+          "@type": "WebPage",
+          name: "Katalog Produk & Sewa Jas",
+          description:
+            "Katalog sewa jas formal, selempang wisuda bordir kilat, dan sepatu pantofel Meulaboh",
+          url: "https://selempangacehbarat.com/produk",
+        },
+        {
+          "@type": "WebPage",
+          name: "Tentang Kami",
+          description: "Profil usaha, visi, dan workshop Selempang Aceh Barat",
+          url: "https://selempangacehbarat.com/tentang-kami",
+        },
+        {
+          "@type": "WebPage",
+          name: "Galeri Wisudawan",
+          description: "Dokumentasi dan testimoni wisudawan UTU, STAIN & AKPER Aceh Barat",
+          url: "https://selempangacehbarat.com/galeri",
+        },
+        {
+          "@type": "WebPage",
+          name: "Blog & Panduan Wisuda",
+          description: "Tips ukuran jas, panduan wisuda, dan perbedaan selempang bludru vs satin",
+          url: "https://selempangacehbarat.com/blog",
+        },
       ],
-      opens: "08:00",
-      closes: "18:00",
     },
     {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
+      "@type": "ItemList",
+      "@id": "https://selempangacehbarat.com/#navigation",
+      name: "Navigasi Utama",
+      itemListElement: [
+        {
+          "@type": "SiteNavigationElement",
+          position: 1,
+          name: "Katalog Produk & Sewa Jas",
+          url: "https://selempangacehbarat.com/produk",
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 2,
+          name: "Tentang Kami",
+          url: "https://selempangacehbarat.com/tentang-kami",
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 3,
+          name: "Galeri Wisudawan",
+          url: "https://selempangacehbarat.com/galeri",
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 4,
+          name: "Blog & Panduan Wisuda",
+          url: "https://selempangacehbarat.com/blog",
+        },
       ],
-      opens: "20:00",
-      closes: "23:00",
+    },
+    {
+      "@type": ["ClothingStore", "LocalBusiness"],
+      "@id": "https://selempangacehbarat.com/#store",
+      name: "Selempang Aceh Barat",
+      alternateName: [
+        "Sewa Jas Sepatu Aceh Barat",
+        "Selempang Wisuda Aceh Barat",
+        "FHD Selempang",
+      ],
+      description:
+        "Pusat produksi selempang wisuda bludru & satin, konveksi PDH/almamater/medali, serta persewaan jas formal dan sepatu pantofel di Aceh Barat.",
+      url: "https://selempangacehbarat.com",
+      telephone: "+6282299256343",
+      image: "https://selempangacehbarat.com/Gambar/LOGOFHD.png",
+      priceRange: "Rp 15.000 – Rp 135.000",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Jln Alpen, Gampong Gunung Kleng, Kecamatan Meureubo",
+        addressLocality: "Meulaboh",
+        addressRegion: "Kabupaten Aceh Barat",
+        postalCode: "23681",
+        addressCountry: "ID",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 4.137,
+        longitude: 96.135,
+      },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+          ],
+          opens: "08:00",
+          closes: "18:00",
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+          ],
+          opens: "20:00",
+          closes: "23:00",
+        },
+      ],
     },
   ],
-  priceRange: "Rp 15.000 – Rp 135.000",
 };
 
 export default function RootLayout({
