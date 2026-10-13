@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/:path*",
+        source: "/:path((?!sitemap\\.xml|robots\\.txt|favicon\\.ico).*)",
         has: [{ type: "host", value: "www.selempangacehbarat.com" }],
         destination: "https://selempangacehbarat.com/:path*",
         permanent: true,
