@@ -88,9 +88,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/Gambar/LOGOFHD.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: "/Gambar/LOGOFHD.png",
+    apple: [
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+    ],
   },
   verification: {
     google: "NcApH-TXrnGY14mm3ebmb05zqlKtnUaBJsjkmTlW2oE",
