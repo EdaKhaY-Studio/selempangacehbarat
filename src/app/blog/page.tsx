@@ -7,7 +7,7 @@ import { AIChatbot } from "@/components/ui/AIChatbot";
 import { ChevronRight, ArrowRight, MessageCircle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Blog & Panduan Wisuda | Selempang Aceh Barat",
+  title: "Blog & Panduan Wisuda | Selempang Aceh Barat (FHD)",
   description:
     "Kumpulan tips dan panduan persiapan busana wisuda di Meulaboh, Aceh Barat: ukuran jas pria, komparasi bahan selempang bludru vs satin, dan checklist wisuda.",
   alternates: {
@@ -15,25 +15,26 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: "Blog & Panduan Wisuda | Selempang Aceh Barat",
+    title: "Blog & Panduan Wisuda | Selempang Aceh Barat (FHD)",
     description:
       "Edukasi dan tips busana resmi untuk wisudawan Universitas Teuku Umar (UTU) & STAIN Meulaboh.",
     url: "https://selempangacehbarat.com/blog",
-    siteName: "Selempang Aceh Barat",
+    siteName: "Selempang Aceh Barat (FHD)",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1200&h=630&auto=format&fit=crop&q=80",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Blog Selempang Aceh Barat",
+        alt: "Blog Selempang Aceh Barat (FHD)",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog & Panduan Wisuda | Selempang Aceh Barat",
+    title: "Blog & Panduan Wisuda | Selempang Aceh Barat (FHD)",
     description:
       "Edukasi dan tips busana resmi untuk wisudawan Universitas Teuku Umar (UTU) & STAIN Meulaboh.",
+    images: ["/og-image.jpg"],
   },
 };
 
@@ -59,6 +60,23 @@ export default function BlogListingPage() {
           </span>
         </div>
       </div>
+
+      {/* 2.5 Page Title Banner with Semantic H1 */}
+      <section className="bg-gradient-to-b from-white to-[#faf9f6] pt-10 pb-6 border-b border-[#cbd5e1]/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#b48c28] mb-2 inline-flex items-center gap-1.5">
+              Panduan Resmi Wisudawan Meulaboh
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0f172a] tracking-tight mb-4">
+              Blog &amp; Panduan Busana Wisuda
+            </h1>
+            <p className="text-sm sm:text-base text-[#475569] font-light leading-relaxed">
+              Kumpulan artikel edukatif, komparasi bahan selempang bordir bludru vs satin, panduan ukuran jas pria dan wanita, serta checklist persiapan yudisium &amp; wisuda di Meulaboh, Aceh Barat.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* 3. Artikel Edukasi & Panduan Wisuda (Grid Card Artikel) */}
       <BlogSection />

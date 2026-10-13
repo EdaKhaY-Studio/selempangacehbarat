@@ -16,33 +16,34 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Katalog Produk & Tarif Sewa | Selempang Aceh Barat",
+  title: "Katalog Produk & Tarif Sewa | Selempang Aceh Barat (FHD)",
   description:
-    "Katalog resmi selempang wisuda bordir komputer bludru & satin, sewa jas formal pria/wanita, sepatu pantofel, dan seragam PDH di Meulaboh, Aceh Barat.",
+    "Katalog resmi selempang wisuda bordir komputer bludru & satin kilat, sewa jas wisuda & sidang skripsi, sepatu pantofel, dan konveksi PDH di Meulaboh, Aceh Barat.",
   alternates: {
     canonical: "https://selempangacehbarat.com/produk",
   },
   openGraph: {
     type: "website",
-    title: "Katalog Produk & Tarif Sewa | Selempang Aceh Barat",
+    title: "Katalog Produk & Tarif Sewa | Selempang Aceh Barat (FHD)",
     description:
       "Koleksi lengkap atribut wisuda & sewa busana formal nomor 1 di Meulaboh. Bordir kilat 1 hari, ukuran lengkap S-3XL.",
     url: "https://selempangacehbarat.com/produk",
-    siteName: "Selempang Aceh Barat",
+    siteName: "Selempang Aceh Barat (FHD)",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&h=800&auto=format&fit=crop&q=80",
-        width: 800,
-        height: 800,
-        alt: "Katalog Produk Selempang Aceh Barat",
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Katalog Produk Selempang Aceh Barat (FHD)",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Katalog Produk & Tarif Sewa | Selempang Aceh Barat",
+    title: "Katalog Produk & Tarif Sewa | Selempang Aceh Barat (FHD)",
     description:
       "Koleksi lengkap atribut wisuda & sewa busana formal nomor 1 di Meulaboh. Bordir kilat 1 hari, ukuran lengkap S-3XL.",
+    images: ["/og-image.jpg"],
   },
 };
 

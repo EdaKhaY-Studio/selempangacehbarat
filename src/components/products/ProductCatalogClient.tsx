@@ -249,7 +249,11 @@ export function ProductCatalogClient({ products }: ProductCatalogClientProps) {
                 </Link>
 
                 <a
-                  href={`https://wa.me/6282299256343?text=Halo%20Selempang%20Aceh%20Barat,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
+                  href={`https://wa.me/${
+                    product.category === "sewa-outfit" || product.slug.startsWith("sewa-")
+                      ? "6282276027590"
+                      : "6282299256343"
+                  }?text=Halo%20Selempang%20Aceh%20Barat,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
                     product.name
                   )}`}
                   target="_blank"

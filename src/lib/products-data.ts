@@ -32,7 +32,7 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
   {
     id: "selempang-custom-1",
     slug: "selempang-wisuda-bludru-satin",
-    name: "Selempang Wisuda Bordir Komputer (Bahan Bludru & Satin)",
+    name: "Selempang Wisuda Custom & Bordir Nama Gelar (Bludru & Satin)",
     category: "selempang",
     categoryLabel: "Selempang",
     price: 50000,
@@ -86,7 +86,7 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
   {
     id: "paket-lengkap-1",
     slug: "sewa-jas-pria-dasi-formal",
-    name: "Sewa Jas Pria + Dasi Formal Wisuda",
+    name: "Sewa Jas Wisuda & Sidang Skripsi Pria + Dasi Formal",
     category: "sewa-outfit",
     categoryLabel: "Sewa Outfit",
     price: 50000,
@@ -139,7 +139,7 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
   {
     id: "bundling-sultan-1",
     slug: "sewa-jas-wanita-busana-formal",
-    name: "Sewa Jas Wanita & Setelan Busana Formal",
+    name: "Sewa Jas Wanita Wisuda & Setelan Busana Formal Sidang",
     category: "sewa-outfit",
     categoryLabel: "Sewa Outfit",
     price: 35000,
@@ -193,7 +193,7 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
   {
     id: "sepatu-pantofel-1",
     slug: "sewa-sepatu-pantofel",
-    name: "Sewa & Jual Sepatu Pantofel Pria & Wanita",
+    name: "Sewa & Jual Sepatu Pantofel Pria & Wanita Wisuda",
     category: "sewa-outfit",
     categoryLabel: "Sewa Outfit",
     price: 30000,
@@ -242,7 +242,7 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
   {
     id: "jas-satuan-1",
     slug: "baju-pdh-kaos-almamater",
-    name: "Konveksi Baju PDH, Kaos & Jas Almamater Kampus",
+    name: "Konveksi Baju PDH, Kaos & Jas Almamater Kampus Aceh Barat",
     category: "apparel-pdh",
     categoryLabel: "Apparel / PDH",
     price: 85000,

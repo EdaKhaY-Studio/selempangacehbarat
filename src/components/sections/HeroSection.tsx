@@ -154,7 +154,7 @@ export function HeroSection() {
               </div>
 
               <h1 className="font-serif text-2xl xs:text-3xl sm:text-4xl lg:text-[42px] xl:text-[48px] font-bold text-[#0f172a] tracking-tight leading-[1.2]">
-                Kemewahan Jahitan Formal &amp; Kebanggaan Wisuda —{" "}
+                Selempang Wisuda &amp; Sewa Jas Aceh Barat —{" "}
                 <span className="relative inline-block align-top text-[#b48c28] italic font-serif pb-1.5 min-h-[2.5em] sm:min-h-[1.25em]">
                   <span className="grid grid-cols-1 grid-rows-1 items-start text-left">
                     {/* ── GHOST SPACER: Permanently holds full height, line wraps & SVG underline space ── */}

@@ -86,6 +86,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const allProducts = getAllProducts();
   const relatedProducts = allProducts.filter((p) => p.slug !== product.slug);
 
+  const sellerPhone =
+    product.category === "sewa-outfit" ? "+6282276027590" : "+6282299256343";
+
   // Schema JSON-LD Product & Offer
   const jsonLd = {
     "@context": "https://schema.org",
@@ -96,7 +99,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
     sku: product.sku,
     brand: {
       "@type": "Brand",
-      name: "Selempang Aceh Barat",
+      name: "Selempang Aceh Barat (FHD)",
     },
     offers: {
       "@type": "Offer",
@@ -109,24 +112,18 @@ export default async function ProductDetailPage({ params }: PageProps) {
       priceValidUntil: "2027-12-31",
       seller: {
         "@type": "Organization",
-        name: "Selempang Aceh Barat",
-        telephone: "+6282299256343",
+        name: "Selempang Aceh Barat (FHD)",
+        telephone: sellerPhone,
         address: {
           "@type": "PostalAddress",
-          streetAddress: "Alpen Store Meulaboh, Jl. Sisingamangaraja",
-          addressLocality: "Meulaboh, Aceh Barat",
-          addressRegion: "Aceh",
+          streetAddress:
+            "Jl. Alue Peunyareng / Jln Alpen, Gampong Gunong Kleng, Kecamatan Meureubo",
+          addressLocality: "Meulaboh, Kecamatan Meureubo",
+          addressRegion: "Kabupaten Aceh Barat, Aceh",
           postalCode: "23615",
           addressCountry: "ID",
         },
       },
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: product.rating,
-      reviewCount: product.reviewCount,
-      bestRating: "5",
-      worstRating: "1",
     },
   };
 

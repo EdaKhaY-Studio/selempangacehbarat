@@ -8,13 +8,27 @@ import { AIChatbot } from "@/components/ui/AIChatbot";
 import { ChevronRight, ArrowRight, MessageCircle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Galeri Wisuda & Portofolio — Selempang Aceh Barat",
+  title: "Galeri Wisuda & Portofolio — Selempang Aceh Barat (FHD)",
   description:
     "Dokumentasi foto nyata hasil bordir komputer selempang wisuda bludru & satin, setelan jas formal, dan koleksi sepatu pantofel di Meulaboh, Aceh Barat.",
+  alternates: {
+    canonical: "https://selempangacehbarat.com/galeri",
+  },
   openGraph: {
-    title: "Galeri Wisuda & Portofolio — Selempang Aceh Barat",
+    type: "website",
+    title: "Galeri Wisuda & Portofolio — Selempang Aceh Barat (FHD)",
     description:
       "Koleksi foto produk selempang wisuda dan persewaan jas formal & sepatu pantofel mengacu pada akun Instagram @selempang_acehbarat dan @sewajassepatu_acehbarat.",
+    url: "https://selempangacehbarat.com/galeri",
+    siteName: "Selempang Aceh Barat (FHD)",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Galeri Wisuda & Portofolio Selempang Aceh Barat (FHD)",
+      },
+    ],
   },
 };
 
@@ -40,6 +54,23 @@ export default function GaleriPage() {
           </span>
         </div>
       </div>
+
+      {/* 2.5 Page Title Banner with Semantic H1 */}
+      <section className="bg-gradient-to-b from-white to-[#faf9f6] pt-10 pb-6 border-b border-[#cbd5e1]/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#b48c28] mb-2 inline-flex items-center gap-1.5">
+              Portofolio Hasil Atelier &amp; Persewaan Meulaboh
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0f172a] tracking-tight mb-4">
+              Galeri Wisudawan &amp; Portofolio Produk
+            </h1>
+            <p className="text-sm sm:text-base text-[#475569] font-light leading-relaxed">
+              Dokumentasi nyata hasil bordir selempang wisuda bludru &amp; satin, rental jas formal sidang, dan sepatu pantofel untuk wisudawan UTU, STAIN, dan kampus se-Aceh Barat.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* 3. Galeri Portofolio & Filter Interaktif */}
       <GallerySection />
@@ -70,7 +101,7 @@ export default function GaleriPage() {
               <span>Konsultasi Desain via WhatsApp</span>
             </a>
             <Link
-              href="/katalog-produk"
+              href="/produk"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs sm:text-sm tracking-wide transition-all border border-slate-700 active:scale-95"
             >
               <span>Pilih Paket di Katalog</span>

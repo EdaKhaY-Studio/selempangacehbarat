@@ -61,12 +61,22 @@ export function Footer() {
                 <Instagram size={15} />
               </a>
               <a
-                href="https://wa.me/6282299256343?text=Halo%20Selempang%20Aceh%20Barat,%20saya%20mau%20tanya%20pemesanan%20selempang%20dan%20sewa%20jas"
+                href="https://tiktok.com/@selempang_acehbarat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-[#b48c28] hover:border-[#b48c28]/60 transition-colors shadow-2xs antigravity float-bob float-delay-400 font-mono text-[11px] font-bold"
+                aria-label="TikTok Selempang Aceh Barat"
+                title="TikTok: @selempang_acehbarat"
+              >
+                TT
+              </a>
+              <a
+                href="https://wa.me/6282299256343?text=Halo%20Selempang%20Aceh%20Barat,%20saya%20mau%20tanya%20pemesanan%20selempang/konveksi"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-[#b48c28] hover:border-[#b48c28]/60 transition-colors shadow-2xs antigravity float-bob float-delay-500"
-                aria-label="WhatsApp Selempang Aceh Barat"
-                title="WhatsApp: 0822-9925-6343"
+                aria-label="WhatsApp Selempang & Konveksi"
+                title="WhatsApp Selempang: 0822-9925-6343"
               >
                 <MessageCircle size={15} />
               </a>
@@ -118,14 +128,28 @@ export function Footer() {
               <div className="flex items-start gap-3">
                 <MapPin size={17} className="text-[#b48c28] shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
-                  Jln Alpen, Gampong Gunung Kleng, Kecamatan Meureubo, Kabupaten Aceh Barat
+                  Jl. Alue Peunyareng / Jln Alpen, Gampong Gunong Kleng, Kecamatan Meureubo, Kabupaten Aceh Barat 23615
                 </span>
               </div>
               <div className="flex items-start gap-3">
                 <Phone size={17} className="text-[#b48c28] shrink-0 mt-0.5" />
-                <div className="flex flex-col">
-                  <span>Selempang: 0822-9925-6343</span>
-                  <span>Sewa Jas &amp; Sepatu: 0822-7602-7590</span>
+                <div className="flex flex-col gap-0.5">
+                  <a
+                    href="https://wa.me/6282299256343"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
+                    Selempang &amp; Konveksi: 0822-9925-6343
+                  </a>
+                  <a
+                    href="https://wa.me/6282276027590"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
+                    Sewa Jas &amp; Sepatu: 0822-7602-7590
+                  </a>
                 </div>
               </div>
               <div className="flex items-start gap-3">

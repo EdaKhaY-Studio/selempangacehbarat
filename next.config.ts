@@ -30,6 +30,11 @@ const nextConfig: NextConfig = {
         destination: "https://selempangacehbarat.com/:path*",
         permanent: true,
       },
+      {
+        source: "/katalog-produk",
+        destination: "/produk",
+        permanent: true,
+      },
     ];
   },
 };

@@ -11,25 +11,25 @@ import { ChevronRight, ArrowRight, MessageCircle } from "lucide-react";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "Tentang Kami — Selempang Aceh Barat | Produksi Selempang Wisuda & Rental Jas Meulaboh",
+  title: "Tentang Kami — Selempang Aceh Barat (FHD) | Produksi Selempang & Rental Jas Meulaboh",
   description:
-    "Mengenal Selempang Aceh Barat di Meulaboh. Produksi selempang wisuda bludru & satin bordir presisi, konveksi seragam, serta jasa persewaan jas formal & sepatu pantofel.",
+    "Profil Selempang Aceh Barat (FHD) di Jl. Alue Peunyareng Meureubo, Meulaboh. Spesialis bordir selempang wisuda kilat, sewa jas sidang & wisuda, serta konveksi PDH.",
   alternates: {
     canonical: "https://selempangacehbarat.com/tentang-kami",
   },
   openGraph: {
     type: "website",
-    title: "Tentang Kami — Selempang Aceh Barat",
+    title: "Tentang Kami — Selempang Aceh Barat (FHD)",
     description:
-      "Dedikasi nyata untuk kelulusan dan momen formal Anda di Meulaboh, Aceh Barat.",
+      "Dedikasi nyata untuk wisudawan Universitas Teuku Umar (UTU) & STAIN Meulaboh, Aceh Barat.",
     url: "https://selempangacehbarat.com/tentang-kami",
-    siteName: "Selempang Aceh Barat",
+    siteName: "Selempang Aceh Barat (FHD)",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&h=800&auto=format&fit=crop&q=80",
-        width: 800,
-        height: 800,
-        alt: "Tentang Kami Selempang Aceh Barat",
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Tentang Kami Selempang Aceh Barat (FHD)",
       },
     ],
   },
@@ -57,6 +57,23 @@ export default function TentangKamiPage() {
           </span>
         </div>
       </div>
+
+      {/* 2.5 Page Title Banner with Semantic H1 */}
+      <section className="bg-gradient-to-b from-white to-[#faf9f6] pt-10 pb-6 border-b border-[#cbd5e1]/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#b48c28] mb-2 inline-flex items-center gap-1.5">
+              Dedikasi Atelier &amp; Konveksi Meulaboh
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0f172a] tracking-tight mb-4">
+              Tentang Selempang Aceh Barat (FHD)
+            </h1>
+            <p className="text-sm sm:text-base text-[#475569] font-light leading-relaxed">
+              Pusat produksi selempang wisuda bordir kilat 1 hari, persewaan jas formal &amp; sepatu pantofel, serta konveksi baju PDH dan almamater kampus di Meulaboh, Aceh Barat.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* 3. Filosofi, Standar Keunggulan & Kisah Dedikasi */}
       <AboutSection />

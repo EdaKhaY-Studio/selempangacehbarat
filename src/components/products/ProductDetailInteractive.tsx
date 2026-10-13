@@ -61,6 +61,11 @@ ${selectedMaterial ? `- Pilihan Bahan: ${selectedMaterial}\n` : ""}${
 Mohon info ketersediaan slot dan alur pemesanannya. Terima kasih!`
   );
 
+  const waTargetPhone =
+    product.category === "sewa-outfit" || product.slug.startsWith("sewa-")
+      ? "6282276027590"
+      : "6282299256343";
+
   return (
     <div className="w-full">
       {/* 2-Column Responsive Product View */}
@@ -332,7 +337,7 @@ Mohon info ketersediaan slot dan alur pemesanannya. Terima kasih!`
           {/* Action CTAs */}
           <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[#cbd5e1]/40">
             <a
-              href={`https://wa.me/6282299256343?text=${whatsappMessage}`}
+              href={`https://wa.me/${waTargetPhone}?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-[#b48c28] hover:bg-[#9a751e] text-white font-semibold text-sm tracking-wide transition-all shadow-md active:scale-95 text-center cursor-pointer"
