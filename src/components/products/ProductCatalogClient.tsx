@@ -168,10 +168,10 @@ export function ProductCatalogClient({ products }: ProductCatalogClientProps) {
                 <div className="p-5 sm:p-6">
                   {/* Rating & SKU */}
                   <div className="flex items-center justify-between gap-2 text-xs text-[#475569] mb-2.5">
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5" title="Rating 5.0 Google Reviews Selempang Aceh Barat">
                       <Star size={13} className="text-amber-500 fill-amber-500" />
-                      <span className="font-bold text-[#0f172a]">{product.rating}</span>
-                      <span className="text-[#94a3b8]">({product.reviewCount}+ ulasan)</span>
+                      <span className="font-bold text-[#0f172a]">{product.rating.toFixed(1)}</span>
+                      <span className="text-[#94a3b8]">(Google Reviews)</span>
                     </div>
                     <span className="text-[10px] font-mono text-[#94a3b8] uppercase">
                       {product.sku}

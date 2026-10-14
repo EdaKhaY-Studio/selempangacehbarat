@@ -189,10 +189,10 @@ Mohon info ketersediaan slot dan alur pemesanannya. Terima kasih!`
 
           {/* Rating, Reviews & SKU */}
           <div className="flex items-center gap-4 text-xs text-[#475569] mb-6 pb-4 border-b border-[#cbd5e1]/40">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1" title="Rating Toko Terverifikasi Google Reviews">
               <Star size={14} className="text-amber-500 fill-amber-500" />
-              <span className="font-bold text-[#0f172a] text-sm">{product.rating}</span>
-              <span className="text-[#94a3b8]">({product.reviewCount} ulasan pelanggan)</span>
+              <span className="font-bold text-[#0f172a] text-sm">{product.rating.toFixed(1)}</span>
+              <span className="text-[#94a3b8]">(Google Reviews)</span>
             </div>
             <span className="text-[#cbd5e1]">|</span>
             <span className="font-mono text-[#94a3b8] text-[11px] uppercase">

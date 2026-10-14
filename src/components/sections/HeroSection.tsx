@@ -283,7 +283,7 @@ export function HeroSection() {
                       <span className="text-[#0f172a]">5.0 / 5.0</span>
                     </div>
                     <span className="text-[11px] text-[#475569] font-light truncate">
-                      500+ Wisudawan Aceh
+                      1.000+ Wisudawan Aceh
                     </span>
                   </div>
                   <div className="h-8 w-[1px] bg-[#cbd5e1]/70 ml-auto hidden sm:block" />

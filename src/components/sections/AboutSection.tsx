@@ -82,9 +82,9 @@ export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const inViewRef = useRef(false);
 
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
-  const [count3, setCount3] = useState("0.0");
+  const [count1, setCount1] = useState("1.000");
+  const [count2, setCount2] = useState("20");
+  const [count3, setCount3] = useState("5.0");
   const [isUnderlineDrawn, setIsUnderlineDrawn] = useState(false);
 
   useEffect(() => {
@@ -115,13 +115,13 @@ export function AboutSection() {
         const progress = Math.min(1, elapsed / duration);
         const eased = easeOutCubic(progress);
 
-        // Counter 1: 0 -> 485
-        const val1 = Math.round(eased * 485);
-        setCount1(val1);
+        // Counter 1: 0 -> 1000
+        const val1 = Math.round(eased * 1000);
+        setCount1(val1.toLocaleString("id-ID"));
 
         // Counter 2: 0 -> 20
         const val2 = Math.round(eased * 20);
-        setCount2(val2);
+        setCount2(String(val2));
 
         // Counter 3: 0.0 -> 5.0
         const val3 = (eased * 5.0).toFixed(1);
@@ -130,8 +130,8 @@ export function AboutSection() {
         if (progress < 1) {
           animFrameId = requestAnimationFrame(step);
         } else {
-          setCount1(485);
-          setCount2(20);
+          setCount1("1.000");
+          setCount2("20");
           setCount3("5.0");
           isCurrentlyAnimating = false;
 
@@ -159,9 +159,6 @@ export function AboutSection() {
             cancelAnimationFrame(animFrameId);
             clearTimeout(loopTimer);
             setIsUnderlineDrawn(false);
-            setCount1(0);
-            setCount2(0);
-            setCount3("0.0");
           }
         });
       },

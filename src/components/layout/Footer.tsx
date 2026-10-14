@@ -81,11 +81,12 @@ export function Footer() {
                 <MessageCircle size={15} />
               </a>
               <a
-                href="https://maps.google.com/?q=Gunung+Kleng+Meureubo+Aceh+Barat"
+                href="https://www.google.com/maps/search/?api=1&query=Selempang+Aceh+Barat"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-[#b48c28] hover:border-[#b48c28]/60 transition-colors shadow-2xs antigravity float-bob float-delay-700"
-                aria-label="Google Maps"
+                aria-label="Google Maps Selempang Aceh Barat"
+                title="Buka Lokasi di Google Maps"
               >
                 <MapPin size={15} />
               </a>

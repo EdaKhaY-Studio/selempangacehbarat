@@ -258,11 +258,12 @@ export const PARTNER_LOGOS: PartnerLogo[] = [
   },
 ];
 
-function LogoCard({ partner }: { partner: PartnerLogo }) {
+function LogoCard({ partner, ariaHidden }: { partner: PartnerLogo; ariaHidden?: boolean }) {
   const [hasError, setHasError] = useState(false);
 
   return (
     <div
+      aria-hidden={ariaHidden ? "true" : undefined}
       className="group/card relative flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-2xl bg-white border border-[#cbd5e1]/80 hover:border-[#b48c28]/60 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 shrink-0 select-none cursor-pointer"
       title={`${partner.name} — ${partner.fullName}`}
     >
@@ -271,7 +272,9 @@ function LogoCard({ partner }: { partner: PartnerLogo }) {
         {!hasError ? (
           <img
             src={partner.img}
-            alt={`Logo ${partner.name}`}
+            alt={ariaHidden ? "" : `Logo ${partner.name}`}
+            width={40}
+            height={40}
             className="w-10 h-10 object-contain p-1 transition-transform duration-300 group-hover/card:scale-105"
             loading="lazy"
             onError={() => setHasError(true)}
@@ -303,9 +306,6 @@ function LogoCard({ partner }: { partner: PartnerLogo }) {
 }
 
 export function PartnerLogoWall() {
-  // Duplikat array agar terjadi perulangan horizontal infinite tanpa jeda (seamless loop)
-  const marqueeItems = [...PARTNER_LOGOS, ...PARTNER_LOGOS];
-
   return (
     <section className="relative py-12 sm:py-16 bg-[#faf9f6] border-b border-[#cbd5e1]/50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center">
@@ -336,8 +336,12 @@ export function PartnerLogoWall() {
 
         {/* Infinite Moving Row (Auto-pause on hover) */}
         <div className="animate-marquee-loop flex items-center gap-4 sm:gap-6 pl-4">
-          {marqueeItems.map((partner, index) => (
-            <LogoCard key={`${partner.id}-${index}`} partner={partner} />
+          {PARTNER_LOGOS.map((partner) => (
+            <LogoCard key={`primary-${partner.id}`} partner={partner} />
+          ))}
+          {/* Duplikat teknis seamless CSS loop disembunyikan dari screen reader & bot */}
+          {PARTNER_LOGOS.map((partner) => (
+            <LogoCard key={`clone-${partner.id}`} partner={partner} ariaHidden={true} />
           ))}
         </div>
       </div>
