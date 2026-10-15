@@ -41,3 +41,7 @@ next-env.d.ts
 .codex/
 .cursor/
 /scratch/
+
+# Local data & customer uploads
+.data/
+storage/uploads/

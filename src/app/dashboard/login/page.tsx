@@ -35,20 +35,23 @@ export default function AdminLoginPage() {
     }
   }, [router]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    setTimeout(() => {
-      const res = authService.login(email, password);
+    try {
+      const res = await authService.login(email, password);
       if (res.success) {
         router.push("/dashboard/transaksi");
       } else {
         setError(res.message || "Gagal masuk. Periksa kembali email dan password.");
         setLoading(false);
       }
-    }, 450); // micro-delay for realistic tactile feedback
+    } catch {
+      setError("Terjadi kesalahan koneksi saat login.");
+      setLoading(false);
+    }
   };
 
   const fillDefaultCredentials = () => {

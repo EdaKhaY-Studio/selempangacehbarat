@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import {
   transactionService,
@@ -31,12 +32,14 @@ import {
   ArrowUpDown,
   RefreshCw,
   ShoppingBag,
+  ExternalLink,
 } from "lucide-react";
 
 export default function TransaksiPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<string>("all");
   const [loading, setLoading] = useState(true);
 
@@ -67,22 +70,32 @@ export default function TransaksiPage() {
     notes: "",
   });
 
-  // Load transactions on mount
-  useEffect(() => {
-    const list = transactionService.getAll();
+  // Load transactions on mount (merges persistent custom orders from server + legacy)
+  const refreshTransactions = async () => {
+    setLoading(true);
+    const list = await transactionService.getAllAsync();
     setTransactions(list);
     setLoading(false);
+  };
+
+  useEffect(() => {
+    refreshTransactions();
   }, []);
 
   // Filtered list
   const filteredTransactions = useMemo(() => {
     return transactions.filter((tx) => {
+      // 0. Service Category Filter
+      if (categoryFilter !== "all" && tx.serviceCategory !== categoryFilter) {
+        return false;
+      }
+
       // 1. Status Filter
       if (statusFilter !== "all" && tx.status !== statusFilter) {
         return false;
       }
 
-      // 2. Search Query (Nama, ID REG, No HP, Layanan, Kampus)
+      // 2. Search Query (Nama, ID REG, No HP, Layanan, Kampus, Notes)
       if (searchQuery.trim() !== "") {
         const query = searchQuery.toLowerCase();
         const matchName = tx.clientName.toLowerCase().includes(query);
@@ -90,7 +103,8 @@ export default function TransaksiPage() {
         const matchPhone = tx.clientPhone.toLowerCase().includes(query);
         const matchItems = tx.items.toLowerCase().includes(query);
         const matchUni = tx.university.toLowerCase().includes(query);
-        if (!matchName && !matchId && !matchPhone && !matchItems && !matchUni) {
+        const matchNotes = (tx.notes || "").toLowerCase().includes(query);
+        if (!matchName && !matchId && !matchPhone && !matchItems && !matchUni && !matchNotes) {
           return false;
         }
       }
@@ -103,7 +117,7 @@ export default function TransaksiPage() {
 
       return true;
     });
-  }, [transactions, statusFilter, searchQuery, dateFilter]);
+  }, [transactions, categoryFilter, statusFilter, searchQuery, dateFilter]);
 
   // Stats calculation
   const stats = useMemo(() => {
@@ -325,32 +339,62 @@ export default function TransaksiPage() {
           </div>
         </div>
 
-        {/* Total Omset Selesai */}
+        {/* Total Omset Selesai (Hanya Omset Riil Terverifikasi MySQL) */}
         <div className="p-4 rounded-2xl bg-[#141721] border border-emerald-500/20 relative overflow-hidden">
           <div className="flex items-center justify-between text-xs text-emerald-400/90 mb-1">
-            <span>Total Omset Masuk</span>
+            <span>Omset Riil Terverifikasi</span>
             <span className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400">
               <CreditCard size={14} />
             </span>
           </div>
           <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-400 mb-0.5 truncate">
-            {formatIDR(stats.totalRevenue)}
+            {formatIDR(stats.realRevenue)}
           </div>
           <div className="text-[11px] text-emerald-500/80 font-light truncate">
-            Lunas &amp; Selesai
+            {stats.realOrdersCount} Pesanan Online (MySQL)
+          </div>
+          <div className="text-[10px] text-slate-500 mt-1">
+            Arsip Offline: {formatIDR(stats.mockRevenue)}
           </div>
         </div>
       </div>
 
-      {/* 3. Filter Bar: Live Search & Status Tabs */}
+      {/* 3. Filter Bar: Live Search & Category Tabs */}
       <div className="bg-[#141721] rounded-2xl border border-[#242938] p-3 sm:p-4 space-y-3">
-        <div className="flex flex-col lg:flex-row gap-3 items-center justify-between">
+        {/* Category Filter Chips */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
+          <span className="text-slate-400 font-semibold shrink-0">Layanan:</span>
+          {[
+            { id: "all", label: "Semua Layanan" },
+            { id: "Selempang", label: "Custom Selempang" },
+            { id: "Sewa Outfit", label: "Sewa Outfit" },
+            { id: "Paket Wisuda", label: "Paket Wisuda" },
+            { id: "Apparel PDH", label: "Apparel PDH" },
+          ].map((cat) => {
+            const isCatActive = categoryFilter === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setCategoryFilter(cat.id)}
+                className={`px-3 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap cursor-pointer ${
+                  isCatActive
+                    ? "bg-[#D4AF37] text-black shadow-xs font-bold"
+                    : "bg-[#090A0F] text-slate-400 hover:text-white hover:bg-[#1E2230]"
+                }`}
+              >
+                {cat.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-3 items-center justify-between pt-2 border-t border-[#242938]">
           {/* Status Tabs Switcher */}
           <div className="flex items-center gap-1.5 overflow-x-auto w-full lg:w-auto pb-1 lg:pb-0 scrollbar-none">
             {[
-              { id: "all", label: "Semua", count: transactions.length },
+              { id: "all", label: "Semua Status", count: transactions.length },
               { id: "Pending DP", label: "Pending DP", count: stats.pendingCount },
-              { id: "Lunas Fitting", label: "Lunas Fitting", count: stats.lunasCount },
+              { id: "Lunas Fitting", label: "Lunas Fitting / DP Lunas", count: stats.lunasCount },
               { id: "Selesai", label: "Selesai", count: stats.selesaiCount },
               { id: "Batal", label: "Batal", count: stats.batalCount },
             ].map((tab) => {
@@ -359,9 +403,9 @@ export default function TransaksiPage() {
                 <button
                   key={tab.id}
                   onClick={() => setStatusFilter(tab.id)}
-                  className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
                     isActive
-                      ? "bg-[#D4AF37] text-black shadow-xs font-bold"
+                      ? "bg-slate-200 text-black shadow-xs font-bold"
                       : "bg-[#090A0F] text-slate-400 hover:text-white hover:bg-[#1E2230]"
                   }`}
                 >
@@ -378,27 +422,38 @@ export default function TransaksiPage() {
             })}
           </div>
 
-          {/* Live Search Input */}
-          <div className="relative w-full lg:w-80">
-            <Search
-              size={15}
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
-            />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari ID (#SAB...), klien, layanan..."
-              className="w-full pl-9 pr-8 py-2 rounded-xl bg-[#090A0F] border border-[#242938] text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-[#D4AF37] transition-all"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
-              >
-                <X size={14} />
-              </button>
-            )}
+          {/* Live Search Input & Refresh Button */}
+          <div className="flex items-center gap-2 w-full lg:w-auto">
+            <div className="relative w-full lg:w-80">
+              <Search
+                size={15}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+              />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Cari ID (#SAB...), nama, no WA, teks custom..."
+                className="w-full pl-9 pr-8 py-2 rounded-xl bg-[#090A0F] border border-[#242938] text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-[#D4AF37] transition-all"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+
+            <button
+              onClick={refreshTransactions}
+              disabled={loading}
+              className="p-2 rounded-xl bg-[#090A0F] hover:bg-[#1E2230] text-slate-300 hover:text-white border border-[#242938] transition-colors"
+              title="Perbarui Data Transaksi"
+            >
+              <RefreshCw size={15} className={loading ? "animate-spin text-[#D4AF37]" : ""} />
+            </button>
           </div>
         </div>
       </div>
@@ -409,12 +464,12 @@ export default function TransaksiPage() {
           <table className="w-full text-left text-xs text-slate-300">
             <thead className="bg-[#090A0F] border-b border-[#242938] text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
               <tr>
-                <th className="py-3.5 px-4">ID REG</th>
+                <th className="py-3.5 px-4">ID Pesanan</th>
                 <th className="py-3.5 px-4">Nama Klien</th>
-                <th className="py-3.5 px-4">Busana / Layanan</th>
-                <th className="py-3.5 px-4">Rentang Tanggal</th>
-                <th className="py-3.5 px-4">Total Biaya</th>
-                <th className="py-3.5 px-4 text-center">Status</th>
+                <th className="py-3.5 px-4">Produk / Layanan</th>
+                <th className="py-3.5 px-4">Tanggal Acara / Pengerjaan</th>
+                <th className="py-3.5 px-4">Total Biaya &amp; Pembayaran</th>
+                <th className="py-3.5 px-4 text-center">Status Pesanan</th>
                 <th className="py-3.5 px-4 text-right">Aksi</th>
               </tr>
             </thead>
@@ -427,12 +482,13 @@ export default function TransaksiPage() {
                       Tidak ada transaksi yang cocok
                     </p>
                     <p className="text-xs text-slate-500 mt-1">
-                      Coba ganti filter status atau bersihkan kata kunci pencarian.
+                      Coba ganti filter status, kategori, atau bersihkan kata kunci pencarian.
                     </p>
                     <button
                       onClick={() => {
                         setSearchQuery("");
                         setStatusFilter("all");
+                        setCategoryFilter("all");
                       }}
                       className="mt-3 px-3 py-1.5 rounded-lg bg-[#242938] hover:bg-slate-700 text-xs text-slate-200 transition-colors"
                     >
@@ -446,9 +502,18 @@ export default function TransaksiPage() {
                     key={tx.id}
                     className="hover:bg-[#1A1D27]/70 transition-colors group"
                   >
-                    {/* ID REG */}
-                    <td className="py-4 px-4 font-mono font-bold text-[#FDE68A] whitespace-nowrap">
-                      {tx.id}
+                    {/* ID Pesanan */}
+                    <td className="py-4 px-4 font-mono font-bold whitespace-nowrap">
+                      <div className="text-[#FDE68A]">{tx.id}</div>
+                      {tx.isVerifiedDatabase ? (
+                        <span className="inline-block mt-0.5 text-[9px] px-1.5 py-0.2 rounded font-sans font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                          Pesanan Nyata (MySQL)
+                        </span>
+                      ) : (
+                        <span className="inline-block mt-0.5 text-[9px] px-1.5 py-0.2 rounded font-sans font-medium bg-slate-500/10 text-slate-400 border border-slate-500/30">
+                          Arsip Offline / Demo
+                        </span>
+                      )}
                     </td>
 
                     {/* Nama Klien & Kampus */}
@@ -460,12 +525,20 @@ export default function TransaksiPage() {
                         <GraduationCap size={12} className="text-[#D4AF37] shrink-0" />
                         <span className="truncate">{tx.university}</span>
                       </div>
-                      <div className="text-[10px] text-slate-500 font-mono mt-0.5">
-                        {tx.clientPhone}
+                      <div className="flex items-center gap-2 text-[10px] text-slate-500 font-mono mt-0.5">
+                        <a
+                          href={`https://wa.me/${tx.clientPhone.replace(/\D/g, "")}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold"
+                        >
+                          <Phone size={10} />
+                          <span>{tx.clientPhone}</span>
+                        </a>
                       </div>
                     </td>
 
-                    {/* Layanan / Busana */}
+                    {/* Produk / Layanan */}
                     <td className="py-4 px-4 min-w-[220px]">
                       <div className="line-clamp-2 text-slate-200 leading-relaxed font-light">
                         {tx.items}
@@ -474,6 +547,11 @@ export default function TransaksiPage() {
                         <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#090A0F] text-slate-400 border border-[#242938]">
                           {tx.serviceCategory}
                         </span>
+                        {tx.hasLogo && (
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                            Disertai Logo
+                          </span>
+                        )}
                         {tx.size && (
                           <span className="text-[10px] text-slate-500">
                             {tx.size}
@@ -482,23 +560,36 @@ export default function TransaksiPage() {
                       </div>
                     </td>
 
-                    {/* Rentang Tanggal */}
+                    {/* Tanggal Acara / Target */}
                     <td className="py-4 px-4 whitespace-nowrap text-slate-300">
                       <div className="font-mono text-xs">{tx.dateRange}</div>
                       <div className="text-[10px] text-slate-500 mt-0.5">
-                        Ambil s/d Kembali
+                        Target: {tx.endDate}
                       </div>
                     </td>
 
-                    {/* Total Biaya */}
+                    {/* Total Biaya & Pembayaran */}
                     <td className="py-4 px-4 whitespace-nowrap">
                       <div className="font-mono font-bold text-white text-xs">
                         {formatIDR(tx.totalAmount)}
                       </div>
-                      {tx.dpAmount > 0 && tx.status === "Pending DP" && (
-                        <div className="text-[10px] text-amber-400/90 font-mono">
-                          DP: {formatIDR(tx.dpAmount)}
+                      {tx.isCustomSash ? (
+                        <div className="text-[10px] font-mono mt-0.5 space-y-0.5">
+                          <div className="text-slate-400">DP: {formatIDR(tx.dpAmount)}</div>
+                          <div className="text-emerald-400 font-bold">Terbayar: {formatIDR(tx.verifiedPaid || 0)}</div>
+                          <div className="text-rose-400">Sisa: {formatIDR(tx.balanceAmount || 0)}</div>
+                          {tx.paymentStatus === "deposit_paid" && (
+                            <div className="text-amber-300 font-semibold text-[9px]">
+                              DP Lunas — Sisa {formatIDR(tx.balanceAmount || 0)}
+                            </div>
+                          )}
                         </div>
+                      ) : (
+                        tx.dpAmount > 0 && tx.status === "Pending DP" && (
+                          <div className="text-[10px] text-amber-400/90 font-mono">
+                            DP: {formatIDR(tx.dpAmount)}
+                          </div>
+                        )
                       )}
                       <div className="text-[10px] text-slate-500 mt-0.5">
                         {tx.paymentMethod}
@@ -513,17 +604,27 @@ export default function TransaksiPage() {
                     {/* Aksi */}
                     <td className="py-4 px-4 text-right whitespace-nowrap">
                       <div className="flex items-center justify-end gap-1.5">
-                        {/* Detail Modal */}
-                        <button
-                          onClick={() => {
-                            setSelectedTx(tx);
-                            setIsDetailModalOpen(true);
-                          }}
-                          className="p-1.5 rounded-lg bg-[#090A0F] hover:bg-[#1E2230] text-slate-300 hover:text-[#D4AF37] border border-[#242938] transition-colors"
-                          title="Lihat Detail Transaksi"
-                        >
-                          <Eye size={14} />
-                        </button>
+                        {/* Detail View: if custom sash order, navigates to dedicated page; otherwise modal */}
+                        {tx.isCustomSash && tx.customOrderId ? (
+                          <Link
+                            href={`/dashboard/transaksi/${encodeURIComponent(tx.customOrderId)}`}
+                            className="p-1.5 rounded-lg bg-[#090A0F] hover:bg-[#1E2230] text-slate-300 hover:text-[#D4AF37] border border-[#242938] transition-colors"
+                            title="Lihat Detail Pesanan Lengkap"
+                          >
+                            <Eye size={14} />
+                          </Link>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              setSelectedTx(tx);
+                              setIsDetailModalOpen(true);
+                            }}
+                            className="p-1.5 rounded-lg bg-[#090A0F] hover:bg-[#1E2230] text-slate-300 hover:text-[#D4AF37] border border-[#242938] transition-colors"
+                            title="Lihat Detail Transaksi"
+                          >
+                            <Eye size={14} />
+                          </button>
+                        )}
 
                         {/* Edit Status Quick */}
                         <button

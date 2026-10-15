@@ -60,8 +60,8 @@ export function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = () => {
-    authService.logout();
+  const handleLogout = async () => {
+    await authService.logout();
     router.replace("/dashboard/login");
   };
 

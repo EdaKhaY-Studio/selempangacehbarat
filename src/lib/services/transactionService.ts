@@ -5,7 +5,9 @@ export type TransactionStatus = "Pending DP" | "Lunas Fitting" | "Selesai" | "Ba
 export type ServiceCategory = "Selempang" | "Sewa Outfit" | "Apparel PDH" | "Paket Wisuda";
 
 export interface Transaction {
-  id: string; // misal "#SAB-2632"
+  id: string; // misal "#SAB-2632" atau "#SAB-CUS-2633"
+  customOrderId?: string;
+  isCustomSash?: boolean;
   clientName: string;
   clientPhone: string;
   university: string;
@@ -18,8 +20,15 @@ export interface Transaction {
   dateRange: string;
   totalAmount: number;
   dpAmount: number;
+  balanceAmount?: number;
+  verifiedPaid?: number;
   paymentMethod: string;
   status: TransactionStatus;
+  paymentStatus?: string;
+  productionStatus?: string;
+  hasLogo?: boolean;
+  isMock?: boolean;
+  isVerifiedDatabase?: boolean;
   notes?: string;
   createdAt: string;
   updatedAt: string;
@@ -44,10 +53,13 @@ export interface CreateTransactionInput {
 
 export interface TransactionStats {
   totalCount: number;
+  realOrdersCount: number;
   pendingCount: number;
   lunasCount: number;
   selesaiCount: number;
   batalCount: number;
+  realRevenue: number;
+  mockRevenue: number;
   totalRevenue: number;
   pendingRevenue: number;
 }
@@ -615,20 +627,116 @@ export const transactionService = {
   /**
    * Menghitung statistik ringkas transaksi untuk Dashboard cards
    */
+  /**
+   * Mengambil seluruh transaksi secara asinkron dari server API (database persisten)
+   * digabungkan dengan transaksi legacy.
+   */
+  async getAllAsync(): Promise<Transaction[]> {
+    const localLegacy = this.getAll();
+
+    try {
+      const res = await fetch("/api/admin/orders");
+      if (!res.ok) return localLegacy;
+
+      const data = await res.json();
+      if (!data.success || !Array.isArray(data.orders)) return localLegacy;
+
+      // Map persistent custom orders to Transaction objects
+      const serverTransactions: Transaction[] = data.orders.map((ord: any) => {
+        // Calculate verified amount paid
+        const verifiedPaid = (ord.transactions || [])
+          .filter((t: any) => t.transactionStatus === "settlement" || t.transactionStatus === "capture")
+          .reduce((sum: number, t: any) => sum + (t.grossAmount || 0), 0);
+
+        let mappedStatus: TransactionStatus = "Pending DP";
+        if (ord.paymentStatus === "paid" || ord.productionStatus === "completed") {
+          mappedStatus = "Selesai";
+        } else if (ord.paymentStatus === "deposit_paid" || ord.productionStatus === "in_production") {
+          mappedStatus = "Lunas Fitting";
+        } else if (ord.paymentStatus === "cancelled" || ord.productionStatus === "cancelled") {
+          mappedStatus = "Batal";
+        }
+
+        const itemsSummary = (ord.items || [])
+          .map(
+            (it: any) =>
+              `${it.quantity}x ${it.modelType === "biasa" ? "Model Biasa" : it.modelType === "syal" ? "Model Syal" : "Model Timbal Balik"} (${it.clothColor}, ${it.material})`
+          )
+          .join(" | ");
+
+        const firstItem = ord.items?.[0];
+
+        return {
+          id: ord.orderNumber,
+          customOrderId: ord.id,
+          isCustomSash: true,
+          isVerifiedDatabase: true,
+          isMock: false,
+          clientName: ord.customerName,
+          clientPhone: ord.customerPhone,
+          university: ord.customerInstitution || "Klien Umum / Instansi",
+          serviceCategory: "Selempang" as ServiceCategory,
+          items: itemsSummary || "Custom Selempang Wisuda",
+          size: "-",
+          color: firstItem?.clothColor || "Hitam",
+          startDate: ord.createdAt.split("T")[0],
+          endDate: ord.targetDate,
+          dateRange: `${ord.createdAt.split("T")[0]} s/d ${ord.targetDate}`,
+          totalAmount: ord.totalProductAmount,
+          dpAmount: ord.dpAmount,
+          balanceAmount: ord.balanceAmount,
+          verifiedPaid,
+          paymentMethod: ord.transactions?.[0]?.paymentMethod || "Midtrans Snap",
+          status: mappedStatus,
+          paymentStatus: ord.paymentStatus,
+          productionStatus: ord.productionStatus,
+          hasLogo: ord.items?.some((i: any) => i.hasLogo),
+          notes: ord.scheduleNotes || (ord.items?.[0]?.customText ? `Bordir: ${ord.items[0].customText}` : undefined),
+          createdAt: ord.createdAt,
+          updatedAt: ord.updatedAt,
+        };
+      });
+
+      // Filter out duplicates if any order ID collides
+      const existingIds = new Set(serverTransactions.map((s) => s.id.toLowerCase()));
+      const filteredLegacy = localLegacy
+        .filter((l) => !existingIds.has(l.id.toLowerCase()))
+        .map((l) => ({ ...l, isVerifiedDatabase: false, isMock: true }));
+
+      return [...serverTransactions, ...filteredLegacy];
+    } catch (e) {
+      console.warn("[TransactionService] Gagal fetch orders dari server, fallback ke local:", e);
+      return localLegacy.map((l) => ({ ...l, isVerifiedDatabase: false, isMock: true }));
+    }
+  },
+
+  /**
+   * Menghitung statistik ringkas transaksi untuk Dashboard cards
+   * Memisahkan pendapatan riil database persisten dari data demonstrasi/mock
+   */
   getStats(transactions?: Transaction[]): TransactionStats {
     const list = transactions || this.getAll();
+    const realOrders = list.filter((t) => t.isVerifiedDatabase);
+    const mockOrders = list.filter((t) => !t.isVerifiedDatabase);
+
+    const realRevenue = realOrders.reduce((sum, t) => sum + (t.verifiedPaid || 0), 0);
+    const mockRevenue = mockOrders
+      .filter((t) => t.status === "Lunas Fitting" || t.status === "Selesai")
+      .reduce((sum, t) => sum + t.totalAmount, 0);
+
     return {
       totalCount: list.length,
+      realOrdersCount: realOrders.length,
       pendingCount: list.filter((t) => t.status === "Pending DP").length,
       lunasCount: list.filter((t) => t.status === "Lunas Fitting").length,
       selesaiCount: list.filter((t) => t.status === "Selesai").length,
       batalCount: list.filter((t) => t.status === "Batal").length,
-      totalRevenue: list
-        .filter((t) => t.status === "Lunas Fitting" || t.status === "Selesai")
-        .reduce((sum, t) => sum + t.totalAmount, 0),
-      pendingRevenue: list
-        .filter((t) => t.status === "Pending DP")
-        .reduce((sum, t) => sum + (t.totalAmount - t.dpAmount), 0),
+      realRevenue,
+      mockRevenue,
+      totalRevenue: realRevenue, // Hanya omset riil database terverifikasi yang dihitung sebagai omset utama
+      pendingRevenue: realOrders
+        .filter((t) => t.paymentStatus === "awaiting_deposit" || t.paymentStatus === "deposit_paid")
+        .reduce((sum, t) => sum + (t.balanceAmount || 0), 0),
     };
   },
 
@@ -648,6 +756,7 @@ export const transactionService = {
 
   /**
    * Export data transaksi ke format CSV string untuk download laporan
+   * Dilengkapi sanitasi formula injection (=, +, -, @)
    */
   exportToCSV(transactions?: Transaction[]): string {
     const list = transactions || this.getAll();
@@ -661,30 +770,44 @@ export const transactionService = {
       "Ukuran",
       "Warna",
       "Tanggal Mulai",
-      "Tanggal Selesai",
+      "Tanggal Target",
       "Total Biaya (IDR)",
-      "DP Terbayar (IDR)",
+      "DP Wajib (IDR)",
+      "Terbayar Terverifikasi (IDR)",
+      "Sisa Pelunasan (IDR)",
       "Metode Pembayaran",
       "Status",
       "Catatan",
     ];
 
+    const sanitizeCell = (val: string | number | undefined | null): string => {
+      if (val === undefined || val === null) return '""';
+      let str = String(val);
+      // Formula injection prevention: if first char is =, +, -, or @ prepend '
+      if (/^[=+\-@]/.test(str)) {
+        str = "'" + str;
+      }
+      return `"${str.replace(/"/g, '""')}"`;
+    };
+
     const rows = list.map((t) => [
-      t.id,
-      `"${t.clientName.replace(/"/g, '""')}"`,
-      `"${t.clientPhone}"`,
-      `"${t.university.replace(/"/g, '""')}"`,
-      `"${t.serviceCategory}"`,
-      `"${t.items.replace(/"/g, '""')}"`,
-      `"${t.size || "-"}"`,
-      `"${t.color || "-"}"`,
-      t.startDate,
-      t.endDate,
+      sanitizeCell(t.id),
+      sanitizeCell(t.clientName),
+      sanitizeCell(t.clientPhone),
+      sanitizeCell(t.university),
+      sanitizeCell(t.serviceCategory),
+      sanitizeCell(t.items),
+      sanitizeCell(t.size || "-"),
+      sanitizeCell(t.color || "-"),
+      sanitizeCell(t.startDate),
+      sanitizeCell(t.endDate),
       t.totalAmount,
       t.dpAmount,
-      `"${t.paymentMethod}"`,
-      `"${t.status}"`,
-      `"${(t.notes || "").replace(/"/g, '""')}"`,
+      t.verifiedPaid !== undefined ? t.verifiedPaid : (t.status === "Lunas Fitting" || t.status === "Selesai" ? t.totalAmount : t.dpAmount),
+      t.balanceAmount !== undefined ? t.balanceAmount : Math.max(0, t.totalAmount - t.dpAmount),
+      sanitizeCell(t.paymentMethod),
+      sanitizeCell(t.paymentStatus || t.status),
+      sanitizeCell(t.notes || ""),
     ]);
 
     return [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");

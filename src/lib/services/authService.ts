@@ -26,81 +26,66 @@ export interface AdminSession {
 }
 
 /**
- * Helper to set a cookie readable by both client and server
+ * Client authentication service communicating with server-side auth API
  */
-function setCookie(name: string, value: string, days = 7) {
-  if (typeof document === "undefined") return;
-  const date = new Date();
-  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-  const expires = "; expires=" + date.toUTCString();
-  document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/; SameSite=Lax";
-}
-
-/**
- * Helper to get cookie value
- */
-function getCookie(name: string): string | null {
-  if (typeof document === "undefined") return null;
-  const nameEQ = name + "=";
-  const ca = document.cookie.split(";");
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === " ") c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) {
-      return decodeURIComponent(c.substring(nameEQ.length, c.length));
-    }
-  }
-  return null;
-}
-
-/**
- * Helper to delete cookie
- */
-function deleteCookie(name: string) {
-  if (typeof document === "undefined") return;
-  document.cookie = name + "=; Max-Age=-99999999; path=/;";
-}
-
 export const authService = {
-  login(email: string, pass: string): { success: boolean; message?: string; session?: AdminSession } {
-    const trimmedEmail = email.trim().toLowerCase();
-    const trimmedPass = pass.trim();
+  async login(
+    email: string,
+    pass: string
+  ): Promise<{ success: boolean; message?: string; session?: AdminSession }> {
+    try {
+      const res = await fetch("/api/admin/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password: pass }),
+      });
 
-    if (trimmedEmail === "admin@selempangacehbarat.com" && trimmedPass === "admin123") {
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        return {
+          success: false,
+          message: data.message || "Email atau kata sandi tidak valid.",
+        };
+      }
+
       const now = new Date();
       const expires = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
       const session: AdminSession = {
-        user: DEFAULT_ADMIN,
-        token: "sab_admin_session_" + Math.random().toString(36).substring(2),
+        user: {
+          id: data.user.userId || DEFAULT_ADMIN.id,
+          name: data.user.name || DEFAULT_ADMIN.name,
+          email: data.user.email || DEFAULT_ADMIN.email,
+          role: data.user.role || DEFAULT_ADMIN.role,
+          avatar: data.user.avatar || DEFAULT_ADMIN.avatar,
+        },
+        token: data.token,
         loginAt: now.toISOString(),
         expiresAt: expires.toISOString(),
       };
 
-      const sessionStr = JSON.stringify(session);
-
       if (typeof window !== "undefined") {
         try {
-          localStorage.setItem(SESSION_KEY, sessionStr);
+          localStorage.setItem(SESSION_KEY, JSON.stringify(session));
         } catch {
-          // ignore localStorage restrictions
+          // ignore localStorage limitations
         }
-        setCookie(SESSION_KEY, sessionStr, 7);
       }
 
       return { success: true, session };
+    } catch (err: unknown) {
+      console.error("[Auth] Login error:", err);
+      return {
+        success: false,
+        message: "Gagal menghubungi server autentikasi. Silakan coba lagi.",
+      };
     }
-
-    return {
-      success: false,
-      message: "Email atau kata sandi tidak valid. Gunakan kredensial resmi pengelola.",
-    };
   },
 
   getSession(): AdminSession | null {
     if (typeof window === "undefined") return null;
 
-    // 1. Check localStorage first
     try {
       const stored = localStorage.getItem(SESSION_KEY);
       if (stored) {
@@ -110,26 +95,7 @@ export const authService = {
         }
       }
     } catch {
-      // fallback to cookie
-    }
-
-    // 2. Check Cookie
-    try {
-      const cookieVal = getCookie(SESSION_KEY);
-      if (cookieVal) {
-        const parsed: AdminSession = JSON.parse(cookieVal);
-        if (new Date(parsed.expiresAt) > new Date()) {
-          // sync back to localStorage
-          try {
-            localStorage.setItem(SESSION_KEY, cookieVal);
-          } catch {
-            // ignore
-          }
-          return parsed;
-        }
-      }
-    } catch {
-      // invalid cookie
+      // ignore parse error
     }
 
     return null;
@@ -139,14 +105,19 @@ export const authService = {
     return this.getSession() !== null;
   },
 
-  logout(): void {
+  async logout(): Promise<void> {
+    try {
+      await fetch("/api/admin/auth/logout", { method: "POST" });
+    } catch {
+      // ignore
+    }
+
     if (typeof window !== "undefined") {
       try {
         localStorage.removeItem(SESSION_KEY);
       } catch {
         // ignore
       }
-      deleteCookie(SESSION_KEY);
     }
   },
 };
