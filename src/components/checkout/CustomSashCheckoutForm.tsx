@@ -90,9 +90,9 @@ export function CustomSashCheckoutForm() {
     searchParams.get("productId") ||
     searchParams.get("product") ||
     searchParams.get("id");
-  const verifiedProduct: DetailedProduct | undefined = productParam
-    ? getProductBySlug(productParam)
-    : undefined;
+  const verifiedProduct: DetailedProduct | undefined =
+    (productParam ? getProductBySlug(productParam) : undefined) ||
+    getProductBySlug("custom-selempang");
 
   // Generate a stable idempotency key for this checkout attempt
   const [idempotencyKey, setIdempotencyKey] = useState<string>("");

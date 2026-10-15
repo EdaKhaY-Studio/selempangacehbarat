@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -19,7 +19,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const slugs = getAllProductSlugs();
+  const slugs = getAllProductSlugs().filter((s) => s !== "custom-selempang");
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -77,6 +77,19 @@ export async function generateMetadata({
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { slug } = await params;
+
+  if (slug === "selempang-2lapis-1") {
+    redirect("/produk/id-card-medali-wisuda");
+  }
+
+  if (
+    slug === "custom-selempang" ||
+    slug.startsWith("selempang-") ||
+    slug.startsWith("fhd-slmp-")
+  ) {
+    redirect("/produk/custom-selempang");
+  }
+
   const product = getProductBySlug(slug);
 
   if (!product) {

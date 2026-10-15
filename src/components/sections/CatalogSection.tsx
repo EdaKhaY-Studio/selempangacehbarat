@@ -10,7 +10,7 @@ import Image from "next/image";
 import { Palette, Sparkles, Check, ArrowRight } from "lucide-react";
 
 const PRODUCT_SLUGS: Record<string, string> = {
-  "selempang-custom-1": "selempang-wisuda-bludru-satin",
+  "selempang-custom-1": "custom-selempang",
   "paket-lengkap-1": "sewa-jas-pria-dasi-formal",
   "bundling-sultan-1": "sewa-jas-wanita-busana-formal",
   "sepatu-pantofel-1": "sewa-sepatu-pantofel",
@@ -43,9 +43,9 @@ interface CatalogItemMeta {
 
 const PRODUCT_META: Record<string, CatalogItemMeta> = {
   "selempang-custom-1": {
-    badgeBottomRight: "Rp 50k - 135k",
-    subType: "Bludru & Satin (Dijual)",
-    stockStatus: "Bordir Presisi",
+    badgeBottomRight: "Mulai Rp 50.000",
+    subType: "Pilihan 3 Model Custom",
+    stockStatus: "Kilat 1 Hari",
     stockType: "premium",
     priceType: "Harga Pembuatan",
     priceUnit: "/ pcs",
@@ -344,7 +344,7 @@ export function CatalogSection() {
                         {meta.priceType}
                       </span>
                       <div className="text-right">
-                        {product.price > 0 ? (
+                        {product.price > 0 && !product.priceLabel.startsWith("Mulai") ? (
                           <>
                             <span className="font-mono text-xl text-[#0f172a] font-bold">
                               Rp {product.price.toLocaleString("id-ID")}
@@ -355,9 +355,17 @@ export function CatalogSection() {
                             </span>
                           </>
                         ) : (
-                          <span className="font-serif text-sm text-[#b48c28] font-bold">
-                            {product.priceLabel}
-                          </span>
+                          <div className="flex items-baseline gap-1">
+                            <span className="font-mono text-xl text-[#0f172a] font-bold">
+                              {product.priceLabel}
+                            </span>
+                            {product.price > 0 && (
+                              <span className="text-xs text-[#475569]">
+                                {" "}
+                                {meta.priceUnit}
+                              </span>
+                            )}
+                          </div>
                         )}
                       </div>
                     </div>

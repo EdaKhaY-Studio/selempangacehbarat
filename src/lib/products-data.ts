@@ -32,289 +32,73 @@ export interface DetailedProduct {
 }
 
 export const ALL_PRODUCTS: DetailedProduct[] = [
-  // ─── 1. 6 PRODUK ASLI KATALOG FHD ──────────────────────────────────────────
+  // ─── 1. SATU PRODUK UTAMA: CUSTOM SELEMPANG (FHD) ──────────────────────────
   {
-    id: "fhd-slmp-01",
-    slug: "selempang-wisuda-hitam-silver-custom",
-    name: "Selempang Wisuda Hitam Silver Custom",
+    id: "selempang-custom-1",
+    slug: "custom-selempang",
+    name: "Custom Selempang",
     category: "selempang",
     categoryLabel: "Selempang Wisuda",
     price: 50000,
-    priceLabel: "Dasar Rp 50.000",
+    priceLabel: "Mulai Rp 50.000",
     priceType: "Harga Pembuatan",
     priceUnit: "/ pcs",
-    badge: "Model Biasa (Menyamping)",
+    badge: "Custom Model & Desain",
     rating: 5.0,
     reviewCount: 485,
     inStock: true,
-    sku: "FHD-SLMP-001",
-    images: ["/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg"],
-    imageAlts: ["Selempang wisuda hitam dengan bordir nama dan pinggiran silver."],
+    sku: "SAB-SLMP-001",
+    images: [
+      "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
+      "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
+      "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
+      "/Gambar/03-selempang-beige-bordir-pink.jpeg",
+    ],
+    imageAlts: [
+      "Contoh desain selempang wisuda hitam bordir nama dan gelar aksen list silver",
+      "Contoh desain selempang model leher hitam bordir emas instansi",
+      "Contoh desain selempang hitam aksen rumbai emas mewah",
+      "Contoh desain selempang warna beige bordir soft pink modern",
+    ],
     shortDescription:
-      "Selempang hitam dengan tulisan nama dan gelar serta aksen pinggiran silver. Harga dasar resmi Rp50.000 sebelum tambahan dekorasi.",
+      "Layanan pembuatan selempang wisuda dengan pilihan model, bahan, warna, tulisan bordir, dan dekorasi sesuai kebutuhan pelanggan.",
     description:
-      "Selempang hitam dengan tulisan nama dan gelar serta aksen pinggiran silver. Cocok untuk referensi desain wisuda dan yudisium. Menggunakan kain bludru dobel lapis yang kaku, rapi, dan elegan. Bordir komputer presisi dengan benang perak metalik tahan pudar. Harga dasar resmi adalah Rp50.000 sebelum tambahan dekorasi (seperti les pinggir silver +Rp5.000 yang dikonfirmasi pada formulir pemesanan).",
+      "Layanan pembuatan selempang custom untuk wisuda, yudisium, fakultas, sekolah, organisasi, dan acara khusus bersama Selempang Aceh Barat (FHD). Pelanggan dapat memilih model (Biasa menyamping, Leher/syal, dan Leher timbal balik), bahan (bludru tebal 2 lapis atau satin kilap mewah), warna kain, dekorasi (renda, les pita, rumbai, motif), serta memasukkan tulisan nama dan gelar akademik presisi dengan garansi anti-typo 100%.",
     features: [
-      "Bordir komputer presisi nama lengkap & gelar akademik",
-      "Aksen pinggiran / list pita silver metalik rapi",
-      "Bahan kain bludru tebal 2 lapis (double layer)",
-      "Garansi anti-typo 100% ganti baru tanpa debat",
-      "Pengerjaan kilat siap pakai di Meulaboh, Aceh Barat",
+      "Pilihan 3 model potongan: Biasa Menyamping (Rp50k), Leher / Syal (Rp85k), dan Leher Timbal Balik (Rp135k)",
+      "Bordir komputer presisi tinggi nama lengkap & gelar akademik anti-typo",
+      "Pilihan bahan bludru beludru tebal 2 lapis dan satin kilap mewah",
+      "Pilihan variasi dekorasi: Renda (biasa, mahkota, marsyanda), les pinggir, rumbai, dan motif",
+      "Layanan kilat 1 hari siap pakai di Meulaboh, Aceh Barat",
+      "Garansi anti-typo 100% ganti baru tanpa perdebatan",
     ],
     materialOptions: [
       "Kain Bludru Beludru Tebal (Double Layer)",
       "Kain Satin Kilap Mewah",
-      "Aksen Pinggiran Silver Metalik",
+      "Benang Bordir Metalik Emas & Perak",
     ],
     colors: [
       { name: "Hitam", hex: "#0f172a" },
       { name: "Maron", hex: "#7f1d1d" },
+      { name: "Merah", hex: "#dc2626" },
       { name: "Navy", hex: "#1e3a8a" },
-    ],
-    specifications: {
-      "Model Potongan": "Biasa Menyamping (Model Standar Wisuda)",
-      "Bahan Kain": "Bludru Tebal 2 Lapis / Satin Silk",
-      "Harga Dasar Resmi": "Rp 50.000 (sebelum tambahan dekorasi)",
-      "Aksen Pinggiran": "Pilihan Les Pinggir Silver (+Rp5.000 dikonfirmasi saat pesan)",
-      "Teknik Bordir": "Bordir Komputer Multi-Needle Presisi",
-      "Lokasi Produksi": "Workshop Alpen, Meulaboh, Aceh Barat",
-    },
-    sashModel: "biasa",
-    defaultAddons: ["les-pinggir"],
-  },
-  {
-    id: "fhd-slmp-02",
-    slug: "selempang-hitam-bordir-emas-custom",
-    name: "Selempang Hitam Bordir Emas Custom",
-    category: "selempang",
-    categoryLabel: "Selempang Wisuda",
-    price: 85000,
-    priceLabel: "Dasar Rp 85.000",
-    priceType: "Harga Pembuatan",
-    priceUnit: "/ pcs",
-    badge: "Model Syal / Leher",
-    rating: 5.0,
-    reviewCount: 390,
-    inStock: true,
-    sku: "FHD-SLMP-002",
-    images: ["/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg"],
-    imageAlts: ["Selempang hitam dengan bordir emas dan identitas instansi."],
-    shortDescription:
-      "Selempang model leher berwarna hitam dengan bordir emas dan detail identitas instansi. Harga dasar resmi Rp85.000 sebelum tambahan dekorasi.",
-    description:
-      "Selempang model leher berwarna hitam dengan bordir emas dan detail identitas instansi. Tulisan serta desain mengikuti spesifikasi pesanan. Didesain secara ergonomis mengalung di leher kiri dan kanan dengan keseimbangan visual yang anggun dan berwibawa. Harga dasar resmi adalah Rp85.000 sebelum tambahan dekorasi.",
-    features: [
-      "Model leher / syal elegan mengalung di pundak",
-      "Bordir komputer benang emas metalik berkilau tajam",
-      "Bordir logo lembaga atau lambang universitas resmi",
-      "Kain bludru berkualitas tinggi double layer tegak sempurna",
-      "Pilihan custom teks sisi kanan dan kiri sesuai pesanan",
-    ],
-    materialOptions: [
-      "Kain Bludru Hitam Premium Double Layer",
-      "Kain Satin Kilap Mewah",
-      "Bordir Benang Emas Metalik (Gold)",
-    ],
-    colors: [
-      { name: "Hitam", hex: "#0f172a" },
-      { name: "Maron", hex: "#7f1d1d" },
-      { name: "Navy", hex: "#1e3a8a" },
-    ],
-    specifications: {
-      "Model Potongan": "Model Leher / Syal (Gantung Dua Sisi)",
-      "Bahan Kain": "Bludru Tebal Dua Lapis",
-      "Warna Benang": "Benang Metalik Emas (Gold)",
-      "Harga Dasar Resmi": "Dasar Rp 85.000 (sebelum tambahan dekorasi)",
-      "Bordir Logo": "Identitas Kampus / Lembaga / Instansi",
-      "Lokasi Workshop": "Meulaboh, Aceh Barat",
-    },
-    sashModel: "syal",
-    defaultAddons: [],
-  },
-  {
-    id: "fhd-slmp-03",
-    slug: "selempang-custom-beige-bordir-pink",
-    name: "Selempang Custom Beige Bordir Pink",
-    category: "selempang",
-    categoryLabel: "Selempang Wisuda",
-    price: 50000,
-    priceLabel: "Dasar Rp 50.000",
-    priceType: "Harga Pembuatan",
-    priceUnit: "/ pcs",
-    badge: "Custom Warna Pastel",
-    rating: 4.9,
-    reviewCount: 210,
-    inStock: true,
-    sku: "FHD-SLMP-003",
-    images: ["/Gambar/03-selempang-beige-bordir-pink.jpeg"],
-    imageAlts: ["Selempang beige dengan tulisan bordir pink."],
-    shortDescription:
-      "Selempang beige dengan tulisan dan identitas kampus menggunakan bordir pink. Harga dasar resmi Rp50.000 sebelum tambahan.",
-    description:
-      "Selempang beige dengan tulisan dan identitas kampus menggunakan bordir pink. Warna kain dan benang menjadi referensi untuk desain custom. Menghadirkan nuansa estetik, lembut, dan modern bagi wisudawati atau wisudawan yang menginginkan kombinasi warna kekinian di hari kelulusan. Harga dasar resmi Rp50.000 sebelum tambahan.",
-    features: [
-      "Kombinasi warna kain beige/cream dengan benang bordir soft pink",
-      "Bordir nama lengkap, gelar akademik, dan logo fakultas/kampus",
-      "Bahan kain halus, rapi, dan tidak mudah berkerut",
-      "Finishing pinggiran halus dan proporsional di badan",
-      "Bisa request custom font dan variasi kombinasi warna lain",
-    ],
-    materialOptions: [
-      "Kain Beige / Cream Lembut",
-      "Pilihan Benang Soft Pink",
-      "Pilihan Bahan Bludru atau Satin",
-    ],
-    colors: [
+      { name: "Hijau", hex: "#15803d" },
+      { name: "Ungu", hex: "#6b21a8" },
       { name: "Beige / Cream", hex: "#d6c7a1" },
       { name: "Pink", hex: "#ec4899" },
     ],
     specifications: {
-      "Model Potongan": "Biasa Menyamping",
-      "Warna Kain": "Beige / Cream Pastel",
-      "Warna Bordir": "Benang Pink Lembut",
-      "Harga Dasar Resmi": "Dasar Rp 50.000 (sebelum tambahan)",
-      "Lokasi Produksi": "Meulaboh, Aceh Barat",
+      "Pilihan Model": "Model A (Biasa Rp50k) | Model B (Syal Rp85k) | Model C (Timbal Balik Rp135k)",
+      "Bahan Kain": "Bludru Beludru Tebal 2 Lapis / Satin Kilap",
+      "Harga Awal": "Mulai Rp 50.000 (sesuai model & tambahan dekorasi)",
+      "Teknik Bordir": "Bordir Komputer Multi-Needle Presisi",
+      "Garansi Kualitas": "100% Anti-Typo Ganti Baru Gratis",
+      "Lokasi Produksi": "Workshop Alpen, Meulaboh, Aceh Barat",
     },
     sashModel: "biasa",
-    defaultAddons: [],
-  },
-  {
-    id: "fhd-slmp-04",
-    slug: "selempang-custom-rumbai-emas",
-    name: "Selempang Custom dengan Rumbai Emas",
-    category: "selempang",
-    categoryLabel: "Selempang Wisuda",
-    price: 50000,
-    priceLabel: "Dasar Rp 50.000",
-    priceType: "Harga Pembuatan",
-    priceUnit: "/ pcs",
-    badge: "Model Biasa (Aksen Rumbai)",
-    rating: 5.0,
-    reviewCount: 340,
-    inStock: true,
-    sku: "FHD-SLMP-004",
-    images: ["/Gambar/04-selempang-hitam-emas-rumbai.jpeg"],
-    imageAlts: ["Selempang hitam dengan bordir emas dan rumbai emas."],
-    shortDescription:
-      "Selempang hitam dengan bordir emas dan rumbai dekoratif. Harga dasar resmi Rp50.000 sebelum tambahan dekorasi rumbai (+Rp15.000).",
-    description:
-      "Selempang hitam dengan bordir emas, aksen merah putih, dan rumbai dekoratif. Tulisan serta dekorasi disesuaikan dengan kebutuhan pesanan. Aksen rumbai emas di ujung selempang memberikan kesan agung, megah, dan prestisius saat dikenakan di atas panggung wisuda dan sesi foto studio. Harga dasar resmi adalah Rp50.000 sebelum tambahan dekorasi rumbai (+Rp15.000 yang dikonfirmasi pada formulir pesanan).",
-    features: [
-      "Rumbai emas tebal berkilau di bagian ujung selempang",
-      "Aksen pita merah putih atau dekorasi khusus",
-      "Bordir benang emas metalik berkilau tahan lama",
-      "Bahan bludru hitam pekat dobel lapis tegak mewah",
-      "Garansi anti-typo dan hasil bordir rapi presisi",
-    ],
-    materialOptions: [
-      "Kain Bludru Hitam Pekat Double Layer",
-      "Rumbai Emas Mewah (Tassel)",
-      "Benang Emas Metalik",
-    ],
-    colors: [
-      { name: "Hitam", hex: "#0f172a" },
-      { name: "Rumbai Gold", hex: "#b48c28" },
-    ],
-    specifications: {
-      "Model Potongan": "Biasa Menyamping",
-      "Harga Dasar Resmi": "Dasar Rp 50.000 (sebelum tambahan dekorasi)",
-      "Dekorasi Rumbai": "Pilihan Rumbai Emas (+Rp 15.000 dikonfirmasi saat pemesanan)",
-      "Warna Bordir": "Gold Metallic Thread",
-      "Lokasi Pengerjaan": "Meulaboh, Aceh Barat",
-    },
-    sashModel: "biasa",
-    defaultAddons: ["rumbai"],
-  },
-  {
-    id: "fhd-mdl-05",
-    slug: "medali-wisuda-custom-hijau",
-    name: "Medali Wisuda Custom Hijau",
-    category: "apparel-pdh",
-    categoryLabel: "Atribut & Medali",
-    price: 0,
-    priceLabel: "Hubungi Admin / Custom",
-    priceType: "Harga Pembuatan",
-    priceUnit: "/ pcs",
-    badge: "Atribut Wisuda",
-    rating: 4.9,
-    reviewCount: 120,
-    inStock: true,
-    sku: "FHD-MDL-005",
-    images: ["/Gambar/05-medali-wisuda-custom-hijau.jpeg"],
-    imageAlts: ["Medali wisuda hijau dengan logo lembaga dan pita kuning hijau."],
-    shortDescription:
-      "Medali dengan identitas lembaga dan pita berwarna hijau-kuning. Desain serta tulisan disesuaikan kebutuhan acara kelulusan dan penghargaan. Harga belum ditentukan (Hubungi Admin / Custom).",
-    description:
-      "Medali dengan identitas lembaga dan pita berwarna hijau-kuning. Desain serta tulisan dapat disesuaikan untuk kebutuhan acara kelulusan dan penghargaan. Dibuat dengan presisi tinggi menggunakan plat logam / akrilik berkualitas serta pita satin tebal yang rapi dan nyaman dikalungkan. Harga resmi belum ditentukan dan tetap menggunakan label Hubungi Admin / Custom karena harga akhir disesuaikan dengan kuantiti dan spesifikasi bahan.",
-    features: [
-      "Pita satin halus kombinasi warna hijau dan kuning kampus",
-      "Plat medali lambang lembaga jernih dan kokoh",
-      "Desain dan tulisan disesuaikan kebutuhan acara",
-      "Melayani pesanan partai kecil maupun rombongan besar",
-      "Konsultasi desain mockup sebelum naik cetak produksi",
-    ],
-    materialOptions: [
-      "Medali Logam / Akrilik / Resin Kilap",
-      "Pita Satin Hijau-Kuning Kampus",
-    ],
-    colors: [
-      { name: "Hijau-Kuning", hex: "#15803d" },
-      { name: "Emas", hex: "#b48c28" },
-    ],
-    specifications: {
-      "Jenis Produk": "Medali Wisuda & Penghargaan",
-      "Pita Kalung": "Pita Satin Ganda Hijau Kuning",
-      "Kustomisasi": "Logo Lembaga / Kampus & Tulisan Acara",
-      "Ketersediaan": "Pesanan Custom Satuan & Rombongan",
-      "Harga Resmi": "Hubungi Admin / Custom (Perlu konfirmasi spesifikasi & kuantiti)",
-    },
-  },
-  {
-    id: "fhd-mdl-06",
-    slug: "medali-custom-hitam-emas",
-    name: "Medali Custom Hitam Emas",
-    category: "apparel-pdh",
-    categoryLabel: "Atribut & Medali",
-    price: 0,
-    priceLabel: "Hubungi Admin / Custom",
-    priceType: "Harga Pembuatan",
-    priceUnit: "/ pcs",
-    badge: "Penghargaan & Wisuda",
-    rating: 5.0,
-    reviewCount: 95,
-    inStock: true,
-    sku: "FHD-MDL-006",
-    images: ["/Gambar/06-medali-custom-hitam-emas.jpeg"],
-    imageAlts: ["Medali custom hitam emas dengan identitas lembaga."],
-    shortDescription:
-      "Medali hitam emas dengan identitas lembaga dan ornamen dekoratif. Harga belum ditentukan (Hubungi Admin / Custom).",
-    description:
-      "Medali hitam emas dengan identitas lembaga dan ornamen dekoratif. Cocok sebagai referensi medali untuk kegiatan wisuda, alumni, dan penghargaan. Memadukan warna hitam elegan dengan aksen ornamen emas yang memberi kesan eksklusif dan berwibawa bagi para penerima apresiasi. Harga resmi belum ditentukan dan tetap menggunakan label Hubungi Admin / Custom karena harga akhir disesuaikan dengan kuantiti dan spesifikasi bahan.",
-    features: [
-      "Kombinasi warna hitam pekat dan aksen ornamen emas",
-      "Identitas lembaga dan logo institusi tercetak jelas",
-      "Cocok untuk wisuda, reuni alumni, dan malam penghargaan prestasi",
-      "Tali kalung kuat dan simetris",
-      "Tersedia nota resmi dan stempel toko untuk administrasi LPJ",
-    ],
-    materialOptions: [
-      "Plat Logam Emas / Akrilik Hitam Tebal",
-      "Pita Satin Eksklusif",
-    ],
-    colors: [
-      { name: "Hitam Emas", hex: "#0f172a" },
-      { name: "Gold", hex: "#b48c28" },
-    ],
-    specifications: {
-      "Jenis Produk": "Medali Apresiasi & Wisuda Prestasi",
-      "Kombinasi Warna": "Hitam & Emas Metalik",
-      "Desain": "Logo Lembaga & Ornamen Khusus",
-      "Fasilitas Administrasi": "Kuitansi Resmi & Stempel Toko",
-      "Harga Resmi": "Hubungi Admin / Custom (Perlu konfirmasi spesifikasi & kuantiti)",
-    },
   },
 
-  // ─── 2. PRODUK SEWA OUTFIT & KONVEKSI EKSIS ────────────────────────────────
+  // ─── 2. SEWA OUTFIT: JAS WISUDA PRIA ────────────────────────────────────────
   {
     id: "paket-lengkap-1",
     slug: "sewa-jas-pria-dasi-formal",
@@ -372,6 +156,8 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
       "Syarat Rental": "Jaminan KTP / KTM Mahasiswa",
     },
   },
+
+  // ─── 3. SEWA OUTFIT: JAS WANITA & SETELAN FORMAL ────────────────────────────
   {
     id: "bundling-sultan-1",
     slug: "sewa-jas-wanita-busana-formal",
@@ -428,6 +214,8 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
       "Lokasi Fitting": "Jln Alpen Meureubo, Aceh Barat",
     },
   },
+
+  // ─── 4. SEWA OUTFIT: SEPATU PANTOFEL ────────────────────────────────────────
   {
     id: "sepatu-pantofel-1",
     slug: "sewa-sepatu-pantofel",
@@ -480,6 +268,8 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
       "Status": "Sedia Sewa & Jual Baru",
     },
   },
+
+  // ─── 5. KONVEKSI & APPAREL: BAJU PDH & ALMAMATER ───────────────────────────
   {
     id: "jas-satuan-1",
     slug: "baju-pdh-kaos-almamater",
@@ -535,75 +325,14 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
       "Wilayah Distribusi": "Meulaboh, Aceh Barat & Seluruh Aceh",
     },
   },
+
+  // ─── 6. ATRIBUT & MEDALI: MEDALI WISUDA & ID CARD PVC ──────────────────────
   {
-    id: "selempang-custom-1",
-    slug: "selempang-wisuda-bludru-satin",
-    name: "Selempang Wisuda Custom & Bordir Nama Gelar (Bludru & Satin)",
-    category: "selempang",
-    categoryLabel: "Selempang",
-    price: 50000,
-    priceLabel: "Rp 50.000 - Rp 135.000",
-    priceType: "Harga Pembuatan",
-    priceUnit: "/ pcs",
-    badge: "Custom Hak Milik",
-    rating: 5.0,
-    reviewCount: 485,
-    inStock: true,
-    sku: "SAB-SLMP-001",
-    images: [
-      "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
-      "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
-      "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
-      "/Gambar/03-selempang-beige-bordir-pink.jpeg",
-    ],
-    imageAlts: [
-      "Contoh selempang wisuda hitam bordir silver",
-      "Contoh selempang leher bordir emas instansi",
-      "Contoh selempang hitam rumbai emas",
-      "Contoh selempang beige bordir pink",
-    ],
-    shortDescription:
-      "Pesan selempang wisuda bordir komputer benang emas & perak di Meulaboh. Bahan bludru & satin mewah, pengerjaan kilat 1 hari anti-typo garansi 100%.",
-    description:
-      "Selempang wisuda bordir komputer kualitas atelier dengan ketelitian huruf dan kerapian simetris tinggi. Dikerjakan menggunakan mesin bordir komputer modern berkecepatan tinggi dengan benang metalik gold dan silver tahan pudar. Tersedia bahan bludru beludru tebal 2 lapis dan bahan satin kilap premium dengan garansi ganti baru 100% apabila terjadi kesalahan cetak nama atau gelar.",
-    features: [
-      "Bordir komputer presisi tinggi dengan benang metalik emas & perak",
-      "Kain beludru dobel lapis (double layer) kaku elegan tanpa kusut",
-      "Pilihan list renda rumbai emas, perak, atau lis pita satin",
-      "Bebas custom nama lengkap, gelar akademik, dan logo kampus sah",
-      "Layanan Kilat 1 Hari selesai untuk kebutuhan sidang & wisuda mendesak",
-      "Garansi Anti-Typo 100% ganti baru gratis tanpa debat",
-    ],
-    materialOptions: [
-      "Kain Bludru Beludru Tebal (7 Pilihan Warna)",
-      "Kain Satin Kilap Mewah (12 Pilihan Warna)",
-      "Renda Rumbai Emas / Perak Metalik",
-    ],
-    colors: [
-      { name: "Hitam", hex: "#0f172a" },
-      { name: "Maron", hex: "#7f1d1d" },
-      { name: "Merah", hex: "#dc2626" },
-      { name: "Navy", hex: "#1e3a8a" },
-      { name: "Hijau", hex: "#15803d" },
-      { name: "Ungu", hex: "#6b21a8" },
-      { name: "Pink", hex: "#ec4899" },
-    ],
-    specifications: {
-      "Panjang Selempang": "175 cm - 180 cm (proporsional tubuh)",
-      "Lebar Selempang": "12 cm (standar toga wisuda nasional)",
-      "Teknik Bordir": "Bordir Komputer Multi-Needle Presisi",
-      "Pilihan Bahan": "Bludru Premium & Satin Silk",
-      "Pengerjaan Kilat": "Siap dalam 24 Jam (S&K berlaku)",
-      "Lokasi Produksi": "Workshop Meulaboh, Aceh Barat",
-    },
-    sashModel: "biasa",
-  },
-  {
-    id: "selempang-2lapis-1",
+    id: "fhd-mdl-05",
     slug: "id-card-medali-wisuda",
-    name: "Pembuatan ID Card PVC & Medali Wisuda Event",
+    name: "Medali Wisuda Custom & ID Card PVC",
     category: "apparel-pdh",
-    categoryLabel: "Apparel / PDH",
+    categoryLabel: "Atribut & Medali",
     price: 0,
     priceLabel: "Hubungi Admin / Custom",
     priceType: "Harga Pembuatan",
@@ -619,37 +348,36 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
     ],
     imageAlts: [
       "Contoh medali wisuda hijau pita kuning hijau",
-      "Contoh medali hitam emas penghargaan",
+      "Contoh medali custom hitam emas penghargaan",
     ],
     shortDescription:
-      "Jasa cetak ID card PVC tebal anti-patah & medali wisuda resin kilap di Aceh Barat. Dilengkapi tali lanyard custom warna kampus, siap untuk wisuda & event.",
+      "Jasa pembuatan medali wisuda plat kuningan/akrilik pita warna kampus dan cetak ID Card PVC tebal di Aceh Barat. Harga belum ditentukan (Hubungi Admin / Custom).",
     description:
-      "Produksi ID card berbahan PVC tebal standar kartu perbankan yang anti patah, tahan air, dan anti pudar, lengkap dengan tali lanyard warna kampus atau logo organisasi. Kami juga mencetak medali wisuda berbahan plat kuningan, akrilik, atau cor resin tebal dengan pita satin ganda sesuai warna fakultas.",
+      "Produksi medali wisuda berbahan plat logam, akrilik, atau cor resin kilap berkualitas dengan pita satin ganda sesuai warna fakultas atau kampus. Kami juga melayani cetak ID card kepanitiaan berbahan PVC tebal standar kartu perbankan yang tahan air dan anti patah. Harga resmi disesuaikan dengan kuantiti dan spesifikasi pesanan.",
     features: [
-      "Bahan PVC tebal tahan air, anti gores, dan tidak mudah patah",
-      "Medali wisuda logam / akrilik / resin kilau mewah jernih",
-      "Pita tali satin ganda jahitan rapi sesuai warna bendera kampus",
-      "Harga grosir ekonomis untuk wisuda angkatan dan event panitia",
-      "Jaminan siap sebelum tanggal gladi bersih wisuda",
-      "Mendukung faktur dan nota untuk klaim anggaran kampus/BEM",
+      "Medali wisuda logam / akrilik / resin kilap dengan logo kampus presisi",
+      "Pita satin ganda jahitan kuat dan rapi sesuai warna bendera kampus",
+      "Cetak ID card PVC tebal anti-patah dan anti-luntur",
+      "Melayani pemesanan partai kecil maupun rombongan besar",
+      "Fasilitas kuitansi resmi dan stempel toko untuk administrasi LPJ",
     ],
     materialOptions: [
-      "ID Card PVC Standar Tebal 0.76mm",
-      "Medali Wisuda Resin / Logam Kuningan",
-      "Tali Lanyard Printing Sablon / Polos",
+      "Medali Logam / Akrilik / Cor Resin",
+      "Pita Satin Ganda Custom Warna Kampus",
+      "ID Card PVC Standar 0.76mm",
     ],
     colors: [
+      { name: "Hijau-Kuning", hex: "#15803d" },
+      { name: "Hitam-Emas", hex: "#0f172a" },
       { name: "Gold", hex: "#b48c28" },
       { name: "Silver", hex: "#94a3b8" },
-      { name: "Tali Kampus", hex: "#0f172a" },
     ],
     specifications: {
-      "Jenis Atribut": "ID Card Kepanitiaan & Medali Wisuda",
-      "Material ID Card": "PVC Polyvinyl Chloride Anti-Patah",
-      "Material Medali": "Resin Kilap / Akrilik / Plat Kuningan",
-      "Tali / Pita": "Pita Satin Ganda 80 cm x 3 cm",
-      "Minimal Order": "Mulai 1 pcs hingga Ribuan pcs",
-      "Legalitas Nota": "Tersedia Kuitansi Resmi & Stempel",
+      "Jenis Produk": "Medali Wisuda & ID Card PVC Kepanitiaan",
+      "Pita Kalung": "Pita Satin Ganda Warna Kampus",
+      "Kustomisasi": "Logo Lembaga / Fakultas & Tulisan Acara",
+      "Status Harga": "Hubungi Admin / Custom (Disesuaikan kuantiti & bahan)",
+      "Lokasi Produksi": "Meulaboh, Aceh Barat",
     },
   },
 ];
@@ -663,6 +391,33 @@ export function getAllProductSlugs(): string[] {
 }
 
 export function getProductBySlug(slug: string): DetailedProduct | undefined {
+  if (
+    slug === "custom-selempang" ||
+    slug === "selempang-custom-1" ||
+    slug === "selempang-wisuda-bludru-satin" ||
+    slug === "selempang-wisuda-hitam-silver-custom" ||
+    slug === "selempang-hitam-bordir-emas-custom" ||
+    slug === "selempang-custom-beige-bordir-pink" ||
+    slug === "selempang-custom-rumbai-emas" ||
+    slug === "fhd-slmp-01" ||
+    slug === "fhd-slmp-02" ||
+    slug === "fhd-slmp-03" ||
+    slug === "fhd-slmp-04"
+  ) {
+    return ALL_PRODUCTS.find((p) => p.slug === "custom-selempang" || p.id === "selempang-custom-1");
+  }
+
+  if (
+    slug === "id-card-medali-wisuda" ||
+    slug === "medali-wisuda-custom-hijau" ||
+    slug === "medali-custom-hitam-emas" ||
+    slug === "fhd-mdl-05" ||
+    slug === "fhd-mdl-06" ||
+    slug === "selempang-2lapis-1"
+  ) {
+    return ALL_PRODUCTS.find((p) => p.slug === "id-card-medali-wisuda" || p.id === "fhd-mdl-05");
+  }
+
   return ALL_PRODUCTS.find((p) => p.slug === slug || p.id === slug);
 }
 

@@ -204,16 +204,17 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "selempang-custom-1",
-    name: "Selempang Wisuda (Bludru & Satin)",
+    name: "Custom Selempang",
     category: "selempang",
     description:
-      "Bordir komputer presisi rapi. Range harga mulai Rp 50.000 - 55.000 - 65.000 - 80.000 - 85.000 - 90.000 - 135.000. Bahan Bludru & Satin dengan pilihan warna terlengkap.",
+      "Layanan pembuatan selempang wisuda dengan pilihan model, bahan, warna, tulisan bordir, dan dekorasi sesuai kebutuhan pelanggan.",
     price: 50000,
-    priceLabel: "Rp 50.000 - 135.000",
+    priceLabel: "Mulai Rp 50.000",
     images: [
       "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
       "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
       "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
+      "/Gambar/03-selempang-beige-bordir-pink.jpeg",
     ],
     badge: "Custom Hak Milik",
     isBestSeller: true,

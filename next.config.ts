@@ -35,6 +35,21 @@ const nextConfig: NextConfig = {
         destination: "/produk",
         permanent: true,
       },
+      {
+        source: "/produk/selempang-2lapis-1",
+        destination: "/produk/id-card-medali-wisuda",
+        permanent: true,
+      },
+      {
+        source: "/produk/selempang-:slug*",
+        destination: "/produk/custom-selempang",
+        permanent: true,
+      },
+      {
+        source: "/produk/fhd-slmp-:slug*",
+        destination: "/produk/custom-selempang",
+        permanent: true,
+      },
     ];
   },
 };

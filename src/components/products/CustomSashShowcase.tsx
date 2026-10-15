@@ -34,7 +34,7 @@ const MODEL_PHOTOS: Record<SashModelType, { main: string; gallery: string[]; cap
       "/Gambar/03-selempang-beige-bordir-pink.jpeg",
       "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
     ],
-    caption: "Foto Asli Produk FHD: Selempang Wisuda Hitam Silver Custom (Model Biasa)",
+    caption: "Contoh Desain Foto Asli: Model A — Biasa Menyamping",
   },
   syal: {
     main: "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
@@ -43,7 +43,7 @@ const MODEL_PHOTOS: Record<SashModelType, { main: string; gallery: string[]; cap
       "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
       "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
     ],
-    caption: "Foto Asli Produk FHD: Selempang Hitam Bordir Emas Custom (Model Leher / Syal)",
+    caption: "Contoh Desain Foto Asli: Model B — Leher / Syal",
   },
   timbal_balik: {
     main: "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
@@ -52,7 +52,7 @@ const MODEL_PHOTOS: Record<SashModelType, { main: string; gallery: string[]; cap
       "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
       "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
     ],
-    caption: "Foto Asli Produk FHD: Selempang Custom dengan Rumbai Emas (Dua Sisi)",
+    caption: "Contoh Desain Foto Asli: Model C — Leher Timbal Balik (Dua Sisi)",
   },
 };
 
@@ -109,7 +109,7 @@ export function CustomSashShowcase() {
   const dpEstimate = Math.floor(calculation.unitPrice * 0.5);
   const balanceEstimate = calculation.unitPrice - dpEstimate;
 
-  const checkoutUrl = `/checkout/custom-selempang?model=${activeModel}${
+  const checkoutUrl = `/checkout/custom-selempang?productId=selempang-custom-1&slug=custom-selempang&model=${activeModel}${
     selectedAddons.length > 0 ? `&addons=${selectedAddons.join(",")}` : ""
   }`;
 
@@ -132,7 +132,7 @@ export function CustomSashShowcase() {
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-bold uppercase tracking-wider text-[#b48c28]">
-                  {mKey === "biasa" ? "Produk A" : mKey === "syal" ? "Produk B" : "Produk C"}
+                  {mKey === "biasa" ? "Model A" : mKey === "syal" ? "Model B" : "Model C"}
                 </span>
                 <span className="text-xs font-bold text-[#0f172a]">
                   {formatIDR(m.basePrice)}
@@ -396,13 +396,13 @@ export function CustomSashShowcase() {
               href={checkoutUrl}
               className="w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-[#b48c28] hover:bg-[#9a751e] text-white font-bold text-base tracking-wide transition-all shadow-md active:scale-98 text-center cursor-pointer"
             >
-              <span>Pesan Custom Selempang Sekarang</span>
+              <span>Pesan Model Ini</span>
               <ArrowRight size={18} />
             </Link>
 
             <div className="mt-3 flex items-center justify-center gap-2 text-xs text-slate-500">
               <ShieldCheck size={14} className="text-[#b48c28]" />
-              <span>Halaman pemesanan resmi tersendiri dengan verifikasi spesifikasi lengkap.</span>
+              <span>Model yang dipilih otomatis diteruskan ke formulir checkout.</span>
             </div>
           </div>
         </div>
