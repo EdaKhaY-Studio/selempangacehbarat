@@ -129,19 +129,19 @@ export function ProductCatalogClient({ products }: ProductCatalogClientProps) {
               className="group bg-white rounded-2xl border border-[#cbd5e1]/60 hover:border-[#b48c28]/60 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
               <div>
-                {/* Image Container with Badges */}
-                <div className="relative aspect-[4/3] w-full bg-slate-100 overflow-hidden">
+                {/* Image Container with Badges - uncropped aspect ratio to preserve full embroidery and sash */}
+                <div className="relative aspect-[3/4] w-full bg-[#f8fafc] overflow-hidden flex items-center justify-center border-b border-[#cbd5e1]/40">
                   <Image
                     src={product.images[0]}
-                    alt={product.name}
+                    alt={product.imageAlts?.[0] || product.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-40 pointer-events-none" />
 
                   {/* Top Badges */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none">
                     <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-white/95 text-[#0f172a] backdrop-blur-sm border border-[#cbd5e1]/60 shadow-xs">
                       {product.categoryLabel}
                     </span>
@@ -154,11 +154,11 @@ export function ProductCatalogClient({ products }: ProductCatalogClientProps) {
                   </div>
 
                   {/* Price Tag Overlay on Bottom Image */}
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none">
                     <span className="text-[11px] font-semibold text-white/90 bg-black/60 px-2 py-0.5 rounded backdrop-blur-xs">
                       {product.priceType}
                     </span>
-                    <span className="text-xs font-bold text-amber-300 bg-black/70 px-2.5 py-0.5 rounded-full border border-amber-400/40 backdrop-blur-xs">
+                    <span className="text-xs font-bold text-amber-300 bg-black/75 px-2.5 py-0.5 rounded-full border border-amber-400/40 backdrop-blur-xs">
                       {product.priceLabel}
                     </span>
                   </div>
@@ -185,8 +185,8 @@ export function ProductCatalogClient({ products }: ProductCatalogClientProps) {
                     </Link>
                   </h3>
 
-                  {/* Short Description */}
-                  <p className="text-xs text-[#475569] leading-relaxed line-clamp-2 mb-4">
+                  {/* Short Description (Directly readable) */}
+                  <p className="text-xs text-[#475569] leading-relaxed mb-4">
                     {product.shortDescription}
                   </p>
 
@@ -235,35 +235,15 @@ export function ProductCatalogClient({ products }: ProductCatalogClientProps) {
                 </div>
               </div>
 
-              {/* Action Buttons Footer */}
-              <div className="p-5 sm:p-6 pt-0 border-t border-[#cbd5e1]/40 bg-[#faf9f6]/50 mt-2 flex flex-col sm:flex-row gap-2">
+              {/* Action Button: Hanya Lihat Detail (Sesuai Alur: Katalog Produk -> Detail Produk -> Formulir Pemesanan) */}
+              <div className="p-4 sm:p-5 pt-0 border-t border-[#cbd5e1]/40 bg-[#faf9f6]/50 mt-2">
                 <Link
                   href={`/produk/${product.slug}`}
-                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0f172a] hover:bg-slate-800 text-white font-semibold text-xs tracking-wide transition-all shadow-xs group/btn active:scale-95 text-center"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0f172a] hover:bg-slate-800 text-white font-semibold text-xs tracking-wide transition-all shadow-xs hover:shadow-md active:scale-98 text-center cursor-pointer"
                 >
-                  <span>Detail &amp; Pesan</span>
-                  <ArrowRight
-                    size={14}
-                    className="group-hover/btn:translate-x-1 transition-transform"
-                  />
+                  <span>Lihat Detail</span>
+                  <ArrowRight size={13} className="text-[#fdce64]" />
                 </Link>
-
-                <a
-                  href={`https://wa.me/${
-                    product.category === "sewa-outfit" || product.slug.startsWith("sewa-")
-                      ? "6282276027590"
-                      : "6282299256343"
-                  }?text=Halo%20Selempang%20Aceh%20Barat,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
-                    product.name
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center p-2.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-300 font-semibold text-xs transition-all active:scale-95"
-                  title="Tanya WhatsApp"
-                  aria-label="Tanya WhatsApp"
-                >
-                  <MessageCircle size={16} />
-                </a>
               </div>
             </article>
           ))}

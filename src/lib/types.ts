@@ -211,7 +211,9 @@ export const PRODUCTS: Product[] = [
     price: 50000,
     priceLabel: "Rp 50.000 - 135.000",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuACGb4x2T6Ey5MqMf2FS15rYdtYlVPM8sNxUDMnOd8Dkmxa1jBs_eT9IXzl8LfSgXjDDgve0S5qx5Bo28kSB5YtdCeVGKnTbBqABt7KtrvyDb5dvXHZ0coHthBjU5CpW1KwCuV0PBNo-9LBzXhQeZgBS9pKYjbosSCshPwBoHR2PV7wZ5AW_n6I_cf02YXECTjF7BPV1EdTp_z-ekTKmvvP9WH-Sm6KejQYPeGhlfRtjw5ShwR9hugT",
+      "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
+      "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
+      "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
     ],
     badge: "Custom Hak Milik",
     isBestSeller: true,
@@ -248,11 +250,12 @@ export const PRODUCTS: Product[] = [
     name: "Id Card & Medali Wisuda (Dijual)",
     category: "selempang",
     description:
-      "Pembuatan Id Card anti patah & Medali wisuda/event resin kilap pita warna kampus. Tersedia juga penjualan Jas, Dasi, Kemeja Putih & Celana Formal baru.",
-    price: 25000,
-    priceLabel: "Mulai Rp 15.000",
+      "Pembuatan Id Card anti patah & Medali wisuda/event resin kilap pita warna kampus. Harga belum ditentukan (Hubungi Admin / Custom).",
+    price: 0,
+    priceLabel: "Hubungi Admin / Custom",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCOVNwBxqTyk3uRGT88S_AYGCZZbQ_TnLexHaXWvwm_sewcrhunr8Yb9kGLl6O6T9Ijywswyyb8wnkS86SF6QiswwNhf4z3zaJX0LS3WrQY6M0ObRoTPwoCVxorUohQUpbSl6J3rFguSwxHiOX5JeIGtW7R2qnWa2fYZeLqy4AwptyG1MAib8uK5QgYq7RbDgqEI25qFYaXX4_flT6FZyw-MI0W560i8pnWdD1Oqa7pAg2zhoKHqyQf",
+      "/Gambar/05-medali-wisuda-custom-hijau.jpeg",
+      "/Gambar/06-medali-custom-hitam-emas.jpeg",
     ],
     badge: "Atribut Wisuda",
   },

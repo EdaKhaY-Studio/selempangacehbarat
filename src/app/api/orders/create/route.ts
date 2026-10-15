@@ -1,9 +1,18 @@
 import { NextResponse } from "next/server";
 import { orderStore } from "@/lib/db/orderStore";
-import { calculateOrderTotals, SashModelType } from "@/lib/pricing/calculator";
+import {
+  calculateOrderTotals,
+  SashModelType,
+  ADDONS_BIASA,
+  ADDONS_SYAL,
+  SASH_MODELS,
+} from "@/lib/pricing/calculator";
+import { getProductBySlug } from "@/lib/products-data";
 import { MidtransService } from "@/lib/services/midtransService";
 
 interface IncomingOrderItem {
+  productId?: string;
+  productSlug?: string;
   modelType: SashModelType;
   material: "bludru" | "satin";
   clothColor: string;
@@ -89,9 +98,89 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Validate Items & Logo Requirement
+    // 2. Validate Items, Products & Approved Addons (Server-side validation)
     for (let i = 0; i < items.length; i++) {
       const it = items[i];
+
+      // 2a. Validate Product Slug or ID if provided
+      if (it.productId || it.productSlug) {
+        const query = (it.productSlug || it.productId) as string;
+        const matchedProduct = getProductBySlug(query);
+        if (!matchedProduct) {
+          return NextResponse.json(
+            {
+              success: false,
+              message: `Produk "${query}" tidak terdaftar dalam katalog resmi Selempang Aceh Barat.`,
+            },
+            { status: 400 }
+          );
+        }
+      }
+
+      // 2b. Validate Model Type
+      if (!it.modelType || !SASH_MODELS[it.modelType]) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: `Model selempang "${it.modelType}" pada item #${i + 1} tidak valid. Pilihan yang diizinkan: biasa, syal, timbal_balik.`,
+          },
+          { status: 400 }
+        );
+      }
+
+      // 2c. Validate Decorations/Addons against official approved catalog
+      if (Array.isArray(it.decorations)) {
+        if (it.modelType === "biasa") {
+          let laceCount = 0;
+          for (const decor of it.decorations) {
+            if (!ADDONS_BIASA[decor]) {
+              return NextResponse.json(
+                {
+                  success: false,
+                  message: `Tambahan dekorasi "${decor}" tidak tersedia untuk model biasa pada item #${i + 1}.`,
+                },
+                { status: 400 }
+              );
+            }
+            if (ADDONS_BIASA[decor].group === "renda") {
+              laceCount++;
+            }
+          }
+          if (laceCount > 1) {
+            return NextResponse.json(
+              {
+                success: false,
+                message: `Pilihan renda pada model biasa saling eksklusif. Hanya boleh memilih salah satu dari renda biasa, mahkota, atau Marsyanda.`,
+              },
+              { status: 400 }
+            );
+          }
+        } else if (it.modelType === "syal") {
+          for (const decor of it.decorations) {
+            if (!ADDONS_SYAL[decor]) {
+              return NextResponse.json(
+                {
+                  success: false,
+                  message: `Tambahan dekorasi "${decor}" tidak tersedia untuk model syal pada item #${i + 1}.`,
+                },
+                { status: 400 }
+              );
+            }
+          }
+        } else if (it.modelType === "timbal_balik") {
+          if (it.decorations.length > 0) {
+            return NextResponse.json(
+              {
+                success: false,
+                message: `Model leher timbal balik adalah paket Rp135.000 tanpa tambahan dekorasi lain yang belum disepakati.`,
+              },
+              { status: 400 }
+            );
+          }
+        }
+      }
+
+      // 2d. Validate Custom Text & Logo File
       if (!it.customText || !it.customText.trim()) {
         return NextResponse.json(
           { success: false, message: `Tulisan nama/gelar pada item #${i + 1} wajib diisi.` },
@@ -160,6 +249,12 @@ export async function POST(request: Request) {
     // Build finalized items with recalculated server values
     const finalizedItems = items.map((it, idx) => {
       const calculated = pricingCalc.items[idx];
+      const matchedProduct = it.productSlug || it.productId
+        ? getProductBySlug((it.productSlug || it.productId) as string)
+        : undefined;
+      const productNote = matchedProduct ? `[Produk: ${matchedProduct.name} (${matchedProduct.sku})]` : "";
+      const combinedNotes = [productNote, it.designNotes?.trim()].filter(Boolean).join(" | ") || undefined;
+
       return {
         modelType: it.modelType,
         material: it.material,
@@ -170,7 +265,7 @@ export async function POST(request: Request) {
         hasLogo: Boolean(it.hasLogo),
         logoUrl: it.logoUrl,
         decorations: calculated.selectedAddons.map((a) => a.id),
-        designNotes: it.designNotes,
+        designNotes: combinedNotes,
         basePrice: calculated.basePrice,
         addonsPrice: calculated.addonsPricePerUnit,
         unitPrice: calculated.unitPrice,

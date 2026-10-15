@@ -28,19 +28,31 @@ function formatIDR(val: number): string {
 
 const MODEL_PHOTOS: Record<SashModelType, { main: string; gallery: string[]; caption: string }> = {
   biasa: {
-    main: "/Gambar/Maira-sartika.png",
-    gallery: ["/Gambar/Maira-sartika.png", "/Gambar/Rovi-Anita.png", "/Gambar/bg-1.jpg"],
-    caption: "Foto Asli Produk FHD: Selempang Wisuda Model Biasa Menyamping",
+    main: "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
+    gallery: [
+      "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
+      "/Gambar/03-selempang-beige-bordir-pink.jpeg",
+      "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
+    ],
+    caption: "Foto Asli Produk FHD: Selempang Wisuda Hitam Silver Custom (Model Biasa)",
   },
   syal: {
-    main: "/Gambar/Rovi-Anita.png",
-    gallery: ["/Gambar/Rovi-Anita.png", "/Gambar/bg-2.jpg", "/Gambar/bg-3.jpg"],
-    caption: "Foto Asli Produk FHD: Selempang Wisuda Model Leher / Syal",
+    main: "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
+    gallery: [
+      "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
+      "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
+      "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
+    ],
+    caption: "Foto Asli Produk FHD: Selempang Hitam Bordir Emas Custom (Model Leher / Syal)",
   },
   timbal_balik: {
-    main: "/Gambar/bg-1.jpg",
-    gallery: ["/Gambar/bg-1.jpg", "/Gambar/bg-4.jpg", "/Gambar/bg-5.jpg"],
-    caption: "Foto Asli Produk FHD: Selempang Wisuda Model Leher Timbal Balik Dua Sisi",
+    main: "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
+    gallery: [
+      "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
+      "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
+      "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
+    ],
+    caption: "Foto Asli Produk FHD: Selempang Custom dengan Rumbai Emas (Dua Sisi)",
   },
 };
 
@@ -137,14 +149,14 @@ export function CustomSashShowcase() {
         {/* Left Column: Photo & Specifications (5 cols on lg) */}
         <div className="lg:col-span-5 space-y-5">
           {/* Main Photo Card */}
-          <div className="relative aspect-4/5 w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-200/90 shadow-sm">
+          <div className="relative aspect-4/5 w-full rounded-2xl overflow-hidden bg-[#f8fafc] border border-slate-200/90 shadow-sm flex items-center justify-center">
             <Image
               src={previewImage}
               alt={photoData.caption}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 42vw"
-              className="object-cover transition-all duration-300"
+              className="object-contain p-2 transition-all duration-300"
             />
             <div className="absolute top-4 left-4 bg-[#0f172a]/90 backdrop-blur-xs text-white px-3 py-1 rounded-lg text-xs font-semibold shadow-xs">
               Foto Asli Produk FHD

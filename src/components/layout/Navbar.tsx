@@ -12,7 +12,6 @@ export const NAV_LINKS = [
   { href: "/tentang-kami", label: "Tentang Kami" },
   { href: "/produk", label: "Katalog Produk" },
   { href: "/produk/custom-selempang", label: "Custom Selempang" },
-  { href: "/galeri", label: "Galeri" },
   { href: "/blog", label: "Blog" },
 ];
 

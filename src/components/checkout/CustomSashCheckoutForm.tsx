@@ -33,6 +33,7 @@ import {
   calculateOrderTotals,
   sanitizeAddons,
 } from "@/lib/pricing/calculator";
+import { getProductBySlug, DetailedProduct } from "@/lib/products-data";
 
 function formatIDR(val: number): string {
   return "Rp" + val.toLocaleString("id-ID");
@@ -40,6 +41,8 @@ function formatIDR(val: number): string {
 
 export interface CheckoutItemState {
   id: string;
+  productId?: string;
+  productSlug?: string;
   modelType: SashModelType;
   material: "bludru" | "satin";
   clothColor: string;
@@ -81,6 +84,16 @@ export function CustomSashCheckoutForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Find verified product from searchParams if navigated from product detail
+  const productParam =
+    searchParams.get("slug") ||
+    searchParams.get("productId") ||
+    searchParams.get("product") ||
+    searchParams.get("id");
+  const verifiedProduct: DetailedProduct | undefined = productParam
+    ? getProductBySlug(productParam)
+    : undefined;
+
   // Generate a stable idempotency key for this checkout attempt
   const [idempotencyKey, setIdempotencyKey] = useState<string>("");
 
@@ -90,11 +103,20 @@ export function CustomSashCheckoutForm() {
     setIdempotencyKey(key);
   }, []);
 
-  // Pre-seed from searchParams if available
-  const initialModel = (searchParams.get("model") as SashModelType) || "biasa";
+  // Pre-seed from searchParams or verified product
+  const initialModel =
+    (searchParams.get("model") as SashModelType) ||
+    verifiedProduct?.sashModel ||
+    "biasa";
   const initialAddonsParam = searchParams.get("addons");
+  const initialCloth = searchParams.get("cloth");
+  const initialEdge = searchParams.get("edge");
+  const initialThread = searchParams.get("thread");
+  const initialMaterial = searchParams.get("material") as "bludru" | "satin" | null;
   const initialAddons = initialAddonsParam
     ? sanitizeAddons(initialModel, initialAddonsParam.split(","))
+    : verifiedProduct?.defaultAddons && verifiedProduct.defaultAddons.length > 0
+    ? sanitizeAddons(initialModel, verifiedProduct.defaultAddons)
     : [];
 
   // Customer Contact State
@@ -124,11 +146,13 @@ export function CustomSashCheckoutForm() {
   const [items, setItems] = useState<CheckoutItemState[]>([
     {
       id: "item-1",
+      productId: verifiedProduct?.id,
+      productSlug: verifiedProduct?.slug,
       modelType: initialModel,
-      material: "bludru",
-      clothColor: "Hitam",
-      edgeTapeColor: "Gold (Emas)",
-      threadColor: "Gold (Benang Emas Metalik)",
+      material: initialMaterial || "bludru",
+      clothColor: initialCloth || "Hitam",
+      edgeTapeColor: initialEdge || "Gold (Emas)",
+      threadColor: initialThread || "Gold (Benang Emas Metalik)",
       customText: "",
       hasLogo: false,
       decorations: initialAddons,
@@ -138,6 +162,93 @@ export function CustomSashCheckoutForm() {
 
   // Submission State
   const [submitState, setSubmitState] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  // Restore draft state from sessionStorage if returning to form
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem("sab_checkout_draft");
+      if (saved) {
+        const draft = JSON.parse(saved);
+        if (draft.customerName) setCustomerName(draft.customerName);
+        if (draft.customerPhone) setCustomerPhone(draft.customerPhone);
+        if (draft.customerEmail) setCustomerEmail(draft.customerEmail);
+        if (draft.customerInstitution) setCustomerInstitution(draft.customerInstitution);
+        if (draft.eventDate) setEventDate(draft.eventDate);
+        if (draft.targetDate) setTargetDate(draft.targetDate);
+        if (draft.deliveryMethod) setDeliveryMethod(draft.deliveryMethod);
+        if (draft.deliveryAddress) setDeliveryAddress(draft.deliveryAddress);
+        if (draft.deliveryCity) setDeliveryCity(draft.deliveryCity);
+        if (draft.deliveryPostalCode) setDeliveryPostalCode(draft.deliveryPostalCode);
+        if (draft.scheduleNotes) setScheduleNotes(draft.scheduleNotes);
+
+        if (draft.items && Array.isArray(draft.items) && draft.items.length > 0) {
+          if (productParam || searchParams.get("model")) {
+            const updatedItems = [...draft.items];
+            updatedItems[0] = {
+              ...updatedItems[0],
+              productId: verifiedProduct?.id || updatedItems[0].productId,
+              productSlug: verifiedProduct?.slug || updatedItems[0].productSlug,
+              modelType: initialModel,
+              decorations: initialAddons.length > 0 ? initialAddons : updatedItems[0].decorations,
+              clothColor: initialCloth || updatedItems[0].clothColor,
+              edgeTapeColor: initialEdge || updatedItems[0].edgeTapeColor,
+              threadColor: initialThread || updatedItems[0].threadColor,
+              material: initialMaterial || updatedItems[0].material,
+            };
+            setItems(updatedItems);
+          } else {
+            setItems(draft.items);
+          }
+        }
+      }
+    } catch {
+      // ignore parsing error
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Auto-save form draft to sessionStorage on state change
+  useEffect(() => {
+    try {
+      if (submitState !== "success") {
+        const draft = {
+          selectedProductSlug: verifiedProduct?.slug,
+          customerName,
+          customerPhone,
+          customerEmail,
+          customerInstitution,
+          eventDate,
+          targetDate,
+          deliveryMethod,
+          deliveryAddress,
+          deliveryCity,
+          deliveryPostalCode,
+          scheduleNotes,
+          items,
+        };
+        sessionStorage.setItem("sab_checkout_draft", JSON.stringify(draft));
+      } else {
+        sessionStorage.removeItem("sab_checkout_draft");
+      }
+    } catch {
+      // ignore storage error
+    }
+  }, [
+    customerName,
+    customerPhone,
+    customerEmail,
+    customerInstitution,
+    eventDate,
+    targetDate,
+    deliveryMethod,
+    deliveryAddress,
+    deliveryCity,
+    deliveryPostalCode,
+    scheduleNotes,
+    items,
+    submitState,
+    verifiedProduct?.slug,
+  ]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [uploadingLogoIdx, setUploadingLogoIdx] = useState<number | null>(null);
 
@@ -340,6 +451,8 @@ export function CustomSashCheckoutForm() {
         deliveryPostalCode: deliveryPostalCode.trim() || undefined,
         scheduleNotes: scheduleNotes.trim() || undefined,
         items: items.map((it) => ({
+          productId: it.productId || verifiedProduct?.id,
+          productSlug: it.productSlug || verifiedProduct?.slug,
           modelType: it.modelType,
           material: it.material,
           clothColor: it.clothColor,
@@ -383,6 +496,56 @@ export function CustomSashCheckoutForm() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         {/* Left Form Column (7 cols on lg) */}
         <div className="lg:col-span-7 space-y-8">
+          {/* Showcase Produk Terpilih dari Katalog Resmi */}
+          {verifiedProduct && (
+            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-amber-50/80 via-white to-amber-50/40 border border-[#b48c28]/40 shadow-xs flex flex-col sm:flex-row items-center gap-5">
+              <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-white border border-slate-200/80 shrink-0 flex items-center justify-center shadow-2xs">
+                <Image
+                  src={verifiedProduct.images[0]}
+                  alt={verifiedProduct.name}
+                  fill
+                  sizes="112px"
+                  className="object-contain p-2"
+                />
+              </div>
+              <div className="flex-1 space-y-1.5 text-center sm:text-left">
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                  <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-[#0f172a] text-white">
+                    Produk Terpilih
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-[#b48c28] border border-amber-300/60">
+                    {verifiedProduct.categoryLabel}
+                  </span>
+                  <span className="font-mono text-[10px] text-slate-400 uppercase">
+                    SKU: {verifiedProduct.sku}
+                  </span>
+                </div>
+                <h2 className="font-serif text-lg font-bold text-[#0f172a] leading-snug">
+                  {verifiedProduct.name}
+                </h2>
+                <div className="text-xs text-[#475569]">
+                  {verifiedProduct.price > 0 ? (
+                    <span>
+                      Harga Dasar Resmi: <strong className="text-[#b48c28] font-bold font-mono">{formatIDR(verifiedProduct.price)}</strong> / unit (sebelum tambahan dekorasi).
+                    </span>
+                  ) : (
+                    <span className="text-amber-800 font-semibold">
+                      Status Harga: {verifiedProduct.priceLabel} (Perlu konfirmasi spesifikasi &amp; kuantiti).
+                    </span>
+                  )}
+                </div>
+                <div className="pt-1">
+                  <Link
+                    href={`/produk/${verifiedProduct.slug}`}
+                    className="inline-flex items-center gap-1 text-xs text-[#b48c28] hover:text-[#9a751e] font-semibold hover:underline"
+                  >
+                    <span>&larr; Lihat detail produk atau ganti produk lain</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* SECTION A: Customer Identity */}
           <div className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-5">
             <div className="flex items-center gap-2.5 pb-4 border-b border-slate-100">

@@ -1,13 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { PRODUCTS } from "@/lib/types";
-import { BookingModal } from "@/components/ui/BookingModal";
 import { CategoryFilter } from "@/components/ui/CategoryFilter";
 import type { Product } from "@/lib/types";
 import Image from "next/image";
 import { Palette, Sparkles, Check, ArrowRight } from "lucide-react";
+
+const PRODUCT_SLUGS: Record<string, string> = {
+  "selempang-custom-1": "selempang-wisuda-bludru-satin",
+  "paket-lengkap-1": "sewa-jas-pria-dasi-formal",
+  "bundling-sultan-1": "sewa-jas-wanita-busana-formal",
+  "sepatu-pantofel-1": "sewa-sepatu-pantofel",
+  "jas-satuan-1": "baju-pdh-kaos-almamater",
+  "selempang-2lapis-1": "id-card-medali-wisuda",
+};
 
 type CatalogFilterType = "all" | "beli-selempang" | "sewa-outfit" | "paket-organisasi";
 
@@ -132,7 +141,7 @@ const PRODUCT_META: Record<string, CatalogItemMeta> = {
     ],
   },
   "selempang-2lapis-1": {
-    badgeBottomRight: "Mulai 15k",
+    badgeBottomRight: "Hubungi Admin",
     subType: "Atribut Wisuda & Formal (Dijual)",
     stockStatus: "Ready Produksi",
     stockType: "ready",
@@ -237,15 +246,15 @@ export function CatalogSection() {
                   className={`p-4 sm:p-5 rounded-2xl bg-white border border-[#cbd5e1]/80 flex flex-col justify-between hover:shadow-xl hover:border-[#b48c28]/70 transition-all duration-300 group antigravity antigravity-pause-hover ${floatVariants[idx % floatVariants.length]}`}
                 >
                   <div className="flex flex-col gap-4">
-                    {/* Card Image + Price Badge Overlay */}
-                    <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-[#f1f5f9]">
+                    {/* Card Image + Price Badge Overlay - uncropped aspect ratio */}
+                    <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-[#f8fafc] flex items-center justify-center border border-[#cbd5e1]/40">
                       <Image
                         src={product.images[0]}
                         alt={product.name}
                         fill
                         unoptimized
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                       />
 
                       {/* Top Left Badge */}
@@ -328,38 +337,39 @@ export function CatalogSection() {
                     </div>
                   </div>
 
-                  {/* Price & Action Buttons */}
+                  {/* Price & Action Button: Hanya Lihat Detail (Sesuai Alur: Katalog -> Detail -> Formulir) */}
                   <div className="flex flex-col gap-3.5 pt-4 mt-3 border-t border-[#cbd5e1]/50">
                     <div className="flex items-baseline justify-between">
                       <span className="text-xs text-[#475569]">
                         {meta.priceType}
                       </span>
                       <div className="text-right">
-                        <span className="font-mono text-xl text-[#0f172a] font-bold">
-                          Rp {product.price.toLocaleString("id-ID")}
-                        </span>
-                        <span className="text-xs text-[#475569]">
-                          {" "}
-                          {meta.priceUnit}
-                        </span>
+                        {product.price > 0 ? (
+                          <>
+                            <span className="font-mono text-xl text-[#0f172a] font-bold">
+                              Rp {product.price.toLocaleString("id-ID")}
+                            </span>
+                            <span className="text-xs text-[#475569]">
+                              {" "}
+                              {meta.priceUnit}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="font-serif text-sm text-[#b48c28] font-bold">
+                            {product.priceLabel}
+                          </span>
+                        )}
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => setSelectedProduct(product)}
-                        className="w-full py-2.5 rounded-lg bg-[#0f172a] hover:bg-slate-800 text-white text-xs font-semibold transition-all duration-200 text-center shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98"
+                    <div className="w-full">
+                      <Link
+                        href={`/produk/${PRODUCT_SLUGS[product.id] || "custom-selempang"}`}
+                        className="w-full py-2.5 rounded-xl bg-[#0f172a] hover:bg-slate-800 text-white text-xs font-semibold transition-all duration-200 text-center shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                       >
-                        <span>{meta.ctaPrimaryText}</span>
-                        <ArrowRight size={13} />
-                      </button>
-
-                      <button
-                        onClick={() => setSelectedProduct(product)}
-                        className="w-full py-2.5 rounded-lg bg-[#f8fafc] border border-[#cbd5e1] text-[#0f172a] text-xs hover:bg-[#e2e8f0] transition-colors text-center font-medium cursor-pointer active:scale-98"
-                      >
-                        {meta.ctaSecondaryText}
-                      </button>
+                        <span>Lihat Detail</span>
+                        <ArrowRight size={13} className="text-[#fdce64]" />
+                      </Link>
                     </div>
                   </div>
                 </motion.div>
@@ -367,16 +377,6 @@ export function CatalogSection() {
             })}
           </AnimatePresence>
         </motion.div>
-
-        {/* Modal Booking */}
-        <AnimatePresence>
-          {selectedProduct && (
-            <BookingModal
-              product={selectedProduct}
-              onClose={() => setSelectedProduct(null)}
-            />
-          )}
-        </AnimatePresence>
       </div>
     </section>
   );

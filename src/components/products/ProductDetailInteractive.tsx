@@ -73,14 +73,14 @@ Mohon info ketersediaan slot dan alur pemesanannya. Terima kasih!`
         {/* Left Column: Media Gallery & Specifications (5 cols on lg) */}
         <div className="lg:col-span-5 flex flex-col gap-6">
           {/* Main Hero Image */}
-          <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-slate-100 border border-[#cbd5e1]/60 shadow-sm">
+          <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-[#f8fafc] border border-[#cbd5e1]/60 shadow-sm flex items-center justify-center">
             <Image
               src={selectedImage}
-              alt={product.name}
+              alt={product.imageAlts?.[0] || product.name}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 42vw"
-              className="object-cover transition-all duration-300"
+              className="object-contain p-3 transition-all duration-300"
             />
             {product.badge && (
               <span className="absolute top-4 left-4 px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-[#b48c28] text-white shadow-md">
@@ -214,8 +214,54 @@ Mohon info ketersediaan slot dan alur pemesanannya. Terima kasih!`
               </span>
             </div>
             <p className="text-[11px] text-[#75777d] mt-2">
-              *Harga transparan tanpa biaya tersembunyi. Termasuk konsultasi gratis dan sesi fitting langsung di toko.
+              *Harga resmi tanpa markup tersembunyi. Termasuk konsultasi pengerjaan dan garansi 100% anti-typo.
             </p>
+
+            {/* Approved Base Price & Addon Schedule */}
+            {product.category === "selempang" && (
+              <div className="mt-4 pt-3.5 border-t border-amber-200/60 text-xs space-y-2">
+                <div className="font-bold text-[#0f172a] text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+                  <Sparkles size={13} className="text-[#b48c28]" />
+                  <span>Rincian Harga Dasar &amp; Tambahan Resmi yang Disetujui:</span>
+                </div>
+                {product.sashModel === "syal" ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-[#475569] bg-white/80 p-3 rounded-xl border border-amber-100">
+                    <div>• <strong>Harga Dasar:</strong> Rp 85.000</div>
+                    <div>• <strong>Motif Ujung:</strong> +Rp 5.000</div>
+                    <div>• <strong>Motif Tengah:</strong> +Rp 5.000</div>
+                    <div>• <strong>Les Pinggir:</strong> +Rp 10.000</div>
+                    <div>• <strong>Renda Syal:</strong> +Rp 15.000</div>
+                    <div>• <strong>Rumbai Ujung:</strong> +Rp 15.000</div>
+                  </div>
+                ) : product.sashModel === "timbal_balik" ? (
+                  <div className="text-[11px] text-[#475569] bg-white/80 p-3 rounded-xl border border-amber-100">
+                    <div>• <strong>Harga Dasar Resmi:</strong> Rp 135.000 (Dua Sisi Timbal Balik tanpa tambahan).</div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-[#475569] bg-white/80 p-3 rounded-xl border border-amber-100">
+                    <div>• <strong>Harga Dasar:</strong> Rp 50.000</div>
+                    <div>• <strong>Renda Biasa:</strong> +Rp 5.000*</div>
+                    <div>• <strong>Renda Mahkota:</strong> +Rp 7.000*</div>
+                    <div>• <strong>Renda Marsyanda:</strong> +Rp 7.000*</div>
+                    <div>• <strong>Les Pinggir:</strong> +Rp 5.000</div>
+                    <div>• <strong>Bordir Logo:</strong> +Rp 10.000</div>
+                    <div>• <strong>Rumbai Emas/Perak:</strong> +Rp 15.000</div>
+                    <div className="col-span-full text-[10px] text-slate-500 italic">
+                      *Catatan: Pilihan renda saling eksklusif (pilih salah satu).
+                    </div>
+                  </div>
+                )}
+                <p className="text-[10px] text-slate-500">
+                  Tambahan dekorasi dipilih dan dihitung otomatis saat Anda menekan tombol <strong>Pesan Produk Ini</strong> menuju formulir pemesanan.
+                </p>
+              </div>
+            )}
+
+            {product.price === 0 && (
+              <div className="mt-3 pt-3 border-t border-amber-200/60 text-[11px] text-[#475569] bg-white/80 p-2.5 rounded-xl border border-amber-100">
+                <strong>Status Harga:</strong> Hubungi Admin / Custom selama harga resmi belum ditentukan. Harga akhir dikonfirmasi sesuai kuantiti dan bahan.
+              </div>
+            )}
           </div>
 
           {/* Short Description */}
@@ -334,25 +380,37 @@ Mohon info ketersediaan slot dan alur pemesanannya. Terima kasih!`
             </div>
           </div>
 
-          {/* Action CTAs */}
+          {/* Action CTAs: Pesan Produk Ini (Membuka Formulir Terpisah di /checkout/custom-selempang) + Tanya WhatsApp */}
           <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[#cbd5e1]/40">
+            <Link
+              href={`/checkout/custom-selempang?productId=${encodeURIComponent(
+                product.id
+              )}&slug=${encodeURIComponent(product.slug)}${
+                product.sashModel ? `&model=${product.sashModel}` : ""
+              }${
+                product.defaultAddons && product.defaultAddons.length > 0
+                  ? `&addons=${product.defaultAddons.join(",")}`
+                  : ""
+              }${
+                selectedMaterial ? `&material=${encodeURIComponent(selectedMaterial)}` : ""
+              }${selectedColor ? `&cloth=${encodeURIComponent(selectedColor)}` : ""}${
+                selectedSize ? `&size=${encodeURIComponent(selectedSize)}` : ""
+              }`}
+              className="flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-[#0f172a] hover:bg-slate-800 text-white font-semibold text-sm tracking-wide transition-all shadow-md hover:shadow-lg active:scale-98 text-center cursor-pointer"
+            >
+              <span>Pesan Produk Ini</span>
+              <ArrowRight size={18} className="text-[#fdce64]" />
+            </Link>
+
             <a
               href={`https://wa.me/${waTargetPhone}?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-[#b48c28] hover:bg-[#9a751e] text-white font-semibold text-sm tracking-wide transition-all shadow-md active:scale-95 text-center cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#b48c28] hover:bg-[#9a751e] text-white font-semibold text-sm tracking-wide transition-all shadow-sm active:scale-95 text-center cursor-pointer"
             >
               <MessageCircle size={18} />
-              <span>Pesan via WhatsApp Sekarang</span>
+              <span>Tanya WhatsApp</span>
             </a>
-
-            <Link
-              href="/checkout"
-              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#0f172a] hover:bg-slate-800 text-white font-semibold text-sm tracking-wide transition-all shadow-sm active:scale-95 text-center"
-            >
-              <CreditCard size={17} />
-              <span>Bayar / Checkout</span>
-            </Link>
           </div>
 
           {/* Lokasi & Ambil Langsung */}
