@@ -1,10 +1,10 @@
 # MARKET REQUIREMENTS DOCUMENT (MRD)
 ## Analisis Pasar, Strategi Bisnis & Go-To-Market
-**Proyek:** Sewa Jas, Sepatu & Custom Selempang Aceh Barat  
-**Klien:** Bg Fardi, S.P  
-**Architect:** PRDKENZ — Senior Product Architect, Knexu Studio  
-**Versi Dokumen:** 1.0.0  
-**Status:** Approved for Go-To-Market Execution  
+**Proyek:** Sewa Jas, Sepatu & Custom Selempang Aceh Barat
+**Klien:** Bg Fardi, S.P
+**Architect:** PRDKENZ — Senior Product Architect, Knexu Studio
+**Versi Dokumen:** 1.0.0
+**Status:** Approved for Go-To-Market Execution
 
 ---
 
@@ -71,12 +71,15 @@ Belum ada **satu pun penyedia rental jas atau pembuat selempang di Aceh Barat ya
 │    - Rompi Formal Pria                                                 │
 │    💰 Harga Sewa Standar: Rp 120.000 - Rp 150.000 / 3 Hari             │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 2. SELEMPANG WISUDA BLUDRU CUSTOM (Produksi Cepat 1 Hari)             │
-│    - Bahan Bludru Premium Halus (Hitam / Navy / Maroon)                │
-│    - Bordir Komputer Presisi Benang Emas/Perak Metalik                 │
-│    - Pilihan 1 Lapis (Standar) atau 2 Lapis (Lapis Furing Belakang)    │
-│    - Free Pilihan Font & Logo Kampus (UTU/STAIN/USK)                   │
-│    💰 Harga: Rp 45.000 - Rp 75.000 / pcs                               │
+│ 2. SELEMPANG WISUDA BLUDRU CUSTOM (Produksi Presisi 1-2 Hari)          │
+│    - Bahan: Bludru Halus Premium / Satin Kilap Tebal                   │
+│    - Bordir Komputer Multi-Needle Presisi Benang Emas/Perak Metalik    │
+│    - 3 Model Resmi Kanonis (Database Catalog):                         │
+│      * Selempang Model Biasa (Menyamping) - Mulai Rp50.000 (Draft)     │
+│      * Selempang Model Leher / Syal - Mulai Rp85.000 (Draft)           │
+│      * Selempang Model Leher Timbal Balik - Mulai Rp135.000 (Draft)    │
+│    - Free Pilihan Font & Logo Kampus Resmi (UTU/STAIN/USK/AKN)         │
+│    💰 Status Harga: Draft (Konfirmasi resmi sebelum rilis publik)       │
 ├────────────────────────────────────────────────────────────────────────┤
 │ 3. PAKET BUNDLING SULTAN WISUDA (Cross-Selling 2-in-1 Booster 🔥)      │
 │    - Paket Lengkap Jas + Sepatu + Rompi                                │

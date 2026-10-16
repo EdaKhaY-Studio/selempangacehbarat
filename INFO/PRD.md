@@ -1,10 +1,10 @@
 # PRODUCT REQUIREMENTS DOCUMENT (PRD)
 ## Sistem Informasi Sewa Jas, Sepatu & Custom Selempang Aceh Barat
-**Proyek:** One-Stop Rental & Custom Sash Platform  
-**Owner:** Bg Fardi, S.P (Meulaboh, Aceh Barat)  
-**Architect:** PRDKENZ — Senior Product Architect, Knexu Studio  
-**Versi Dokumen:** 1.0.0 (Production Blueprint)  
-**Status:** Ready for Development  
+**Proyek:** One-Stop Rental & Custom Sash Platform
+**Owner:** Bg Fardi, S.P (Meulaboh, Aceh Barat)
+**Architect:** PRDKENZ — Senior Product Architect, Knexu Studio
+**Versi Dokumen:** 1.0.0 (Production Blueprint)
+**Status:** Ready for Development
 
 ---
 
@@ -55,14 +55,23 @@ Membangun platform website terpadu berkecepatan tinggi dengan antarmuka gelap el
 - **FR-2.1 Filter & Kategori:**
   - *Paket Lengkap Jas:* Jas + Rompi + Kemeja + Celana + Dasi + Sepatu.
   - *Jas Satuan / Mix & Match:* Jas Single, Rompi Only, Celana Formal, Dasi Satin/Kupu-kupu, Sepatu Pantofel Pria/Wanita (Size 39-44).
-  - *Selempang Wisuda Bludru:* Selempang 1 Lapis, Selempang 2 Lapis (Lapisan Belakang Furing Satin), List Pita Glitter / Renda Emas.
+  - *Katalog Kanonis Selempang Wisuda Custom (Dynamic DB Catalog):*
+    - **Selempang Model Biasa (Menyamping):** Model selempang klasik 1 lapis / 2 lapis menyamping bahu (Harga Dasar Draft: Rp50.000).
+    - **Selempang Model Leher / Syal:** Model gantung leher simetris dua sisi kanan-kiri (Harga Dasar Draft: Rp85.000).
+    - **Selempang Model Leher Timbal Balik:** Model leher premium bolak-balik 2 sisi tampilan (Harga Dasar Draft: Rp135.000).
+    - *Catatan Standar Penamaan:* Sebutan lama "Model A/B/C" dan istilah generik "pita" resmi digantikan dengan nama lengkap model dan opsi dekorasi kanonis (`les_pinggir`).
 - **FR-2.2 Smart Size Recommender:** Pengguna memasukkan Tinggi Badan (cm) dan Berat Badan (kg) -> Sistem memberikan rekomendasi ukuran jas (S, M, L, XL, XXL) beserta detail lingkar dada & panjang lengan.
-- **FR-2.3 Selempang Live Customizer:**
-  - Pilihan Warna Kain: Hitam Pekat, Navy Midnight, Maroon Velvet, Hijau Botol.
-  - Pilihan Warna Benang: Gold Metallic, Silver Metallic, White Diamond.
-  - Input Teks Kiri & Kanan: Nama Lengkap + Gelar (contoh: *Cut Meutia, S.E.* / *Universitas Teuku Umar*).
-  - Pilihan Jenis Font: Monotype Corsiva, Arial, Times New Roman, Lucida Calligraphy.
-  - Pilihan Logo Kampus: Logo UTU, STAIN Meulaboh, USK, AKN, atau Logo Custom (Upload PNG).
+- **FR-2.3 Selempang Live Customizer & Dynamic Options:**
+  - *Pilihan Warna Kain:* Hitam Pekat, Navy Midnight, Maroon Velvet, Hijau Botol.
+  - *Pilihan Warna Benang:* Gold Metallic, Silver Metallic, White Diamond.
+  - *Input Teks Kiri & Kanan:* Nama Lengkap + Gelar (contoh: *Cut Meutia, S.E.* / *Universitas Teuku Umar*).
+  - *Pilihan Jenis Font:* Monotype Corsiva, Arial, Times New Roman, Lucida Calligraphy.
+  - *Pilihan Logo Kampus:* Logo UTU, STAIN Meulaboh, USK, AKN, atau Logo Custom (Upload PNG).
+  - *Aturan Opsi Tambahan & Kuota Grup (max_pilih):*
+    - Kedua model leher (Syal & Timbal Balik) memiliki opsi dekorasi yang sama (Les Pinggir Rp10.000, Rumbai Ujung Syal Rp15.000, Motif Ujung Rp5.000, Motif Tengah Rp5.000, Renda Syal Rp15.000, Bordir Logo Rp10.000).
+    - Grup Renda dibatasi maksimal 1 pilihan (eksklusif), divalidasi ketat di sisi server.
+    - Kalkulasi harga server-side: Subtotal = (Harga Dasar + Total Opsi Terpilih) × Kuantitas, DP 50%, dan Sisa Pelunasan 50%.
+    - Seluruh status harga dan model tetap berstatus `draft` sampai konfirmasi resmi disahkan.
 
 ### FR-3: Booking Engine & Anti Double-Booking
 - **FR-3.1 Date-Range Picker Rental:**
@@ -109,7 +118,7 @@ Membangun platform website terpadu berkecepatan tinggi dengan antarmuka gelap el
 ## 5. User Flow & System Architecture
 
 ```
-[Pengunjung Masuk] 
+[Pengunjung Masuk]
        │
        ▼
 [Landing Page (Hero Sinematik & Karakter Kuat)]
