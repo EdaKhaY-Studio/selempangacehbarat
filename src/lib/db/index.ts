@@ -66,6 +66,93 @@ export async function getDbPool(): Promise<mysql.Pool | null> {
   return pool;
 }
 
+// ─── Dedicated Catalog Database Connection (u911912137_Selempag4ceh) ────────
+let catalogPool: mysql.Pool | null = null;
+
+export function getCatalogMySqlConfig(): MySqlConfig | null {
+  const catalogDbUrl = process.env.CATALOG_DATABASE_URL;
+  if (catalogDbUrl && catalogDbUrl.trim() !== "") {
+    return { uri: catalogDbUrl.trim() };
+  }
+
+  let host = process.env.CATALOG_DB_HOST || process.env.DB_HOST || "srv1409.hstgr.io";
+  let port = parseInt(process.env.CATALOG_DB_PORT || process.env.DB_PORT || "3306", 10);
+  let user = process.env.CATALOG_DB_USER || "u911912137_SelempangABAR";
+  let password = process.env.CATALOG_DB_PASSWORD || process.env.DB_PASSWORD;
+  let database = process.env.CATALOG_DB_NAME || "u911912137_Selempag4ceh";
+
+  // Fallback membaca .env.db-migration.local di environment lokal jika env belum dimuat
+  if (!password) {
+    try {
+      const localEnvPath = path.join(process.cwd(), ".env.db-migration.local");
+      if (fs.existsSync(localEnvPath)) {
+        const raw = fs.readFileSync(localEnvPath, "utf-8");
+        for (const line of raw.split("\n")) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith("#")) continue;
+          const eq = trimmed.indexOf("=");
+          if (eq !== -1) {
+            const k = trimmed.slice(0, eq).trim();
+            let v = trimmed.slice(eq + 1).trim();
+            if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+              v = v.slice(1, -1);
+            }
+            if (k === "DB_PASSWORD" || k === "CATALOG_DB_PASSWORD") password = v;
+            if (k === "DB_HOST" || k === "CATALOG_DB_HOST") host = v;
+            if (k === "DB_USER" || k === "CATALOG_DB_USER") user = v;
+            if (k === "DB_NAME" || k === "CATALOG_DB_NAME") database = v;
+            if (k === "DB_PORT" || k === "CATALOG_DB_PORT") port = parseInt(v, 10);
+          }
+        }
+      }
+    } catch {
+      // Abaikan jika tidak dapat membaca file lokal
+    }
+  }
+
+  if (!password) {
+    return null; // Password katalog belum tersedia
+  }
+
+  return { host, port, user, password, database };
+}
+
+export function isCatalogMySqlConfigured(): boolean {
+  return getCatalogMySqlConfig() !== null;
+}
+
+export async function getCatalogDbPool(): Promise<mysql.Pool | null> {
+  const config = getCatalogMySqlConfig();
+  if (!config) return null;
+
+  if (!catalogPool) {
+    try {
+      if ("uri" in config) {
+        catalogPool = mysql.createPool(config.uri);
+      } else {
+        catalogPool = mysql.createPool({
+          host: config.host,
+          port: config.port,
+          user: config.user,
+          password: config.password,
+          database: config.database,
+          waitForConnections: true,
+          connectionLimit: 10,
+          queueLimit: 0,
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        });
+      }
+    } catch (e) {
+      console.error("[Database] Gagal menginisialisasi Catalog MySQL connection pool:", e);
+      return null;
+    }
+  }
+
+  return catalogPool;
+}
+
 /**
  * Ensures required database tables exist in MySQL
  */
@@ -167,6 +254,138 @@ export async function initMySqlTables(): Promise<boolean> {
           reason TEXT NULL,
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           INDEX idx_log_order_id (order_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      // 5. Table sc_product_models (Fase 1: Sumber Kebenaran Model Selempang)
+      await conn.query(`
+        CREATE TABLE IF NOT EXISTS sc_product_models (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          slug VARCHAR(50) NOT NULL UNIQUE,
+          nama VARCHAR(150) NOT NULL,
+          short_name VARCHAR(100) NOT NULL,
+          harga_dasar DECIMAL(12, 2) NOT NULL,
+          deskripsi TEXT NULL,
+          status ENUM('draft', 'published') NOT NULL DEFAULT 'draft',
+          features_json TEXT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_sc_models_slug (slug),
+          INDEX idx_sc_models_status (status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      // 6. Table sc_option_groups (Fase 1: Aturan Grup Opsi & Maks Pilih)
+      await conn.query(`
+        CREATE TABLE IF NOT EXISTS sc_option_groups (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          slug VARCHAR(50) NOT NULL UNIQUE,
+          nama_grup VARCHAR(100) NOT NULL,
+          deskripsi TEXT NULL,
+          max_pilih INT NULL,
+          is_required TINYINT(1) NOT NULL DEFAULT 0,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_sc_groups_slug (slug)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      // 7. Table sc_custom_options (Fase 1: Sumber Kebenaran Opsi Kustom)
+      await conn.query(`
+        CREATE TABLE IF NOT EXISTS sc_custom_options (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          slug VARCHAR(50) NOT NULL UNIQUE,
+          group_id INT NULL,
+          nama VARCHAR(150) NOT NULL,
+          deskripsi TEXT NULL,
+          harga DECIMAL(12, 2) NOT NULL,
+          status ENUM('draft', 'published') NOT NULL DEFAULT 'draft',
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_sc_options_slug (slug),
+          INDEX idx_sc_options_group (group_id),
+          INDEX idx_sc_options_status (status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      // 8. Table sc_model_custom_options (Fase 1: Relasi Model & Opsi dengan Harga Override)
+      await conn.query(`
+        CREATE TABLE IF NOT EXISTS sc_model_custom_options (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          model_id INT NOT NULL,
+          option_id INT NOT NULL,
+          harga_override DECIMAL(12, 2) NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          UNIQUE KEY uq_model_option (model_id, option_id),
+          INDEX idx_sc_mco_model (model_id),
+          INDEX idx_sc_mco_option (option_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      // 9. Canonical Views (sash_models, option_groups, custom_options, model_options)
+      await conn.query(`
+        CREATE OR REPLACE VIEW sash_models AS
+        SELECT id, slug, nama, short_name, harga_dasar, deskripsi, status, features_json, created_at, updated_at
+        FROM sc_product_models;
+      `);
+
+      await conn.query(`
+        CREATE OR REPLACE VIEW option_groups AS
+        SELECT id, slug, nama_grup, deskripsi, max_pilih, is_required, created_at, updated_at
+        FROM sc_option_groups;
+      `);
+
+      await conn.query(`
+        CREATE OR REPLACE VIEW custom_options AS
+        SELECT id, slug, group_id, nama, deskripsi, harga, status, created_at, updated_at
+        FROM sc_custom_options;
+      `);
+
+      await conn.query(`
+        CREATE OR REPLACE VIEW model_options AS
+        SELECT id, model_id, option_id, harga_override, created_at, updated_at
+        FROM sc_model_custom_options;
+      `);
+
+      // 10. Table sc_order_item_options (Snapshot Tiap Opsi per Item Pesanan)
+      await conn.query(`
+        CREATE TABLE IF NOT EXISTS sc_order_item_options (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          order_item_id VARCHAR(64) NOT NULL,
+          option_id INT NULL,
+          option_slug VARCHAR(50) NULL,
+          option_name VARCHAR(150) NOT NULL,
+          group_name VARCHAR(100) NOT NULL,
+          price DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          INDEX idx_sc_oio_item (order_item_id),
+          INDEX idx_sc_oio_slug (option_slug)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      // 11. Table sc_order_customizations (Snapshot Model, Harga Dasar & Opsi Pesanan)
+      await conn.query(`
+        CREATE TABLE IF NOT EXISTS sc_order_customizations (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          order_id VARCHAR(64) NOT NULL UNIQUE,
+          order_item_id VARCHAR(64) NULL,
+          model_slug VARCHAR(50) NOT NULL,
+          model_name VARCHAR(150) NOT NULL,
+          base_price DECIMAL(12, 2) NOT NULL,
+          total_options_price DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
+          unit_price DECIMAL(12, 2) NOT NULL,
+          quantity INT NOT NULL DEFAULT 1,
+          total_price DECIMAL(12, 2) NOT NULL,
+          custom_text TEXT NULL,
+          cloth_material VARCHAR(100) NULL,
+          cloth_color VARCHAR(64) NULL,
+          thread_color VARCHAR(64) NULL,
+          options_snapshot_json TEXT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_sc_oc_order (order_id),
+          INDEX idx_sc_oc_model (model_slug)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `);
 

@@ -6,7 +6,9 @@
     "dev": "node ./node_modules/next/dist/bin/next dev",
     "build": "node ./node_modules/next/dist/bin/next build",
     "start": "node ./node_modules/next/dist/bin/next start",
-    "lint": "node ./node_modules/next/dist/bin/next lint"
+    "lint": "node ./node_modules/next/dist/bin/next lint",
+    "db:test": "node scripts/test-db-connection.js",
+    "db:migrate": "node scripts/migrate-db.js"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
