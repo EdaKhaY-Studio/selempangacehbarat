@@ -1,150 +1,227 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   Check,
   Sparkles,
   ArrowRight,
   ShieldCheck,
   Info,
+  Database,
   Layers,
   HelpCircle,
-  Truck,
-  Scissors,
+  AlertCircle,
 } from "lucide-react";
 import {
-  SASH_MODELS,
-  ADDONS_BIASA,
-  ADDONS_SYAL,
-  SashModelType,
-  calculateItemPrice,
-} from "@/lib/pricing/calculator";
+  getMockSashModels,
+  getMockOptionsForModel,
+  toggleOptionWithGroupLimits,
+  SashModelEntity,
+  ResolvedOption,
+  GroupedResolvedOptions,
+} from "@/lib/catalog/mock-sash-catalog";
+import type { HydratedCatalogModel } from "@/lib/db/productModelsStore";
+import { SashModelSelector } from "@/components/products/SashModelSelector";
+import { SashOptionGroupList } from "@/components/products/SashOptionGroupList";
+import { SashPriceSummary } from "@/components/products/SashPriceSummary";
 
 function formatIDR(val: number): string {
   return "Rp" + val.toLocaleString("id-ID");
 }
 
-const MODEL_PHOTOS: Record<SashModelType, { main: string; gallery: string[]; caption: string }> = {
-  biasa: {
-    main: "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
-    gallery: [
-      "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
-      "/Gambar/03-selempang-beige-bordir-pink.jpeg",
-      "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
-    ],
-    caption: "Contoh Desain Foto Asli: Model A — Biasa Menyamping",
-  },
-  syal: {
-    main: "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
-    gallery: [
-      "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
-      "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
-      "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
-    ],
-    caption: "Contoh Desain Foto Asli: Model B — Leher / Syal",
-  },
-  timbal_balik: {
-    main: "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
-    gallery: [
-      "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
-      "/Gambar/01-selempang-wisuda-hitam-silver-nama.jpeg",
-      "/Gambar/02-selempang-hitam-bordir-emas-instansi.jpeg",
-    ],
-    caption: "Contoh Desain Foto Asli: Model C — Leher Timbal Balik (Dua Sisi)",
-  },
-};
+export interface CustomSashShowcaseProps {
+  initialModels?: HydratedCatalogModel[];
+}
 
-export function CustomSashShowcase() {
-  const [activeModel, setActiveModel] = useState<SashModelType>("biasa");
-  const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
-  const [previewImage, setPreviewImage] = useState<string>(MODEL_PHOTOS.biasa.main);
+export function CustomSashShowcase({ initialModels }: CustomSashShowcaseProps = {}) {
+  const models: SashModelEntity[] = useMemo(() => {
+    if (initialModels && initialModels.length > 0) {
+      return initialModels;
+    }
+    return getMockSashModels();
+  }, [initialModels]);
 
-  const modelInfo = SASH_MODELS[activeModel];
-  const photoData = MODEL_PHOTOS[activeModel];
+  const searchParams = useSearchParams();
 
-  // Switch Model Handler
-  const handleModelChange = (model: SashModelType) => {
-    setActiveModel(model);
-    setSelectedAddons([]);
-    setPreviewImage(MODEL_PHOTOS[model].main);
-  };
+  // Model awal berdasarkan query param ?model=
+  const initialModel = useMemo(() => {
+    const qModel = searchParams?.get("model");
+    if (qModel) {
+      const found = models.find(
+        (m) =>
+          m.slug === qModel ||
+          m.shortName.toLowerCase().includes(qModel.toLowerCase())
+      );
+      if (found) return found;
+    }
+    return models[0];
+  }, [models, searchParams]);
 
-  // Toggle Addon Handler
-  const handleToggleAddon = (addonId: string) => {
-    if (activeModel === "timbal_balik") return;
+  // State: model yang aktif
+  const [activeModelId, setActiveModelId] = useState<number>(initialModel?.id || 1);
+  const activeModel: SashModelEntity =
+    models.find((m) => m.id === activeModelId) || models[0];
 
-    if (activeModel === "biasa") {
-      const addon = ADDONS_BIASA[addonId];
-      if (!addon) return;
-
-      if (addon.group === "renda") {
-        // Mutually exclusive: if clicking the currently selected lace, unselect it.
-        // Otherwise replace any selected lace with this one.
-        if (selectedAddons.includes(addonId)) {
-          setSelectedAddons(selectedAddons.filter((id) => id !== addonId));
-        } else {
-          const otherAddons = selectedAddons.filter((id) => ADDONS_BIASA[id]?.group !== "renda");
-          setSelectedAddons([...otherAddons, addonId]);
-        }
-      } else {
-        if (selectedAddons.includes(addonId)) {
-          setSelectedAddons(selectedAddons.filter((id) => id !== addonId));
-        } else {
-          setSelectedAddons([...selectedAddons, addonId]);
-        }
-      }
-    } else if (activeModel === "syal") {
-      if (selectedAddons.includes(addonId)) {
-        setSelectedAddons(selectedAddons.filter((id) => id !== addonId));
-      } else {
-        setSelectedAddons([...selectedAddons, addonId]);
+  // Ambil opsi yang tersedia untuk model aktif lewat relasi database (model_options)
+  const groupedOptions: GroupedResolvedOptions[] = useMemo(() => {
+    if (initialModels && initialModels.length > 0) {
+      const found = initialModels.find((m) => m.id === activeModel.id);
+      if (found?.optionGroups && found.optionGroups.length > 0) {
+        return found.optionGroups;
       }
     }
+    return getMockOptionsForModel(activeModel.id);
+  }, [initialModels, activeModel.id]);
+
+  // State: opsi tambahan terpilih (menyimpan slug opsi)
+  const [selectedAddonSlugs, setSelectedAddonSlugs] = useState<string[]>(() => {
+    const qAddons = searchParams?.get("addons");
+    if (!qAddons) return [];
+    const requested = qAddons.split(",").map((s) => s.trim()).filter(Boolean);
+    const validSlugs = new Set<string>();
+    groupedOptions.forEach((g) => g.options.forEach((o) => validSlugs.add(o.option.slug)));
+    return requested.filter((slug) => validSlugs.has(slug));
+  });
+
+  // State: jumlah kuantitas pesanan
+  const [quantity, setQuantity] = useState<number>(() => {
+    const qQty = parseInt(searchParams?.get("quantity") || "1", 10);
+    return isNaN(qQty) || qQty < 1 ? 1 : Math.min(qQty, 500);
+  });
+
+  // State: gambar pratinjau utama
+  const [previewImage, setPreviewImage] = useState<string>(activeModel.photos.main);
+
+  // Sync saat initialModel berubah lewat query param
+  useEffect(() => {
+    if (initialModel && initialModel.id !== activeModelId) {
+      setActiveModelId(initialModel.id);
+      setPreviewImage(initialModel.photos.main);
+    }
+  }, [initialModel, activeModelId]);
+
+  // Handler ganti model
+  const handleModelChange = (model: SashModelEntity) => {
+    setActiveModelId(model.id);
+    setSelectedAddonSlugs([]);
+    setPreviewImage(model.photos.main);
   };
 
-  // Live Price Calculation
-  const calculation = calculateItemPrice(activeModel, selectedAddons, 1);
-  const dpEstimate = Math.floor(calculation.unitPrice * 0.5);
-  const balanceEstimate = calculation.unitPrice - dpEstimate;
+  // Handler toggle opsi tambahan dengan penegakan aturan batas grup (maks_pilih)
+  const handleToggleOption = (resolved: ResolvedOption) => {
+    const result = toggleOptionWithGroupLimits(
+      selectedAddonSlugs,
+      resolved,
+      groupedOptions
+    );
+    setSelectedAddonSlugs(result.newSelectedSlugs);
+  };
 
-  const checkoutUrl = `/checkout/custom-selempang?productId=selempang-custom-1&slug=custom-selempang&model=${activeModel}${
-    selectedAddons.length > 0 ? `&addons=${selectedAddons.join(",")}` : ""
-  }`;
+  // Kalkulasi harga realtime menggunakan opsi yang dibaca dari MySQL
+  const calculation = useMemo(() => {
+    const safeQty = Math.max(1, Math.floor(quantity || 1));
+    const allResolvedOptions: ResolvedOption[] = [];
+    groupedOptions.forEach((g) => allResolvedOptions.push(...g.options));
+
+    const matchedOptions: ResolvedOption[] = [];
+    for (const slug of selectedAddonSlugs) {
+      const found = allResolvedOptions.find(
+        (ro) =>
+          ro.option.slug === slug ||
+          ro.option.id.toString() === slug
+      );
+      if (found && !matchedOptions.some((m) => m.option.id === found.option.id)) {
+        matchedOptions.push(found);
+      }
+    }
+
+    // Validasi batas per grup (max_pilih) dinamis
+    for (const grp of groupedOptions) {
+      if (grp.group.max_pilih !== null && grp.group.max_pilih > 0) {
+        const countInGroup = matchedOptions.filter(
+          (mo) => mo.group.id === grp.group.id
+        ).length;
+        if (countInGroup > grp.group.max_pilih) {
+          return {
+            isValid: false,
+            error: `Grup ${grp.group.nama_grup} dibatasi maksimal ${grp.group.max_pilih} pilihan.`,
+            basePrice: activeModel.harga_dasar,
+            optionsTotal: 0,
+            unitPrice: activeModel.harga_dasar,
+            totalPrice: activeModel.harga_dasar * safeQty,
+            breakdown: [],
+          };
+        }
+      }
+    }
+
+    const basePrice = Number(activeModel.harga_dasar);
+    const optionsTotal = matchedOptions.reduce(
+      (sum, item) => sum + item.effectivePrice,
+      0
+    );
+    const unitPrice = basePrice + optionsTotal;
+    const totalPrice = unitPrice * safeQty;
+
+    const breakdown = matchedOptions.map((mo) => ({
+      name: mo.option.nama,
+      group: mo.group.nama_grup,
+      price: mo.effectivePrice,
+    }));
+
+    return {
+      isValid: true,
+      error: undefined,
+      basePrice,
+      optionsTotal,
+      unitPrice,
+      totalPrice,
+      breakdown,
+    };
+  }, [activeModel, groupedOptions, selectedAddonSlugs, quantity]);
+
+  const checkoutUrl = `/checkout/custom-selempang?productId=selempang-custom-1&slug=custom-selempang&model=${activeModel.slug}${
+    selectedAddonSlugs.length > 0 ? `&addons=${selectedAddonSlugs.join(",")}` : ""
+  }${quantity > 1 ? `&quantity=${quantity}` : ""}`;
 
   return (
     <div className="w-full">
-      {/* Model Selector Pills */}
-      <div className="flex flex-wrap gap-2.5 p-1.5 bg-slate-100/90 rounded-2xl mb-8 border border-slate-200/80">
-        {(["biasa", "syal", "timbal_balik"] as SashModelType[]).map((mKey) => {
-          const m = SASH_MODELS[mKey];
-          const isActive = activeModel === mKey;
-          return (
-            <button
-              key={mKey}
-              onClick={() => handleModelChange(mKey)}
-              className={`flex-1 min-w-[200px] py-3 px-4 rounded-xl text-left transition-all cursor-pointer ${
-                isActive
-                  ? "bg-white text-[#0f172a] shadow-sm border border-slate-200/90 ring-1 ring-[#b48c28]"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#b48c28]">
-                  {mKey === "biasa" ? "Model A" : mKey === "syal" ? "Model B" : "Model C"}
-                </span>
-                <span className="text-xs font-bold text-[#0f172a]">
-                  {formatIDR(m.basePrice)}
-                </span>
-              </div>
-              <div className="text-sm font-bold text-[#0f172a] truncate">{m.shortName}</div>
-            </button>
-          );
-        })}
+      {/* 1. Database Badge Notification */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 px-4 py-3 rounded-xl bg-slate-900 text-slate-200 border border-slate-800 text-xs shadow-xs">
+        <div className="flex items-center gap-2.5">
+          <Database size={16} className="text-[#b48c28]" />
+          <div>
+            <div className="font-semibold text-white flex items-center gap-2">
+              <span>Katalog MySQL Hostinger Terhubung</span>
+              <span className="hidden sm:inline px-1.5 py-0.5 rounded bg-slate-800 text-[10px] text-slate-300 font-mono">
+                u911912137_Selempag4ceh
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400">
+              Model, grup opsi, dan harga dibaca dari database katalog terpisah tanpa mengganggu sistem pesanan.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1.5">
+            <AlertCircle size={12} className="text-amber-400" />
+            Status: Draft Peninjauan
+          </span>
+        </div>
       </div>
 
-      {/* Main Grid: Showcase & Add-ons */}
+      {/* 2. Model Selector (Nama Lengkap Resmi, Bukan A/B/C) */}
+      <SashModelSelector
+        models={models}
+        selectedModelId={activeModel.id}
+        onSelectModel={handleModelChange}
+        className="mb-8"
+      />
+
+      {/* 3. Main Grid: Showcase & Add-ons */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         {/* Left Column: Photo & Specifications (5 cols on lg) */}
         <div className="lg:col-span-5 space-y-5">
@@ -152,7 +229,7 @@ export function CustomSashShowcase() {
           <div className="relative aspect-4/5 w-full rounded-2xl overflow-hidden bg-[#f8fafc] border border-slate-200/90 shadow-sm flex items-center justify-center">
             <Image
               src={previewImage}
-              alt={photoData.caption}
+              alt={activeModel.photos.caption}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 42vw"
@@ -162,13 +239,13 @@ export function CustomSashShowcase() {
               Foto Asli Produk FHD
             </div>
             <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 text-white text-xs">
-              {photoData.caption}
+              {activeModel.photos.caption}
             </div>
           </div>
 
           {/* Thumbnail Gallery */}
           <div className="flex items-center gap-3 overflow-x-auto pb-1">
-            {photoData.gallery.map((imgSrc, idx) => (
+            {activeModel.photos.gallery.map((imgSrc, idx) => (
               <button
                 key={idx}
                 onClick={() => setPreviewImage(imgSrc)}
@@ -193,9 +270,9 @@ export function CustomSashShowcase() {
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 space-y-2">
             <div className="font-bold text-[#0f172a] uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <Sparkles size={14} className="text-[#b48c28]" />
-              Spesifikasi Model Ini:
+              Spesifikasi Resmi:
             </div>
-            {modelInfo.features.map((feat, fIdx) => (
+            {activeModel.features.map((feat, fIdx) => (
               <div key={fIdx} className="flex items-start gap-2">
                 <Check size={14} className="text-[#b48c28] mt-0.5 shrink-0" />
                 <span>{feat}</span>
@@ -210,200 +287,54 @@ export function CustomSashShowcase() {
             {/* Model Title & Price Summary */}
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-amber-50 border border-amber-200 text-[#b48c28] text-xs font-bold uppercase tracking-wider mb-2">
-                Pilihan Model: {modelInfo.shortName}
+                Model Terpilih: {activeModel.nama}
               </div>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#0f172a] mb-2">
-                {modelInfo.name}
+                {activeModel.nama}
               </h2>
               <p className="text-sm text-slate-600 leading-relaxed">
-                {modelInfo.description}
+                {activeModel.deskripsi}
               </p>
             </div>
 
             {/* Base Price & Addon Notice */}
             <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <span className="text-xs text-slate-500 block">Harga Dasar Produk:</span>
+                <span className="text-xs text-slate-500 block">Harga Dasar Model:</span>
                 <span className="text-2xl font-bold text-[#0f172a]">
-                  {formatIDR(modelInfo.basePrice)}
+                  {formatIDR(activeModel.harga_dasar)}
                 </span>
                 <span className="text-xs text-slate-500 ml-1">/ unit</span>
               </div>
               <div className="text-xs text-slate-500 sm:text-right max-w-xs">
-                {activeModel === "timbal_balik" ? (
-                  <span className="text-slate-600 font-medium">
-                    Model dua sisi bolak-balik dengan harga dasar flat Rp135.000 tanpa tambahan.
-                  </span>
-                ) : (
-                  <span className="text-[#b48c28] font-medium flex items-center sm:justify-end gap-1">
-                    <Info size={13} />
-                    Tambahan dekorasi di bawah akan memengaruhi total harga.
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* Addons Selection List */}
-            {activeModel === "biasa" && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-[#0f172a] uppercase tracking-wider">
-                    Pilihan Tambahan Dekorasi (Model Biasa):
-                  </h3>
-                  <span className="text-[11px] text-slate-500">
-                    *Renda saling eksklusif (pilih salah satu)
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {Object.values(ADDONS_BIASA).map((addon) => {
-                    const isChecked = selectedAddons.includes(addon.id);
-                    return (
-                      <button
-                        key={addon.id}
-                        type="button"
-                        onClick={() => handleToggleAddon(addon.id)}
-                        className={`flex items-center justify-between p-3 rounded-xl border text-left transition-all cursor-pointer ${
-                          isChecked
-                            ? "bg-amber-50/70 border-[#b48c28] ring-1 ring-[#b48c28] text-[#0f172a]"
-                            : "bg-white border-slate-200 hover:border-slate-300 text-slate-700"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            className={`w-4 h-4 rounded-md border flex items-center justify-center transition-all ${
-                              isChecked
-                                ? "bg-[#b48c28] border-[#b48c28] text-white"
-                                : "border-slate-300 bg-white"
-                            }`}
-                          >
-                            {isChecked && <Check size={12} strokeWidth={3} />}
-                          </div>
-                          <span className="text-xs font-semibold">{addon.label}</span>
-                        </div>
-                        <span className="text-xs font-bold text-[#b48c28]">
-                          +{formatIDR(addon.price)}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {activeModel === "syal" && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-[#0f172a] uppercase tracking-wider">
-                    Pilihan Tambahan Dekorasi (Model Leher / Syal):
-                  </h3>
-                  <span className="text-[11px] text-slate-500">
-                    *Dapat digabungkan sesuai kebutuhan
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {Object.values(ADDONS_SYAL).map((addon) => {
-                    const isChecked = selectedAddons.includes(addon.id);
-                    return (
-                      <button
-                        key={addon.id}
-                        type="button"
-                        onClick={() => handleToggleAddon(addon.id)}
-                        className={`flex items-center justify-between p-3 rounded-xl border text-left transition-all cursor-pointer ${
-                          isChecked
-                            ? "bg-amber-50/70 border-[#b48c28] ring-1 ring-[#b48c28] text-[#0f172a]"
-                            : "bg-white border-slate-200 hover:border-slate-300 text-slate-700"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            className={`w-4 h-4 rounded-md border flex items-center justify-center transition-all ${
-                              isChecked
-                                ? "bg-[#b48c28] border-[#b48c28] text-white"
-                                : "border-slate-300 bg-white"
-                            }`}
-                          >
-                            {isChecked && <Check size={12} strokeWidth={3} />}
-                          </div>
-                          <span className="text-xs font-semibold">{addon.label}</span>
-                        </div>
-                        <span className="text-xs font-bold text-[#b48c28]">
-                          +{formatIDR(addon.price)}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {activeModel === "timbal_balik" && (
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600">
-                Model Leher Timbal Balik menggunakan harga dasar pasti Rp135.000 per unit dengan jahitan presisi dua sisi bolak-balik tanpa biaya dekorasi tersembunyi.
-              </div>
-            )}
-
-            {/* Estimation Summary Box */}
-            <div className="p-5 rounded-2xl bg-[#0f172a] text-white space-y-3.5 shadow-md">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <span className="text-xs text-slate-400">Model Dipilih:</span>
-                <span className="text-xs font-bold text-white">{modelInfo.shortName}</span>
-              </div>
-
-              {calculation.selectedAddons.length > 0 && (
-                <div className="space-y-1.5 border-b border-slate-800 pb-3 text-xs">
-                  <div className="text-slate-400 text-[11px] font-semibold uppercase tracking-wider">
-                    Tambahan Terpilih:
-                  </div>
-                  {calculation.selectedAddons.map((add) => (
-                    <div key={add.id} className="flex justify-between text-slate-300 text-xs">
-                      <span>• {add.label}</span>
-                      <span className="font-mono text-[#D4AF37]">+{formatIDR(add.price)}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-300 font-medium">Estimasi Harga per Unit:</span>
-                <span className="text-lg font-bold text-white font-mono">
-                  {formatIDR(calculation.unitPrice)}
+                <span className="text-[#b48c28] font-medium flex items-center sm:justify-end gap-1">
+                  <Info size={13} />
+                  Pilihan opsi tambahan di bawah diakumulasi otomatis ke total harga.
                 </span>
               </div>
-
-              {/* 50% DP and 50% Balance split */}
-              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800 text-xs">
-                <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
-                  <span className="text-slate-400 block text-[11px]">DP 50% Saat Pesan:</span>
-                  <span className="text-sm font-bold text-[#D4AF37] font-mono">
-                    {formatIDR(dpEstimate)}
-                  </span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
-                  <span className="text-slate-400 block text-[11px]">Pelunasan 50% Saat Siap:</span>
-                  <span className="text-sm font-bold text-slate-200 font-mono">
-                    {formatIDR(balanceEstimate)}
-                  </span>
-                </div>
-              </div>
             </div>
-          </div>
 
-          {/* Action CTA: Navigates to Standalone Checkout Page */}
-          <div className="pt-6">
-            <Link
-              href={checkoutUrl}
-              className="w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-[#b48c28] hover:bg-[#9a751e] text-white font-bold text-base tracking-wide transition-all shadow-md active:scale-98 text-center cursor-pointer"
-            >
-              <span>Pesan Model Ini</span>
-              <ArrowRight size={18} />
-            </Link>
+            {/* Dynamic Option Groups Rendered via Database Relations */}
+            <SashOptionGroupList
+              groupedOptions={groupedOptions}
+              selectedOptionSlugs={selectedAddonSlugs}
+              onToggleOption={handleToggleOption}
+              modelName={activeModel.nama}
+            />
 
-            <div className="mt-3 flex items-center justify-center gap-2 text-xs text-slate-500">
-              <ShieldCheck size={14} className="text-[#b48c28]" />
-              <span>Model yang dipilih otomatis diteruskan ke formulir checkout.</span>
-            </div>
+            {/* Price Estimation Summary & Action CTA */}
+            <SashPriceSummary
+              modelName={activeModel.nama}
+              basePrice={activeModel.harga_dasar}
+              breakdown={calculation.breakdown || []}
+              unitPrice={calculation.unitPrice}
+              totalPrice={calculation.totalPrice}
+              quantity={quantity}
+              onQuantityChange={setQuantity}
+              isValid={calculation.isValid}
+              error={calculation.error}
+              checkoutUrl={checkoutUrl}
+            />
           </div>
         </div>
       </div>

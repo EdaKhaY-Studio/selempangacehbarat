@@ -17,6 +17,7 @@ import {
   Calendar,
   Sparkles,
 } from "lucide-react";
+import { resolveSelectedOptions } from "@/lib/catalog/mock-sash-catalog";
 
 function formatIDR(val: number): string {
   return "Rp" + (val || 0).toLocaleString("id-ID");
@@ -99,12 +100,21 @@ export function CustomerOrderStatusView({ orderId }: { orderId: string }) {
         <p className="text-sm text-slate-600">
           Nomor pesanan atau ID yang Anda tuju tidak valid. Harap periksa kembali tautan yang Anda terima.
         </p>
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0f172a] text-white text-xs font-bold"
-        >
-          Kembali ke Beranda
-        </Link>
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0f172a] text-white text-xs font-bold"
+          >
+            Kembali ke Beranda
+          </Link>
+          <Link
+            href="/pesanan/demo"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 text-xs font-bold transition-colors"
+          >
+            <Sparkles size={14} className="text-[#b48c28]" />
+            Lihat Contoh Pesanan (Data Tiruan)
+          </Link>
+        </div>
       </div>
     );
   }
@@ -167,6 +177,12 @@ export function CustomerOrderStatusView({ orderId }: { orderId: string }) {
 
   const PayIcon = payBadge.icon;
 
+  const isMockOrder =
+    order.isMock ||
+    order.id?.toLowerCase().includes("mock") ||
+    order.orderNumber?.toUpperCase().includes("MOCK") ||
+    orderId?.toLowerCase().includes("demo");
+
   const whatsappInquiry = encodeURIComponent(
     `Halo Admin Selempang Aceh Barat, saya ingin konfirmasi pesanan:
 Nomor Pesanan: *${order.orderNumber}*
@@ -178,6 +194,28 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
+      {/* Mock Demo Notification Banner */}
+      {isMockOrder && (
+        <div className="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-300 text-amber-900 flex items-start gap-3.5 shadow-xs">
+          <div className="p-2 rounded-xl bg-amber-500 text-white shrink-0 mt-0.5">
+            <Sparkles size={16} />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-800">
+                Mode Data Tiruan (Mock Demo)
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-200/80 text-amber-900 font-semibold font-mono">
+                SAB-MOCK-2634
+              </span>
+            </div>
+            <p className="text-xs text-amber-800/90 mt-1 leading-relaxed">
+              Ini adalah simulasi pelacakan status rincian pesanan tersimpan resmi Selempang Aceh Barat (FHD). Fitur ini memverifikasi integrasi data rincian pesanan, spesifikasi opsi selempang, skema DP 50%, dan jadwal serah terima.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* 1. Header Banner */}
       <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -218,42 +256,127 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
       {/* 2. Grid: Financial Summary & Schedule Details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Financial Card */}
-        <div className="p-6 rounded-3xl bg-[#0f172a] text-white shadow-md space-y-4">
+        <div className="p-6 sm:p-7 rounded-3xl bg-[#0f172a] text-white shadow-md space-y-5">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-            <h3 className="font-serif text-lg font-bold">Rincian Finansial</h3>
-            <span className="text-xs text-[#b48c28] font-bold">DP 50% Skema</span>
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#b48c28] block">
+                Skema Pembayaran Bertahap
+              </span>
+              <h3 className="font-serif text-lg font-bold">Rincian Finansial Pesanan</h3>
+            </div>
+            <span className="text-[11px] px-2.5 py-1 rounded-full bg-[#b48c28]/20 text-[#e6ca65] border border-[#b48c28]/40 font-bold">
+              DP 50%
+            </span>
           </div>
 
-          <div className="space-y-2 text-xs">
-            <div className="flex justify-between text-slate-300">
-              <span>Total Nilai Produk:</span>
-              <span className="font-mono font-bold text-white">
-                {formatIDR(order.totalProductAmount)}
+          {/* Total & Breakdown Nilai Produk */}
+          <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2 text-xs">
+            <div className="flex justify-between items-center text-slate-300">
+              <span>Total Harga Dasar Model:</span>
+              <span className="font-mono font-medium">
+                {formatIDR(
+                  order.items.reduce(
+                    (s: number, it: any) => s + (it.basePrice || 0) * (it.quantity || 1),
+                    0
+                  )
+                )}
               </span>
             </div>
 
-            <div className="flex justify-between text-amber-300 font-semibold pt-1">
-              <span>DP 50% Diwajibkan:</span>
-              <span className="font-mono">{formatIDR(order.dpAmount)}</span>
-            </div>
-
-            <div className="flex justify-between text-slate-300">
-              <span>Sisa Pelunasan (50%):</span>
-              <span className="font-mono">{formatIDR(order.balanceAmount)}</span>
+            <div className="flex justify-between items-center text-slate-300">
+              <span>Total Opsi Tambahan:</span>
+              <span className="font-mono font-medium">
+                {formatIDR(
+                  order.items.reduce(
+                    (s: number, it: any) => s + (it.addonsPrice || 0) * (it.quantity || 1),
+                    0
+                  )
+                )}
+              </span>
             </div>
 
             {order.shippingCost > 0 && (
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between items-center text-slate-300">
                 <span>Ongkos Kirim:</span>
-                <span className="font-mono">{formatIDR(order.shippingCost)}</span>
+                <span className="font-mono font-medium">{formatIDR(order.shippingCost)}</span>
               </div>
             )}
+
+            <div className="pt-2 border-t border-slate-800 flex justify-between items-center text-sm font-bold text-white">
+              <span>Total Nilai Pesanan (100%):</span>
+              <span className="font-mono text-[#b48c28] text-base">
+                {formatIDR((order.totalProductAmount || 0) + (order.shippingCost || 0))}
+              </span>
+            </div>
+          </div>
+
+          {/* Stepper / Grid 2 Tahap Pembayaran: DP 50% vs Sisa 50% */}
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            {/* Tahap 1: DP 50% */}
+            <div
+              className={`p-3.5 rounded-2xl border transition-all ${
+                order.paymentStatus === "deposit_paid" || order.paymentStatus === "paid"
+                  ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-200"
+                  : "bg-amber-950/40 border-amber-500/40 text-amber-200"
+              }`}
+            >
+              <div className="flex items-center justify-between pb-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider opacity-80">
+                  Tahap 1 (DP 50%)
+                </span>
+                {order.paymentStatus === "deposit_paid" || order.paymentStatus === "paid" ? (
+                  <CheckCircle2 size={13} className="text-emerald-400" />
+                ) : (
+                  <Clock size={13} className="text-amber-400" />
+                )}
+              </div>
+              <div className="font-mono text-base font-bold text-white mt-0.5">
+                {formatIDR(order.dpAmount)}
+              </div>
+              <span className="text-[10px] block opacity-90 mt-1 font-medium">
+                {order.paymentStatus === "deposit_paid" || order.paymentStatus === "paid"
+                  ? "✓ Terverifikasi Lunas"
+                  : "Wajib dibayar di awal"}
+              </span>
+            </div>
+
+            {/* Tahap 2: Sisa Pelunasan 50% */}
+            <div
+              className={`p-3.5 rounded-2xl border transition-all ${
+                order.paymentStatus === "paid"
+                  ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-200"
+                  : order.productionStatus === "ready_for_pickup"
+                  ? "bg-indigo-950/40 border-indigo-500/40 text-indigo-200"
+                  : "bg-slate-900 border-slate-800 text-slate-400"
+              }`}
+            >
+              <div className="flex items-center justify-between pb-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider opacity-80">
+                  Tahap 2 (Sisa 50%)
+                </span>
+                {order.paymentStatus === "paid" ? (
+                  <CheckCircle2 size={13} className="text-emerald-400" />
+                ) : (
+                  <Clock size={13} className="text-slate-400" />
+                )}
+              </div>
+              <div className="font-mono text-base font-bold text-white mt-0.5">
+                {formatIDR(order.balanceAmount)}
+              </div>
+              <span className="text-[10px] block opacity-90 mt-1 font-medium">
+                {order.paymentStatus === "paid"
+                  ? "✓ Lunas Penuh (100%)"
+                  : order.productionStatus === "ready_for_pickup"
+                  ? "Siap Dilunasi"
+                  : "Menunggu Bordir Selesai"}
+              </span>
+            </div>
           </div>
 
           {/* Action Button: Pay DP or Pelunasan */}
           {(order.paymentStatus === "awaiting_deposit" ||
             order.paymentStatus === "deposit_pending") && (
-            <div className="pt-3 border-t border-slate-800">
+            <div className="pt-2 border-t border-slate-800">
               {order.transactions?.[0]?.snapRedirectUrl ? (
                 <a
                   href={order.transactions[0].snapRedirectUrl}
@@ -262,11 +385,11 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
                   className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#b48c28] hover:bg-[#9a751e] text-white font-bold text-xs transition-all shadow-md text-center"
                 >
                   <CreditCard size={15} />
-                  <span>Bayar DP Sekarang ({formatIDR(order.dpAmount)})</span>
+                  <span>Bayar DP 50% Sekarang ({formatIDR(order.dpAmount)})</span>
                 </a>
               ) : (
                 <div className="text-xs text-amber-300 bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
-                  Pembayaran DP menunggu verifikasi admin atau tautan pembayaran.
+                  Pembayaran DP 50% menunggu verifikasi admin atau tautan pembayaran resmi.
                 </div>
               )}
             </div>
@@ -275,7 +398,7 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
           {/* Settle Balance Button if Ready */}
           {order.paymentStatus === "deposit_paid" &&
             order.productionStatus === "ready_for_pickup" && (
-              <div className="pt-3 border-t border-slate-800">
+              <div className="pt-2 border-t border-slate-800">
                 <button
                   onClick={handlePayPelunasan}
                   disabled={isProcessingPelunasan}
@@ -286,7 +409,7 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
                   ) : (
                     <CreditCard size={15} />
                   )}
-                  <span>Bayar Pelunasan 50% ({formatIDR(order.balanceAmount)})</span>
+                  <span>Bayar Sisa Pelunasan 50% ({formatIDR(order.balanceAmount)})</span>
                 </button>
               </div>
             )}
@@ -338,26 +461,72 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
         </h3>
 
         <div className="space-y-4">
-          {order.items.map((it: any, idx: number) => (
-            <div
-              key={it.id || idx}
-              className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/90 text-xs space-y-2"
-            >
-              <div className="flex justify-between items-center text-sm font-bold text-[#0f172a]">
-                <span>
-                  #{idx + 1}: {it.modelType === "biasa" ? "Model Biasa Menyamping" : it.modelType === "syal" ? "Model Leher / Syal" : "Model Leher Timbal Balik"}
-                </span>
-                <span className="font-mono text-[#b48c28]">{formatIDR(it.subtotal)}</span>
-              </div>
+          {order.items.map((it: any, idx: number) => {
+            const officialModelName =
+              it.modelName ||
+              (it.modelType === "biasa"
+                ? "Model Biasa Menyamping"
+                : it.modelType === "syal"
+                ? "Model Leher / Syal (Dua Sisi Simetris)"
+                : "Model Leher Timbal Balik (Bolak-Balik 2 Sisi)");
 
-              <div className="p-3 rounded-xl bg-white border border-slate-200">
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
-                  Tulisan Bordir:
-                </span>
-                <p className="font-serif text-sm font-bold text-[#0f172a] whitespace-pre-line mt-0.5">
-                  {it.customText}
-                </p>
-              </div>
+            const basePrice =
+              it.basePrice ||
+              (it.modelType === "biasa" ? 50000 : it.modelType === "syal" ? 85000 : 120000);
+
+            return (
+              <div
+                key={it.id || idx}
+                className="p-5 sm:p-6 rounded-2xl bg-slate-50/80 border border-slate-200 text-xs space-y-4"
+              >
+                {/* Snapshot Kartu Nama Model & Harga Dasar */}
+                <div className="p-4 rounded-xl bg-white border border-amber-200/90 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-[#b48c28]/10 text-[#9a751e] border border-[#b48c28]/25">
+                        <Sparkles size={11} />
+                        Snapshot Model Resmi
+                      </span>
+                      <span className="text-[11px] text-slate-400 font-mono">
+                        Item #{idx + 1}
+                      </span>
+                    </div>
+                    <h4 className="font-serif text-base font-bold text-[#0f172a]">
+                      {officialModelName}
+                    </h4>
+                    <p className="text-[11px] text-slate-500">
+                      Konfigurasi model tersimpan saat transaksi • Kuantitas:{" "}
+                      <span className="font-semibold text-slate-800">{it.quantity || 1} pcs</span>
+                    </p>
+                  </div>
+
+                  <div className="sm:text-right shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
+                      Harga Dasar Model
+                    </span>
+                    <div className="font-mono text-base font-bold text-[#b48c28]">
+                      {formatIDR(basePrice)}
+                    </div>
+                    {it.addonsPrice > 0 ? (
+                      <span className="text-[10px] text-slate-500 block">
+                        + Opsi Tambahan: {formatIDR(it.addonsPrice)}
+                      </span>
+                    ) : (
+                      <span className="text-[10px] text-slate-400 block">
+                        Subtotal Item: {formatIDR(it.subtotal)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-white border border-slate-200">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
+                    Tulisan Bordir:
+                  </span>
+                  <p className="font-serif text-sm font-bold text-[#0f172a] whitespace-pre-line mt-0.5">
+                    {it.customText}
+                  </p>
+                </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px] text-slate-600">
                 <div>
@@ -378,12 +547,58 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
                 </div>
               </div>
 
-              {it.decorations && it.decorations.length > 0 && (
-                <div className="text-[11px] text-slate-600">
-                  <span className="text-slate-400">Dekorasi: </span>
-                  <span className="font-medium">{it.decorations.join(", ")}</span>
-                </div>
-              )}
+              {/* Rincian Opsi Kustomisasi Terpilih & Harga Snapshot */}
+              {(() => {
+                const optionsToDisplay =
+                  it.selectedOptions && it.selectedOptions.length > 0
+                    ? it.selectedOptions
+                    : Array.isArray(it.decorations) && it.decorations.length > 0
+                    ? resolveSelectedOptions(it.modelType, it.decorations)
+                    : [];
+
+                if (optionsToDisplay.length === 0) {
+                  return (
+                    <div className="p-3 rounded-xl bg-slate-100/70 text-[11px] text-slate-500 italic">
+                      Tanpa opsi tambahan dekorasi (polos standar sesuai spesifikasi model dasar).
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-2xs space-y-2.5">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                        <Sparkles size={12} className="text-[#b48c28]" />
+                        Daftar Opsi Terpilih ({optionsToDisplay.length})
+                      </span>
+                      <span className="text-[11px] font-mono font-bold text-[#b48c28]">
+                        Total Tambahan: {formatIDR(it.addonsPrice || optionsToDisplay.reduce((s: number, o: any) => s + (o.price || 0), 0))}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {optionsToDisplay.map((opt: any, optIdx: number) => (
+                        <div
+                          key={optIdx}
+                          className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100/90 text-xs"
+                        >
+                          <div className="space-y-0.5 pr-2">
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block">
+                              {opt.groupName || "Opsi Tambahan"}
+                            </span>
+                            <span className="font-semibold text-[#0f172a] block text-[11px]">
+                              {opt.name}
+                            </span>
+                          </div>
+                          <span className="font-mono font-bold text-xs text-[#b48c28] shrink-0">
+                            {opt.price === 0 ? "Termasuk (Rp0)" : formatIDR(opt.price)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
 
               {it.hasLogo && (
                 <div className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1.5">
@@ -402,7 +617,8 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

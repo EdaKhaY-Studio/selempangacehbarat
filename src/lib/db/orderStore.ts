@@ -26,6 +26,7 @@ export interface OrderItemRecord {
   id: string;
   orderId: string;
   modelType: SashModelType;
+  modelName?: string;
   material: "bludru" | "satin";
   clothColor: string;
   edgeTapeColor: string;
@@ -34,6 +35,7 @@ export interface OrderItemRecord {
   hasLogo: boolean;
   logoUrl?: string;
   decorations: string[];
+  selectedOptions?: Array<{ slug?: string; name: string; groupName: string; price: number }>;
   designNotes?: string;
   basePrice: number;
   addonsPrice: number;
@@ -211,78 +213,78 @@ export const orderStore = {
             "SELECT * FROM sab_orders WHERE LOWER(id) = ? OR LOWER(order_number) = ? LIMIT 1",
             [cleanQuery, cleanQuery]
           );
-          if (orderRows.length === 0) return null;
+          if (orderRows.length > 0) {
+            const row = orderRows[0];
+            // Get items
+            const [itemRows]: [any[], any] = await pool.query(
+              "SELECT * FROM sab_order_items WHERE order_id = ? ORDER BY created_at ASC",
+              [row.id]
+            );
+            // Get transactions
+            const [txRows]: [any[], any] = await pool.query(
+              "SELECT * FROM sab_payment_transactions WHERE order_id = ? ORDER BY created_at ASC",
+              [row.id]
+            );
 
-          const row = orderRows[0];
-          // Get items
-          const [itemRows]: [any[], any] = await pool.query(
-            "SELECT * FROM sab_order_items WHERE order_id = ? ORDER BY created_at ASC",
-            [row.id]
-          );
-          // Get transactions
-          const [txRows]: [any[], any] = await pool.query(
-            "SELECT * FROM sab_payment_transactions WHERE order_id = ? ORDER BY created_at ASC",
-            [row.id]
-          );
-
-          return {
-            id: row.id,
-            orderNumber: row.order_number,
-            idempotencyKey: row.idempotency_key,
-            customerName: row.customer_name,
-            customerPhone: row.customer_phone,
-            customerEmail: row.customer_email,
-            customerInstitution: row.customer_institution,
-            eventDate: row.event_date,
-            targetDate: row.target_date,
-            deliveryMethod: row.delivery_method,
-            deliveryAddress: row.delivery_address,
-            deliveryCity: row.delivery_city,
-            deliveryPostalCode: row.delivery_postal_code,
-            scheduleNotes: row.schedule_notes,
-            totalProductAmount: row.total_product_amount,
-            dpAmount: row.dp_amount,
-            balanceAmount: row.balance_amount,
-            shippingCost: row.shipping_cost,
-            paymentStatus: row.payment_status as PaymentStatus,
-            productionStatus: row.production_status as ProductionStatus,
-            createdAt: new Date(row.created_at).toISOString(),
-            updatedAt: new Date(row.updated_at).toISOString(),
-            items: itemRows.map((it: any) => ({
-              id: it.id,
-              orderId: it.order_id,
-              modelType: it.model_type,
-              material: it.material,
-              clothColor: it.cloth_color,
-              edgeTapeColor: it.edge_tape_color,
-              threadColor: it.thread_color,
-              customText: it.custom_text,
-              hasLogo: Boolean(it.has_logo),
-              logoUrl: it.logo_url,
-              decorations: it.decorations_json ? JSON.parse(it.decorations_json) : [],
-              designNotes: it.design_notes,
-              basePrice: it.base_price,
-              addonsPrice: it.addons_price,
-              unitPrice: it.unit_price,
-              quantity: it.quantity,
-              subtotal: it.subtotal,
-              createdAt: new Date(it.created_at).toISOString(),
-            })),
-            transactions: txRows.map((tx: any) => ({
-              id: tx.id,
-              orderId: tx.order_id,
-              paymentPhase: tx.payment_phase,
-              midtransOrderId: tx.midtrans_order_id,
-              grossAmount: tx.gross_amount,
-              paymentMethod: tx.payment_method,
-              transactionStatus: tx.transaction_status,
-              snapToken: tx.snap_token,
-              snapRedirectUrl: tx.snap_redirect_url,
-              paidAt: tx.paid_at ? new Date(tx.paid_at).toISOString() : undefined,
-              createdAt: new Date(tx.created_at).toISOString(),
-              updatedAt: new Date(tx.updated_at).toISOString(),
-            })),
-          };
+            return {
+              id: row.id,
+              orderNumber: row.order_number,
+              idempotencyKey: row.idempotency_key,
+              customerName: row.customer_name,
+              customerPhone: row.customer_phone,
+              customerEmail: row.customer_email,
+              customerInstitution: row.customer_institution,
+              eventDate: row.event_date,
+              targetDate: row.target_date,
+              deliveryMethod: row.delivery_method,
+              deliveryAddress: row.delivery_address,
+              deliveryCity: row.delivery_city,
+              deliveryPostalCode: row.delivery_postal_code,
+              scheduleNotes: row.schedule_notes,
+              totalProductAmount: row.total_product_amount,
+              dpAmount: row.dp_amount,
+              balanceAmount: row.balance_amount,
+              shippingCost: row.shipping_cost,
+              paymentStatus: row.payment_status as PaymentStatus,
+              productionStatus: row.production_status as ProductionStatus,
+              createdAt: new Date(row.created_at).toISOString(),
+              updatedAt: new Date(row.updated_at).toISOString(),
+              items: itemRows.map((it: any) => ({
+                id: it.id,
+                orderId: it.order_id,
+                modelType: it.model_type,
+                material: it.material,
+                clothColor: it.cloth_color,
+                edgeTapeColor: it.edge_tape_color,
+                threadColor: it.thread_color,
+                customText: it.custom_text,
+                hasLogo: Boolean(it.has_logo),
+                logoUrl: it.logo_url,
+                decorations: it.decorations_json ? JSON.parse(it.decorations_json) : [],
+                designNotes: it.design_notes,
+                basePrice: it.base_price,
+                addonsPrice: it.addons_price,
+                unitPrice: it.unit_price,
+                quantity: it.quantity,
+                subtotal: it.subtotal,
+                createdAt: new Date(it.created_at).toISOString(),
+              })),
+              transactions: txRows.map((tx: any) => ({
+                id: tx.id,
+                orderId: tx.order_id,
+                paymentPhase: tx.payment_phase,
+                midtransOrderId: tx.midtrans_order_id,
+                grossAmount: tx.gross_amount,
+                paymentMethod: tx.payment_method,
+                transactionStatus: tx.transaction_status,
+                snapToken: tx.snap_token,
+                snapRedirectUrl: tx.snap_redirect_url,
+                paidAt: tx.paid_at ? new Date(tx.paid_at).toISOString() : undefined,
+                createdAt: new Date(tx.created_at).toISOString(),
+                updatedAt: new Date(tx.updated_at).toISOString(),
+              })),
+            };
+          }
         } catch (e) {
           console.error("[OrderStore MySQL] getOrderById error:", e);
         }

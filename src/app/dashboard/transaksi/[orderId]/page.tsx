@@ -26,6 +26,7 @@ import {
   Lock,
 } from "lucide-react";
 import { authService } from "@/lib/services/authService";
+import { resolveSelectedOptions } from "@/lib/catalog/mock-sash-catalog";
 
 function formatIDR(val: number): string {
   return "Rp" + (val || 0).toLocaleString("id-ID");
@@ -120,28 +121,69 @@ export default function AdminOrderDetailPage() {
           <AlertCircle size={36} className="text-rose-500 mx-auto" />
           <h2 className="text-xl font-bold text-white">Pesanan Tidak Ditemukan</h2>
           <p className="text-sm text-slate-400">{error || "Data pesanan tidak tersedia."}</p>
-          <Link
-            href="/dashboard/transaksi"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1E2230] text-slate-200 text-xs font-semibold hover:bg-[#2A3042]"
-          >
-            <ChevronLeft size={16} />
-            Kembali ke Daftar Transaksi
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <Link
+              href="/dashboard/transaksi"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1E2230] text-slate-200 text-xs font-semibold hover:bg-[#2A3042]"
+            >
+              <ChevronLeft size={16} />
+              Kembali ke Daftar Transaksi
+            </Link>
+            <Link
+              href="/dashboard/transaksi/demo"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500/10 text-amber-300 border border-amber-500/30 text-xs font-semibold hover:bg-amber-500/20"
+            >
+              <Sparkles size={14} className="text-[#D4AF37]" />
+              Buka Panel Demo (Data Tiruan)
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
   // Calculate verified amount paid
-  const verifiedPaid = order.transactions
-    ?.filter((t: any) => t.transactionStatus === "settlement" || t.transactionStatus === "capture")
-    .reduce((sum: number, t: any) => sum + (t.grossAmount || 0), 0) || 0;
+  const verifiedPaid =
+    order.transactions
+      ?.filter(
+        (t: any) =>
+          t.transactionStatus === "settlement" || t.transactionStatus === "capture"
+      )
+      .reduce((sum: number, t: any) => sum + (t.grossAmount || 0), 0) || 0;
 
   const remainingBalance = Math.max(0, order.totalProductAmount - verifiedPaid);
+
+  const isMockOrder =
+    order.isMock ||
+    order.id?.toLowerCase().includes("mock") ||
+    order.orderNumber?.toUpperCase().includes("MOCK") ||
+    orderId?.toLowerCase().includes("demo");
 
   return (
     <div className="min-h-screen bg-[#090A0F] text-slate-200 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto space-y-6">
+        {/* Mock Order Demo Banner */}
+        {isMockOrder && (
+          <div className="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 flex items-start gap-3.5 shadow-xs">
+            <div className="p-2 rounded-xl bg-amber-500/20 text-[#D4AF37] shrink-0 mt-0.5">
+              <Sparkles size={16} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                  Panel Rincian Pesanan Admin — Mode Data Tiruan (Mock Demo)
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-200 font-mono">
+                  #SAB-MOCK-2634
+                </span>
+              </div>
+              <p className="text-xs text-amber-200/80 mt-1 leading-relaxed">
+                Panel ini memvalidasi inspeksi rincian pesanan kustom, spesifikasi model selempang resmi, snapshot harga dasar &amp; opsi bordir, serta simulasi operasional admin dan verifikasi pelunasan DP 50%.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Top Breadcrumb & Action Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#242938]">
           <div className="flex items-center gap-3">
@@ -213,71 +255,156 @@ export default function AdminOrderDetailPage() {
               </h3>
 
               <div className="space-y-4">
-                {order.items.map((it: any, idx: number) => (
-                  <div
-                    key={it.id || idx}
-                    className="p-4 rounded-2xl bg-[#090A0F] border border-[#242938] text-xs space-y-3"
-                  >
-                    <div className="flex justify-between items-center text-sm font-bold text-white">
-                      <span>Item #{idx + 1}: {it.modelType === "biasa" ? "Model Biasa Menyamping" : it.modelType === "syal" ? "Model Leher / Syal" : "Model Leher Timbal Balik"}</span>
-                      <span className="font-mono text-[#D4AF37]">{formatIDR(it.subtotal)}</span>
-                    </div>
+                {order.items.map((it: any, idx: number) => {
+                  const officialModelName =
+                    it.modelName ||
+                    (it.modelType === "biasa"
+                      ? "Model Biasa Menyamping"
+                      : it.modelType === "syal"
+                      ? "Model Leher / Syal (Dua Sisi Simetris)"
+                      : "Model Leher Timbal Balik (Bolak-Balik 2 Sisi)");
 
-                    <div className="p-3 rounded-xl bg-[#141721] border border-[#242938]">
-                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
-                        Tulisan Bordir:
-                      </span>
-                      <p className="font-serif text-sm font-bold text-amber-200 whitespace-pre-line mt-0.5">
-                        {it.customText}
-                      </p>
-                    </div>
+                  const basePrice =
+                    it.basePrice ||
+                    (it.modelType === "biasa" ? 50000 : it.modelType === "syal" ? 85000 : 120000);
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] text-slate-400">
-                      <div>
-                        <span className="text-slate-500 block">Bahan:</span>
-                        <span className="text-slate-200 capitalize">{it.material}</span>
-                      </div>
-                      <div>
-                        <span className="text-slate-500 block">Warna Kain:</span>
-                        <span className="text-slate-200">{it.clothColor}</span>
-                      </div>
-                      <div>
-                        <span className="text-slate-500 block">Pita Pinggiran:</span>
-                        <span className="text-slate-200">{it.edgeTapeColor}</span>
-                      </div>
-                      <div>
-                        <span className="text-slate-500 block">Benang Bordir:</span>
-                        <span className="text-slate-200">{it.threadColor}</span>
-                      </div>
-                    </div>
+                  const optionsToDisplay =
+                    it.selectedOptions && it.selectedOptions.length > 0
+                      ? it.selectedOptions
+                      : Array.isArray(it.decorations) && it.decorations.length > 0
+                      ? resolveSelectedOptions(it.modelType, it.decorations)
+                      : [];
 
-                    {it.decorations && it.decorations.length > 0 && (
-                      <div className="text-[11px] text-slate-400">
-                        <span className="text-slate-500">Dekorasi: </span>
-                        <span className="text-slate-200">{it.decorations.join(", ")}</span>
-                      </div>
-                    )}
+                  return (
+                    <div
+                      key={it.id || idx}
+                      className="p-5 rounded-2xl bg-[#090A0F] border border-[#242938] text-xs space-y-4"
+                    >
+                      {/* Header Snapshot Model & Harga Dasar */}
+                      <div className="p-4 rounded-xl bg-[#141721] border border-[#D4AF37]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40 flex items-center gap-1">
+                              <Sparkles size={11} />
+                              Snapshot Model
+                            </span>
+                            <span className="text-slate-400 font-mono text-[11px]">
+                              Item #{idx + 1}
+                            </span>
+                          </div>
+                          <h4 className="font-serif text-base font-bold text-white">
+                            {officialModelName}
+                          </h4>
+                          <span className="text-[11px] text-slate-400 block">
+                            Kuantitas: <span className="text-white font-semibold">{it.quantity || 1} pcs</span>
+                          </span>
+                        </div>
 
-                    {it.hasLogo && (
-                      <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs">
-                        <span className="text-amber-300 font-semibold flex items-center gap-1.5">
-                          <CheckCircle2 size={14} /> Logo Kampus / Organisasi Digunakan
+                        <div className="sm:text-right shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#242938]">
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
+                            Harga Dasar Model:
+                          </span>
+                          <span className="font-mono text-base font-bold text-[#D4AF37] block">
+                            {formatIDR(basePrice)}
+                          </span>
+                          <span className="text-[10px] text-slate-400 block">
+                            Subtotal Item: {formatIDR(it.subtotal)}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Tulisan Bordir */}
+                      <div className="p-3 rounded-xl bg-[#141721] border border-[#242938]">
+                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
+                          Tulisan Bordir:
                         </span>
-                        {it.logoUrl && (
-                          <a
-                            href={it.logoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#b48c28] text-white font-bold text-[11px]"
-                          >
-                            <ExternalLink size={12} />
-                            Lihat File Logo
-                          </a>
+                        <p className="font-serif text-sm font-bold text-amber-200 whitespace-pre-line mt-0.5">
+                          {it.customText}
+                        </p>
+                      </div>
+
+                      {/* Spesifikasi Kain */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] text-slate-400">
+                        <div>
+                          <span className="text-slate-500 block">Bahan:</span>
+                          <span className="text-slate-200 capitalize">{it.material}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">Warna Kain:</span>
+                          <span className="text-slate-200">{it.clothColor}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">Pita Pinggiran:</span>
+                          <span className="text-slate-200">{it.edgeTapeColor}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">Benang Bordir:</span>
+                          <span className="text-slate-200">{it.threadColor}</span>
+                        </div>
+                      </div>
+
+                      {/* Panel Opsi Tambahan Terpilih */}
+                      <div className="p-3.5 rounded-xl bg-[#141721] border border-[#242938] space-y-2">
+                        <div className="flex items-center justify-between pb-1.5 border-b border-[#242938]/60">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                            <Sparkles size={11} className="text-[#D4AF37]" />
+                            Opsi Tambahan Terpilih ({optionsToDisplay.length})
+                          </span>
+                          <span className="font-mono text-[11px] font-bold text-[#D4AF37]">
+                            Total Opsi: {formatIDR(it.addonsPrice || optionsToDisplay.reduce((s: number, o: any) => s + (o.price || 0), 0))}
+                          </span>
+                        </div>
+
+                        {optionsToDisplay.length > 0 ? (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                            {optionsToDisplay.map((opt: any, optIdx: number) => (
+                              <div
+                                key={optIdx}
+                                className="flex items-center justify-between p-2 rounded-lg bg-[#090A0F] border border-[#242938] text-xs"
+                              >
+                                <div className="space-y-0.5">
+                                  <span className="text-[9px] uppercase font-bold text-slate-500 block">
+                                    {opt.groupName || "Opsi"}
+                                  </span>
+                                  <span className="text-white font-medium block">
+                                    {opt.name}
+                                  </span>
+                                </div>
+                                <span className="font-mono text-xs text-[#D4AF37] font-semibold pl-2">
+                                  {opt.price === 0 ? "Termasuk (Rp0)" : formatIDR(opt.price)}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-[11px] text-slate-500 italic">
+                            Tanpa opsi tambahan (polos standar).
+                          </p>
                         )}
                       </div>
-                    )}
-                  </div>
-                ))}
+
+                      {/* Logo Preview */}
+                      {it.hasLogo && (
+                        <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs">
+                          <span className="text-amber-300 font-semibold flex items-center gap-1.5">
+                            <CheckCircle2 size={14} /> Logo Kampus / Organisasi Digunakan
+                          </span>
+                          {it.logoUrl && (
+                            <a
+                              href={it.logoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#b48c28] text-white font-bold text-[11px]"
+                            >
+                              <ExternalLink size={12} />
+                              Lihat File Logo
+                            </a>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
 

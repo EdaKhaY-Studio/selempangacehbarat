@@ -31,6 +31,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/pilih-model",
+        destination: "/pilih-model-selempang",
+        permanent: true,
+      },
+      {
         source: "/katalog-produk",
         destination: "/produk",
         permanent: true,

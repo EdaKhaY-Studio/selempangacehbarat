@@ -88,7 +88,7 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
       { name: "Pink", hex: "#ec4899" },
     ],
     specifications: {
-      "Pilihan Model": "Model A (Biasa Rp50k) | Model B (Syal Rp85k) | Model C (Timbal Balik Rp135k)",
+      "Pilihan Model": "Model Biasa (Rp50.000) | Model Leher / Syal (Rp85.000) | Model Leher Timbal Balik (Rp135.000)",
       "Bahan Kain": "Bludru Beludru Tebal 2 Lapis / Satin Kilap",
       "Harga Awal": "Mulai Rp 50.000 (sesuai model & tambahan dekorasi)",
       "Teknik Bordir": "Bordir Komputer Multi-Needle Presisi",

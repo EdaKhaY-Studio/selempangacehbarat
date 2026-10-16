@@ -278,6 +278,16 @@ export default function TransaksiPage() {
             <span>Export Laporan</span>
           </button>
 
+          {/* Pratinjau Demo Data Tiruan Button */}
+          <Link
+            href="/dashboard/transaksi/demo"
+            className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold transition-all cursor-pointer shadow-xs active:scale-95"
+            title="Buka panel rincian pesanan dengan data tiruan"
+          >
+            <Sparkles size={14} className="text-[#D4AF37]" />
+            <span>Pesanan Demo</span>
+          </Link>
+
           {/* Buat Transaksi Baru Button */}
           <button
             onClick={() => setIsCreateModalOpen(true)}

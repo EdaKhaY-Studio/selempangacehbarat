@@ -109,10 +109,16 @@ export function CustomSashCheckoutForm() {
     verifiedProduct?.sashModel ||
     "biasa";
   const initialAddonsParam = searchParams.get("addons");
-  const initialCloth = searchParams.get("cloth");
-  const initialEdge = searchParams.get("edge");
-  const initialThread = searchParams.get("thread");
-  const initialMaterial = searchParams.get("material") as "bludru" | "satin" | null;
+  const initialCloth = searchParams.get("clothColor") || searchParams.get("cloth");
+  const initialEdge = searchParams.get("edgeTapeColor") || searchParams.get("edge");
+  const initialThread = searchParams.get("threadColor") || searchParams.get("thread");
+  const rawMaterial = searchParams.get("material");
+  const initialMaterial: "bludru" | "satin" =
+    rawMaterial && rawMaterial.toLowerCase().includes("satin") ? "satin" : "bludru";
+  const initialText = searchParams.get("text") || "";
+  const parsedQty = parseInt(searchParams.get("quantity") || "1", 10);
+  const initialQuantity = isNaN(parsedQty) || parsedQty < 1 ? 1 : Math.min(parsedQty, 500);
+
   const initialAddons = initialAddonsParam
     ? sanitizeAddons(initialModel, initialAddonsParam.split(","))
     : verifiedProduct?.defaultAddons && verifiedProduct.defaultAddons.length > 0
@@ -149,14 +155,14 @@ export function CustomSashCheckoutForm() {
       productId: verifiedProduct?.id,
       productSlug: verifiedProduct?.slug,
       modelType: initialModel,
-      material: initialMaterial || "bludru",
+      material: initialMaterial,
       clothColor: initialCloth || "Hitam",
       edgeTapeColor: initialEdge || "Gold (Emas)",
       threadColor: initialThread || "Gold (Benang Emas Metalik)",
-      customText: "",
-      hasLogo: false,
+      customText: initialText,
+      hasLogo: initialAddons.includes("bordir_logo"),
       decorations: initialAddons,
-      quantity: 1,
+      quantity: initialQuantity,
     },
   ]);
 
@@ -194,6 +200,8 @@ export function CustomSashCheckoutForm() {
               edgeTapeColor: initialEdge || updatedItems[0].edgeTapeColor,
               threadColor: initialThread || updatedItems[0].threadColor,
               material: initialMaterial || updatedItems[0].material,
+              customText: initialText || updatedItems[0].customText,
+              quantity: initialQuantity > 1 ? initialQuantity : updatedItems[0].quantity,
             };
             setItems(updatedItems);
           } else {
@@ -289,9 +297,10 @@ export function CustomSashCheckoutForm() {
     const copy = [...items];
     const updatedItem = { ...copy[index], ...updates };
 
-    // If changing model type, sanitize existing decorations
+    // If changing model type, reset pilihan opsi tambahan agar sesuai spesifikasi model baru
     if (updates.modelType && updates.modelType !== copy[index].modelType) {
-      updatedItem.decorations = sanitizeAddons(updates.modelType, updatedItem.decorations);
+      updatedItem.decorations = [];
+      updatedItem.hasLogo = false;
     }
 
     // Synchronize bordir_logo with hasLogo for model biasa
@@ -686,7 +695,9 @@ export function CustomSashCheckoutForm() {
                           <div className="text-[10px] text-[#b48c28] uppercase font-bold">
                             {formatIDR(SASH_MODELS[mKey].basePrice)}
                           </div>
-                          <div>{SASH_MODELS[mKey].shortName}</div>
+                          <div className="font-semibold text-xs leading-tight text-[#0f172a]">
+                            {SASH_MODELS[mKey].name}
+                          </div>
                         </button>
                       ))}
                     </div>
