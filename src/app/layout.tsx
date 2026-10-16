@@ -321,7 +321,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${plusJakarta.variable} ${playfair.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white`}
+        className={`${plusJakarta.variable} ${playfair.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white min-h-screen flex flex-col`}
       >
         {children}
       </body>

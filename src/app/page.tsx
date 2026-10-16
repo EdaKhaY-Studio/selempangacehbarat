@@ -30,43 +30,46 @@ import { AIChatbot } from "@/components/ui/AIChatbot";
  */
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white">
       {/* Header & Navigation */}
       <Navbar />
 
-      {/* 1. Hero Section: Headline darurat + Typewriter hook + CTA Amankan Tanggalmuu!! + Trust Bar */}
-      <HeroSection />
+      {/* Main Content Sections */}
+      <main className="flex-1 flex flex-col">
+        {/* 1. Hero Section: Headline darurat + Typewriter hook + CTA Amankan Tanggalmuu!! + Trust Bar */}
+        <HeroSection />
 
-      {/* 2. Katalog Produk Interaktif (Naik ke atas): Tab switch [Beli Selempang] | [Sewa Outfit] | [Paket Organisasi] */}
-      <CatalogSection />
+        {/* 2. Katalog Produk Interaktif (Naik ke atas): Tab switch [Beli Selempang] | [Sewa Outfit] | [Paket Organisasi] */}
+        <CatalogSection />
 
-      {/* 3. 3-Step Alur Order: Pilih & Custom -> Bayar Instan (Midtrans Snap) -> Ambil di Toko Alpen / Kirim */}
-      <OrderFlowSection />
+        {/* 3. 3-Step Alur Order: Pilih & Custom -> Bayar Instan (Midtrans Snap) -> Ambil di Toko Alpen / Kirim */}
+        <OrderFlowSection />
 
-      {/* 4. Keunggulan Toko: 4 Card (Kilat 1 Hari, Buka Sampai 23:00, 2 Menit dari Kampus, Ready to Wear) */}
-      <ValueProposition />
+        {/* 4. Keunggulan Toko: 4 Card (Kilat 1 Hari, Buka Sampai 23:00, 2 Menit dari Kampus, Ready to Wear) */}
+        <ValueProposition />
 
-      {/* Bundling Highlight & Interactive Size Calculator */}
-      <BundlingHighlight />
-      <BundlingCalculator />
+        {/* Bundling Highlight & Interactive Size Calculator */}
+        <BundlingHighlight />
+        <BundlingCalculator />
 
-      {/* Tentang Kami & Mitra Kampus (UTU, STAIN, USK, Poltekkes) */}
-      <AboutSection />
-      <PartnerLogoWall />
+        {/* Tentang Kami & Mitra Kampus (UTU, STAIN, USK, Poltekkes) */}
+        <AboutSection />
+        <PartnerLogoWall />
 
-      {/* 5. Galeri & Testimoni: Grid feed foto real bordir & wisudawan (IG & Google Reviews) */}
-      <GallerySection />
-      <TestimonialsSection />
+        {/* 5. Galeri & Testimoni: Grid feed foto real bordir & wisudawan (IG & Google Reviews) */}
+        <GallerySection />
+        <TestimonialsSection />
 
-      {/* 6. FAQ Accordion: Tanya jawab deadline kilat, jaminan sewa, fitting ukuran, pembayaran */}
-      <FaqSection />
+        {/* 6. FAQ Accordion: Tanya jawab deadline kilat, jaminan sewa, fitting ukuran, pembayaran */}
+        <FaqSection />
 
-      {/* 7. Maps, Jam Buka & Footer: Embed Google Maps Jln Alpen Meureubo + Jam Operasional */}
-      <LocationSection />
+        {/* 7. Maps, Jam Buka & Footer: Embed Google Maps Jln Alpen Meureubo + Jam Operasional */}
+        <LocationSection />
+      </main>
 
       {/* Footer & Asisten Interaktif */}
       <Footer />
       <AIChatbot />
-    </main>
+    </div>
   );
 }

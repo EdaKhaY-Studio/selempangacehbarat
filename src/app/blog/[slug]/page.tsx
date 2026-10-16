@@ -98,7 +98,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
     : null;
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white">
       {/* Schema JSON-LD Script Injection */}
       {jsonLd && (
         <script
@@ -110,12 +110,15 @@ export default async function BlogDetailPage({ params }: PageProps) {
       {/* 1. Header & Navigation */}
       <Navbar />
 
-      {/* 2. Interactive Client Blog Reader & Breadcrumbs */}
-      <BlogDetailClient slug={slug} initialPost={post || null} />
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col pb-16">
+        {/* 2. Interactive Client Blog Reader & Breadcrumbs */}
+        <BlogDetailClient slug={slug} initialPost={post || null} />
+      </main>
 
       {/* 3. Footer & Chatbot */}
       <Footer />
       <AIChatbot />
-    </main>
+    </div>
   );
 }

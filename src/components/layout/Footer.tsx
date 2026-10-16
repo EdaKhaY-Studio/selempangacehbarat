@@ -3,10 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, MapPin, Phone, MessageCircle, Clock, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export function Footer() {
+export interface FooterProps {
+  className?: string;
+}
+
+export function Footer({ className }: FooterProps = {}) {
   return (
-    <footer className="w-full bg-[#0d111a] text-slate-300 border-t border-slate-800/80">
+    <footer className={cn("w-full bg-[#0d111a] text-slate-300 border-t border-slate-800/80 mt-auto", className)}>
       <div className="max-w-7xl mx-auto px-6 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
           {/* Brand Info (5 cols) */}
@@ -107,6 +112,9 @@ export function Footer() {
               </Link>
               <Link className="text-slate-400 hover:text-white transition-colors duration-200" href="/produk">
                 Katalog Produk &amp; Layanan
+              </Link>
+              <Link className="text-slate-400 hover:text-white transition-colors duration-200" href="/produk/custom-selempang">
+                Custom Selempang Wisuda
               </Link>
               <Link className="text-slate-400 hover:text-white transition-colors duration-200" href="/galeri">
                 Galeri Wisudawan

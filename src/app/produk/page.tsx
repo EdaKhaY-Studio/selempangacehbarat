@@ -51,12 +51,14 @@ export default function ProdukListingPage() {
   const products = getAllProducts();
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white">
       {/* 1. Header & Navigation */}
       <Navbar />
 
-      {/* 2. Breadcrumbs Bar */}
-      <div className="pt-20 sm:pt-24 bg-white border-b border-[#cbd5e1]/40">
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col">
+        {/* 2. Breadcrumbs Bar */}
+        <div className="pt-20 sm:pt-24 bg-white border-b border-[#cbd5e1]/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between text-xs">
           <nav className="flex items-center gap-1.5 text-[#475569]">
             <Link href="/" className="hover:text-[#0f172a] transition-colors">
@@ -173,9 +175,11 @@ export default function ProdukListingPage() {
         </div>
       </section>
 
+      </main>
+
       {/* 6. Footer & Chatbot */}
       <Footer />
       <AIChatbot />
-    </main>
+    </div>
   );
 }

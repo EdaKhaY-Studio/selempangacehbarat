@@ -141,7 +141,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white">
       {/* Schema JSON-LD Script Injection */}
       <script
         type="application/ld+json"
@@ -151,43 +151,46 @@ export default async function ProductDetailPage({ params }: PageProps) {
       {/* 1. Header & Navigation */}
       <Navbar />
 
-      {/* 2. Breadcrumbs Navigation */}
-      <div className="pt-20 sm:pt-24 bg-white border-b border-[#cbd5e1]/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between text-xs">
-          <nav className="flex items-center gap-1.5 text-[#475569] truncate">
-            <Link href="/" className="hover:text-[#0f172a] transition-colors shrink-0">
-              Beranda
-            </Link>
-            <ChevronRight size={13} className="text-[#94a3b8] shrink-0" />
-            <Link
-              href="/produk"
-              className="hover:text-[#0f172a] transition-colors shrink-0"
-            >
-              Katalog Produk
-            </Link>
-            <ChevronRight size={13} className="text-[#94a3b8] shrink-0" />
-            <span className="font-semibold text-[#0f172a] truncate">
-              {product.name}
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col pb-16">
+        {/* 2. Breadcrumbs Navigation */}
+        <div className="pt-20 sm:pt-24 bg-white border-b border-[#cbd5e1]/40">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between text-xs">
+            <nav className="flex items-center gap-1.5 text-[#475569] truncate">
+              <Link href="/" className="hover:text-[#0f172a] transition-colors shrink-0">
+                Beranda
+              </Link>
+              <ChevronRight size={13} className="text-[#94a3b8] shrink-0" />
+              <Link
+                href="/produk"
+                className="hover:text-[#0f172a] transition-colors shrink-0"
+              >
+                Katalog Produk
+              </Link>
+              <ChevronRight size={13} className="text-[#94a3b8] shrink-0" />
+              <span className="font-semibold text-[#0f172a] truncate">
+                {product.name}
+              </span>
+            </nav>
+
+            <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-[#b48c28] font-bold uppercase tracking-wider bg-amber-50 px-2.5 py-0.5 rounded-full border border-[#fde68a] shrink-0">
+              {product.categoryLabel}
             </span>
-          </nav>
-
-          <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-[#b48c28] font-bold uppercase tracking-wider bg-amber-50 px-2.5 py-0.5 rounded-full border border-[#fde68a] shrink-0">
-            {product.categoryLabel}
-          </span>
+          </div>
         </div>
-      </div>
 
-      {/* 3. Product Detail Section */}
-      <section className="py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ProductDetailInteractive
-          product={product}
-          relatedProducts={relatedProducts}
-        />
-      </section>
+        {/* 3. Product Detail Section */}
+        <section className="py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 w-full">
+          <ProductDetailInteractive
+            product={product}
+            relatedProducts={relatedProducts}
+          />
+        </section>
+      </main>
 
       {/* 4. Footer & Chatbot */}
       <Footer />
       <AIChatbot />
-    </main>
+    </div>
   );
 }

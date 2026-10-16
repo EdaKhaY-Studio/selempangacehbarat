@@ -9,6 +9,7 @@ import {
   ReceiptText,
   BookOpenText,
   ShoppingBag,
+  Layers,
   Images,
   LogOut,
   X,
@@ -35,6 +36,12 @@ export const DASHBOARD_NAV_ITEMS = [
     label: "Riwayat Transaksi",
     icon: ReceiptText,
     badge: "Utama",
+  },
+  {
+    href: "/dashboard/katalog-selempang",
+    label: "Katalog Model & Opsi",
+    icon: Layers,
+    badge: "Dinamis",
   },
   {
     href: "/dashboard/jurnal",
