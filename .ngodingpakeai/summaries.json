@@ -1,0 +1,999 @@
+{
+  ".21st/design.json": {
+    "summary": "Konfigurasi token desain dan tema visual 21st yang menyimpan definisi warna, tipografi, dan variabel gaya antarmuka proyek."
+  },
+  ".21st/DESIGN.md": {
+    "summary": "Dokumentasi filosofi desain, panduan tata letak antarmuka, dan konsistensi visual modern untuk komponen UI 21st."
+  },
+  ".21st/skills.lock": {
+    "summary": "Berkas pelacak integritas dan penguncian versi dependensi skill 21st CLI yang terpasang pada repository."
+  },
+  ".agents/skills/21st-ai/SKILL.md": {
+    "summary": "Panduan workflow pembuatan dan iterasi komponen UI secara interaktif dari terminal menggunakan 21st AI CLI."
+  },
+  ".agents/skills/21st-cli-use/SKILL.md": {
+    "summary": "Panduan pencarian, instalasi komponen React/shadcn, dan pemanfaatan tema dari katalog publik 21st.dev melalui baris perintah."
+  },
+  ".agents/skills/21st-design-sync/SKILL.md": {
+    "summary": "Panduan sinkronisasi token CSS dan variabel Tailwind dari proyek ke pustaka tema komunitas 21st.dev."
+  },
+  ".agents/skills/21st-registry/SKILL.md": {
+    "summary": "Panduan publikasi dan pengelolaan komponen, tema kustom, serta template reusable ke dalam registry publik 21st.dev."
+  },
+  ".agents/skills/21st-ui-build/SKILL.md": {
+    "summary": "Panduan implementasi komponen UI antarmuka produksi berbasis konteks desain, aturan aksesibilitas, dan inspirasi 21st."
+  },
+  ".agents/skills/21st-ui-explore/SKILL.md": {
+    "summary": "Panduan eksplorasi variasi konsep visual dan arah desain alternatif untuk kebutuhan eksplorasi antarmuka proyek."
+  },
+  ".agents/skills/21st-ui-review/SKILL.md": {
+    "summary": "Panduan audit desain, penjaminan mutu antarmuka (QA), pengujian aksesibilitas, dan perbaikan tampilan responsif."
+  },
+  ".gitignore": {
+    "summary": "Daftar konfigurasi pengabaian berkas Git untuk mengecualikan node_modules, build cache .next, file scratch, dan env rahasia."
+  },
+  ".ngodingpakeaiignore": {
+    "summary": "Konfigurasi filter untuk mengecualikan berkas biner, build cache, dan file yang tidak perlu disinkronkan ke NgodingPakeAI."
+  },
+  ".npmrc": {
+    "summary": "Konfigurasi manajer paket npm untuk pengaturan resolusi dependensi dan instalasi paket pada lingkungan pengembangan."
+  },
+  "AGENTS.md": {
+    "summary": "Pedoman arsitektur dan operasional AI agent yang merangkum aturan pengembangan, alur katalog-detail-checkout, dan kalkulasi harga."
+  },
+  "DATABASE/database_selempang.sql": {
+    "summary": "Skema basis data relasional MySQL berisi definisi tabel admin_users, orders, dan order_items beserta indeks dan foreign key."
+  },
+  "eslint.config.mjs": {
+    "summary": "Konfigurasi ESLint flat config untuk memverifikasi kualitas sintaksis TypeScript, aturan React, dan Next.js core Web Vitals."
+  },
+  "INFO/AGENT.md": {
+    "summary": "Dokumentasi internal peran agen AI dalam pengembangan fitur, batasan sistem, dan panduan komunikasi teknis proyek."
+  },
+  "INFO/DESIGN.md": {
+    "summary": "Spesifikasi desain visual lengkap memuat palet warna utama emas-navy, tipografi Inter-Cinzel, dan hierarki komponen UI."
+  },
+  "INFO/MRD.md": {
+    "summary": "Dokumen kebutuhan pasar (Market Requirements Document) yang memetakan segmen mahasiswa wisuda dan organisasi di Aceh Barat."
+  },
+  "INFO/PRD.md": {
+    "summary": "Dokumen kebutuhan produk (Product Requirements Document) yang merinci alur katalog selempang, sewa jas, dan integrasi Midtrans."
+  },
+  "next.config.ts": {
+    "summary": "Konfigurasi Next.js berisi pengaturan output standalone, remote image domains, dan aturan permanent redirect 308 URL varian selempang lama."
+  },
+  "package-lock.json": {
+    "summary": "Berkas lockfile npm yang mencatat pohon dependensi pasti, integritas hash paket, dan resolusi sub-dependensi proyek."
+  },
+  "package.json": {
+    "summary": "Manifes dependensi proyek Next.js 15, React 19, Tailwind CSS v4, Lucide React, mysql2, framer-motion, dan script build."
+  },
+  "postcss.config.mjs": {
+    "summary": "Konfigurasi PostCSS untuk mengaktifkan pemrosesan utilitas Tailwind CSS versi 4 melalui plugin @tailwindcss/postcss."
+  },
+  "src/app/api/admin/auth/login/route.ts": {
+    "summary": "Route handler API POST untuk autentikasi kredensial admin dan pembuatan session cookie HttpOnly yang aman.",
+    "sections": [
+      {
+        "symbol": "POST",
+        "startLine": 1,
+        "endLine": 45,
+        "summary": "Memvalidasi username/password admin dan menetapkan cookie sesi."
+      }
+    ]
+  },
+  "src/app/api/admin/auth/logout/route.ts": {
+    "summary": "Route handler API POST untuk menghapus cookie sesi autentikasi admin dan memutus sesi yang sedang aktif.",
+    "sections": [
+      {
+        "symbol": "POST",
+        "startLine": 1,
+        "endLine": 25,
+        "summary": "Menghapus cookie sesi autentikasi admin."
+      }
+    ]
+  },
+  "src/app/api/admin/auth/me/route.ts": {
+    "summary": "Route handler API GET untuk memeriksa validitas sesi admin yang sedang login dan mengembalikan profil pengguna.",
+    "sections": [
+      {
+        "symbol": "GET",
+        "startLine": 1,
+        "endLine": 35,
+        "summary": "Memeriksa status sesi cookie admin dan mengembalikan data profil admin."
+      }
+    ]
+  },
+  "src/app/api/admin/orders/route.ts": {
+    "summary": "Route handler API GET untuk mengambil seluruh daftar pesanan pelanggan dari basis data untuk kebutuhan panel dashboard admin.",
+    "sections": [
+      {
+        "symbol": "GET",
+        "startLine": 1,
+        "endLine": 45,
+        "summary": "Mengambil daftar seluruh pesanan dari tabel orders dengan filter status."
+      }
+    ]
+  },
+  "src/app/api/admin/orders/[id]/route.ts": {
+    "summary": "Route handler API GET untuk mengambil data rincian pesanan spesifik beserta detail item pemesanan selempang berdasarkan ID.",
+    "sections": [
+      {
+        "symbol": "GET",
+        "startLine": 1,
+        "endLine": 40,
+        "summary": "Mengambil detail pesanan dan relasi order_items berdasarkan ID pesanan."
+      }
+    ]
+  },
+  "src/app/api/admin/orders/[id]/status/route.ts": {
+    "summary": "Route handler API PATCH untuk memperbarui status proses pesanan pelanggan seperti siap diambil atau selesai dikembalikan.",
+    "sections": [
+      {
+        "symbol": "PATCH",
+        "startLine": 1,
+        "endLine": 45,
+        "summary": "Memperbarui kolom status pesanan pada tabel orders."
+      }
+    ]
+  },
+  "src/app/api/midtrans/notification/route.ts": {
+    "summary": "Route handler webhook notifikasi Midtrans untuk memperbarui status transaksi settlement atau pending secara otomatis pada basis data.",
+    "sections": [
+      {
+        "symbol": "POST",
+        "startLine": 1,
+        "endLine": 65,
+        "summary": "Menerima payload callback status pembayaran Midtrans dan mengupdate tabel orders."
+      }
+    ]
+  },
+  "src/app/api/orders/create/route.ts": {
+    "summary": "Route handler API POST pembuatan pesanan kustom selempang, validasi harga server-side, penyimpanan order ke DB, dan pembuatan Snap token.",
+    "sections": [
+      {
+        "symbol": "POST",
+        "startLine": 1,
+        "endLine": 160,
+        "summary": "Memvalidasi input pesanan, menghitung harga resmi, menyimpan data ke MySQL, dan meminta transaksi Midtrans."
+      }
+    ]
+  },
+  "src/app/api/orders/[id]/route.ts": {
+    "summary": "Route handler API GET publik untuk membaca status transaksi pesanan pelanggan berdasarkan ID pesanan untuk halaman lacak.",
+    "sections": [
+      {
+        "symbol": "GET",
+        "startLine": 1,
+        "endLine": 45,
+        "summary": "Mengembalikan data ringkasan pesanan publik pelanggan."
+      }
+    ]
+  },
+  "src/app/api/orders/[id]/settlement/route.ts": {
+    "summary": "Route handler API POST untuk memproses transaksi pelunasan sisa 50% tagihan pesanan selempang melalui Midtrans.",
+    "sections": [
+      {
+        "symbol": "POST",
+        "startLine": 1,
+        "endLine": 65,
+        "summary": "Membuat transaksi pelunasan Midtrans Snap untuk sisa saldo pesanan."
+      }
+    ]
+  },
+  "src/app/api/upload/logo/route.ts": {
+    "summary": "Route handler API POST untuk mengunggah berkas logo kampus/sekolah dengan validasi ukuran dan format gambar.",
+    "sections": [
+      {
+        "symbol": "POST",
+        "startLine": 1,
+        "endLine": 60,
+        "summary": "Menyimpan file logo yang diunggah ke folder penyimpanan publik/uploads."
+      }
+    ]
+  },
+  "src/app/api/uploads/logo/[filename]/route.ts": {
+    "summary": "Route handler API GET untuk menyajikan berkas logo yang telah diunggah dengan header MIME type yang tepat.",
+    "sections": [
+      {
+        "symbol": "GET",
+        "startLine": 1,
+        "endLine": 35,
+        "summary": "Membaca dan menyajikan stream berkas logo dari disk lokal."
+      }
+    ]
+  },
+  "src/app/blog/loading.tsx": {
+    "summary": "Komponen UI state loading khusus untuk rute halaman artikel blog."
+  },
+  "src/app/blog/page.tsx": {
+    "summary": "Halaman katalog artikel blog seputar tips ukuran jas wisuda, perbandingan bahan selempang bludru vs satin, dan checklist wisuda.",
+    "sections": [
+      {
+        "symbol": "BlogPage",
+        "startLine": 1,
+        "endLine": 120,
+        "summary": "Merender daftar artikel blog edukatif wisuda Aceh Barat."
+      }
+    ]
+  },
+  "src/app/blog/[slug]/page.tsx": {
+    "summary": "Halaman artikel blog dinamis dengan metadata OpenGraph, konten artikel lengkap, breadcrumbs, dan rekomendasi bacaan terkait.",
+    "sections": [
+      {
+        "symbol": "BlogPostPage",
+        "startLine": 1,
+        "endLine": 140,
+        "summary": "Merender isi artikel blog berdasarkan parameter slug."
+      }
+    ]
+  },
+  "src/app/checkout/custom-selempang/page.tsx": {
+    "summary": "Halaman formulir checkout kustom selempang dengan verifikasi produk resmi, prefill model/dekorasi dari query params, dan DP 50%.",
+    "sections": [
+      {
+        "symbol": "CustomSelempangCheckoutPage",
+        "startLine": 1,
+        "endLine": 95,
+        "summary": "Merender halaman formulir pemesanan khusus selempang kustom."
+      }
+    ]
+  },
+  "src/app/checkout/page.tsx": {
+    "summary": "Halaman checkout umum yang mengarahkan pelanggan ke halaman formulir pemesanan produk yang dipilih.",
+    "sections": [
+      {
+        "symbol": "CheckoutPage",
+        "startLine": 1,
+        "endLine": 50,
+        "summary": "Rute perantara checkout untuk navigasi pelanggan."
+      }
+    ]
+  },
+  "src/app/dashboard/galeri/page.tsx": {
+    "summary": "Halaman dashboard admin untuk mengelola dokumentasi portofolio foto hasil pengerjaan selempang dan jas wisuda.",
+    "sections": [
+      {
+        "symbol": "DashboardGaleriPage",
+        "startLine": 1,
+        "endLine": 110,
+        "summary": "Antarmuka manajemen galeri foto portofolio produk."
+      }
+    ]
+  },
+  "src/app/dashboard/jurnal/page.tsx": {
+    "summary": "Halaman dashboard admin untuk menulis, memperbarui, dan mengelola penerbitan artikel jurnal/blog website.",
+    "sections": [
+      {
+        "symbol": "DashboardJurnalPage",
+        "startLine": 1,
+        "endLine": 140,
+        "summary": "Antarmuka CMS manajemen artikel blog dan edukasi wisuda."
+      }
+    ]
+  },
+  "src/app/dashboard/layout.tsx": {
+    "summary": "Layout rute dashboard administrator yang dilengkapi sidebar navigasi dan pembungkus keamanan autentikasi AdminAuthGuard.",
+    "sections": [
+      {
+        "symbol": "DashboardLayout",
+        "startLine": 1,
+        "endLine": 65,
+        "summary": "Menyediakan kerangka tata letak admin dashboard beserta sidebar."
+      }
+    ]
+  },
+  "src/app/dashboard/login/page.tsx": {
+    "summary": "Halaman antarmuka login administrator dashboard dengan validasi formulir dan pengalihan sesi aktif.",
+    "sections": [
+      {
+        "symbol": "AdminLoginPage",
+        "startLine": 1,
+        "endLine": 120,
+        "summary": "Merender formulir input login admin dan pengiriman API login."
+      }
+    ]
+  },
+  "src/app/dashboard/page.tsx": {
+    "summary": "Halaman utama dashboard admin yang menampilkan ringkasan metrik total pesanan, pendapatan, pesanan baru, dan grafik aktivitas.",
+    "sections": [
+      {
+        "symbol": "DashboardOverviewPage",
+        "startLine": 1,
+        "endLine": 160,
+        "summary": "Merender kartu analitik statistik dan ringkasan operasional toko."
+      }
+    ]
+  },
+  "src/app/dashboard/produk/page.tsx": {
+    "summary": "Halaman dashboard admin untuk memantau inventaris katalog produk, status ketersediaan, dan daftar tarif resmi.",
+    "sections": [
+      {
+        "symbol": "DashboardProdukPage",
+        "startLine": 1,
+        "endLine": 115,
+        "summary": "Merender tabel inventaris produk dan pengaturan status stok."
+      }
+    ]
+  },
+  "src/app/dashboard/transaksi/page.tsx": {
+    "summary": "Halaman dashboard admin berisi tabel riwayat seluruh transaksi pesanan pelanggan dengan filter status pembayaran dan aksi detail.",
+    "sections": [
+      {
+        "symbol": "DashboardTransaksiPage",
+        "startLine": 1,
+        "endLine": 150,
+        "summary": "Menampilkan daftar pesanan pelanggan dan kontrol status pengerjaan."
+      }
+    ]
+  },
+  "src/app/dashboard/transaksi/[orderId]/page.tsx": {
+    "summary": "Halaman detail transaksi spesifik pada dashboard admin yang merinci spesifikasi bordir, kontak pemesan, dan riwayat pembayaran DP/pelunasan.",
+    "sections": [
+      {
+        "symbol": "AdminOrderDetailPage",
+        "startLine": 1,
+        "endLine": 180,
+        "summary": "Merender rincian lengkap pesanan pelanggan dan kontrol status admin."
+      }
+    ]
+  },
+  "src/app/galeri/page.tsx": {
+    "summary": "Halaman galeri portofolio publik yang memamerkan hasil bordir selempang wisuda, jas pria/wanita, dan atribut wisuda FHD.",
+    "sections": [
+      {
+        "symbol": "GaleriPage",
+        "startLine": 1,
+        "endLine": 130,
+        "summary": "Merender koleksi foto asli dokumentasi karya Selempang Aceh Barat."
+      }
+    ]
+  },
+  "src/app/globals.css": {
+    "summary": "Berkas styling CSS global proyek yang mengimpor utilitas Tailwind CSS v4, aturan font kustom, serta variabel warna tema."
+  },
+  "src/app/katalog-produk/page.tsx": {
+    "summary": "Halaman rute kompatibilitas katalog-produk yang menyediakan navigasi langsung menuju katalog resmi /produk.",
+    "sections": [
+      {
+        "symbol": "KatalogProdukRedirectPage",
+        "startLine": 1,
+        "endLine": 35,
+        "summary": "Komponen halaman pengarah menuju rute resmi /produk."
+      }
+    ]
+  },
+  "src/app/layout.tsx": {
+    "summary": "Root layout aplikasi Next.js berisi konfigurasi font Google Inter/Cinzel, viewport, metadata SEO global, dan skema JSON-LD terpusat.",
+    "sections": [
+      {
+        "symbol": "RootLayout",
+        "startLine": 1,
+        "endLine": 95,
+        "summary": "Struktur pembungkus utama seluruh halaman web dengan skema Schema.org."
+      }
+    ]
+  },
+  "src/app/page.tsx": {
+    "summary": "Halaman beranda utama website Selempang Aceh Barat (FHD) yang mengintegrasikan Hero, Katalog, Bundling, FAQ, dan Kontak.",
+    "sections": [
+      {
+        "symbol": "HomePage",
+        "startLine": 1,
+        "endLine": 85,
+        "summary": "Menggabungkan komponen-komponen seksi halaman depan secara terstruktur."
+      }
+    ]
+  },
+  "src/app/pesanan/[orderId]/page.tsx": {
+    "summary": "Halaman publik pelacakan status pesanan pelanggan berdasarkan ID pemesanan dengan opsi pelunasan tagihan 50% via Midtrans.",
+    "sections": [
+      {
+        "symbol": "CustomerOrderStatusPage",
+        "startLine": 1,
+        "endLine": 110,
+        "summary": "Merender komponen CustomerOrderStatusView untuk pemantauan pesanan."
+      }
+    ]
+  },
+  "src/app/produk/custom-selempang/page.tsx": {
+    "summary": "Halaman detail interaktif produk Custom Selempang dengan pilihan 3 model resmi (A, B, C), foto asli, kalkulator dekorasi, dan tombol Pesan Model Ini.",
+    "sections": [
+      {
+        "symbol": "CustomSelempangDetailPage",
+        "startLine": 1,
+        "endLine": 95,
+        "summary": "Merender showcase interaktif selempang dan tombol pemesanan langsung."
+      }
+    ]
+  },
+  "src/app/produk/loading.tsx": {
+    "summary": "Komponen UI indikator loading saat memuat data halaman katalog produk."
+  },
+  "src/app/produk/page.tsx": {
+    "summary": "Halaman katalog utama yang menampilkan 1 produk utama Custom Selempang serta 5 produk rental jas, sepatu, konveksi PDH, dan medali.",
+    "sections": [
+      {
+        "symbol": "ProdukListingPage",
+        "startLine": 1,
+        "endLine": 135,
+        "summary": "Merender katalog produk resmi dengan filter kategori dan pencarian."
+      }
+    ]
+  },
+  "src/app/produk/[slug]/page.tsx": {
+    "summary": "Halaman detail dinamis untuk produk non-selempang (sewa jas, sepatu, PDH, medali) dengan redirect otomatis untuk rute selempang lama.",
+    "sections": [
+      {
+        "symbol": "ProductDetailPage",
+        "startLine": 1,
+        "endLine": 150,
+        "summary": "Merender detail produk spesifik atau mengalihkan slug selempang lama."
+      }
+    ]
+  },
+  "src/app/robots.ts": {
+    "summary": "Berkas generator metadata robots.txt untuk mengontrol perayapan mesin pencari Googlebot pada rute publik dan memblokir rute admin.",
+    "sections": [
+      {
+        "symbol": "robots",
+        "startLine": 1,
+        "endLine": 30,
+        "summary": "Menyusun aturan perayapan bot mesin pencari dan rujukan sitemap."
+      }
+    ]
+  },
+  "src/app/sitemap.ts": {
+    "summary": "Berkas generator sitemap.xml otomatis yang mendaftarkan seluruh URL publik beranda, katalog, detail produk, dan artikel blog.",
+    "sections": [
+      {
+        "symbol": "sitemap",
+        "startLine": 1,
+        "endLine": 65,
+        "summary": "Menghasilkan indeks daftar URL lengkap website untuk pengindeksan mesin pencari."
+      }
+    ]
+  },
+  "src/app/tentang-kami/loading.tsx": {
+    "summary": "Komponen UI fallback loading untuk transisi pembukaan halaman Tentang Kami."
+  },
+  "src/app/tentang-kami/page.tsx": {
+    "summary": "Halaman profil usaha Selempang Aceh Barat (FHD) berisi sejarah, profil Founder Fardi hd, S.P., legalitas kuitansi resmi, dan lokasi workshop Alpen.",
+    "sections": [
+      {
+        "symbol": "TentangKamiPage",
+        "startLine": 1,
+        "endLine": 130,
+        "summary": "Merender narasi profil usaha, keunggulan lokal, dan alamat workshop toko."
+      }
+    ]
+  },
+  "src/components/blog/BlogDetailClient.tsx": {
+    "summary": "Komponen klien untuk tampilan artikel blog dengan fitur estimasi waktu membaca, bagikan artikel ke media sosial, dan floating CTA.",
+    "sections": [
+      {
+        "symbol": "BlogDetailClient",
+        "startLine": 1,
+        "endLine": 110,
+        "summary": "Menyediakan interaktivitas pembaca artikel dan tombol kontak konsultan."
+      }
+    ]
+  },
+  "src/components/checkout/CustomSashCheckoutForm.tsx": {
+    "summary": "Komponen formulir checkout kustom selempang dengan persistensi draft formulir di sessionStorage, verifikasi produk resmi, dan integrasi Snap Midtrans.",
+    "sections": [
+      {
+        "symbol": "CustomSashCheckoutForm",
+        "startLine": 1,
+        "endLine": 350,
+        "summary": "Menangani pengisian identitas, spesifikasi selempang, autosave draft, dan trigger transaksi DP 50%."
+      }
+    ]
+  },
+  "src/components/dashboard/AdminAuthGuard.tsx": {
+    "summary": "Komponen pelindung rute sisi klien yang memverifikasi sesi login admin melalui endpoint API /api/admin/auth/me sebelum menampilkan halaman dashboard.",
+    "sections": [
+      {
+        "symbol": "AdminAuthGuard",
+        "startLine": 1,
+        "endLine": 60,
+        "summary": "Memeriksa status otentikasi admin dan mengarahkan ke halaman login jika tidak sah."
+      }
+    ]
+  },
+  "src/components/dashboard/Sidebar.tsx": {
+    "summary": "Komponen bilah navigasi samping dashboard admin dengan tautan rute ke overview, transaksi, produk, jurnal, dan galeri serta tombol logout.",
+    "sections": [
+      {
+        "symbol": "Sidebar",
+        "startLine": 1,
+        "endLine": 85,
+        "summary": "Merender menu navigasi dashboard admin dengan status aktif yang jelas."
+      }
+    ]
+  },
+  "src/components/layout/Footer.tsx": {
+    "summary": "Komponen footer global website yang menampilkan kontak resmi workshop Alpen, jam operasional toko, akun media sosial, dan hak cipta.",
+    "sections": [
+      {
+        "symbol": "Footer",
+        "startLine": 1,
+        "endLine": 110,
+        "summary": "Menyediakan informasi kontak workshop dan navigasi tautan bawah."
+      }
+    ]
+  },
+  "src/components/layout/Navbar.tsx": {
+    "summary": "Komponen navigasi header global responsif dengan logo FHD, menu navigasi utama (Beranda, Tentang Kami, Katalog, Blog), dan drawer mobile.",
+    "sections": [
+      {
+        "symbol": "Navbar",
+        "startLine": 1,
+        "endLine": 170,
+        "summary": "Merender header website dengan navigasi desktop dan menu hamburger mobile."
+      }
+    ]
+  },
+  "src/components/orders/CustomerOrderStatusView.tsx": {
+    "summary": "Komponen visualisasi status pesanan pelanggan yang menampilkan progres tahapan bordir, detail spesifikasi, bukti pembayaran, dan pelunasan.",
+    "sections": [
+      {
+        "symbol": "CustomerOrderStatusView",
+        "startLine": 1,
+        "endLine": 210,
+        "summary": "Merender kartu status pesanan pelanggan dan tombol pelunasan sisa tagihan."
+      }
+    ]
+  },
+  "src/components/products/CustomSashShowcase.tsx": {
+    "summary": "Komponen etalase interaktif 3 model selempang resmi (A, B, C) dengan kalkulasi harga dinamis, pemilihan dekorasi, dan tombol Pesan Model Ini.",
+    "sections": [
+      {
+        "symbol": "CustomSashShowcase",
+        "startLine": 1,
+        "endLine": 350,
+        "summary": "Mengelola pemilihan model selempang, kalkulasi dekorasi real-time, dan pengalihan ke checkout."
+      }
+    ]
+  },
+  "src/components/products/ProductCatalogClient.tsx": {
+    "summary": "Komponen antarmuka katalog sisi klien dengan fungsionalitas tab filter kategori, kotak pencarian produk dinamis, dan grid kartu produk.",
+    "sections": [
+      {
+        "symbol": "ProductCatalogClient",
+        "startLine": 1,
+        "endLine": 180,
+        "summary": "Mengelola filter kategori dan render grid kartu katalog produk."
+      }
+    ]
+  },
+  "src/components/products/ProductDetailInteractive.tsx": {
+    "summary": "Komponen interaktif halaman detail untuk produk non-selempang (sewa jas, sepatu, PDH, medali) dengan pilihan variasi ukuran dan warna.",
+    "sections": [
+      {
+        "symbol": "ProductDetailInteractive",
+        "startLine": 1,
+        "endLine": 210,
+        "summary": "Menampilkan gambar produk besar, rincian bahan, dan alur booking konsultasi."
+      }
+    ]
+  },
+  "src/components/sections/AboutSection.tsx": {
+    "summary": "Seksi profil singkat workshop Selempang Aceh Barat di beranda yang memperkenalkan visi FHD dan dedikasi pada momen kelulusan.",
+    "sections": [
+      {
+        "symbol": "AboutSection",
+        "startLine": 1,
+        "endLine": 95,
+        "summary": "Merender seksi Tentang Kami pada halaman beranda."
+      }
+    ]
+  },
+  "src/components/sections/BlogSection.tsx": {
+    "summary": "Seksi artikel blog pada beranda yang menampilkan artikel edukasi pilihan untuk persiapan wisuda dan pemilihan atribut kelulusan.",
+    "sections": [
+      {
+        "symbol": "BlogSection",
+        "startLine": 1,
+        "endLine": 85,
+        "summary": "Merender daftar cuplikan artikel blog terbaru di beranda."
+      }
+    ]
+  },
+  "src/components/sections/BundlingCalculator.tsx": {
+    "summary": "Komponen kalkulator interaktif paket bundling wisuda untuk menghitung estimasi biaya gabungan sewa jas dan pembuatan selempang kustom.",
+    "sections": [
+      {
+        "symbol": "BundlingCalculator",
+        "startLine": 1,
+        "endLine": 130,
+        "summary": "Menghitung total harga paket gabungan dengan potongan diskon bundling."
+      }
+    ]
+  },
+  "src/components/sections/BundlingHighlight.tsx": {
+    "summary": "Seksi sorotan paket hemat bundling wisuda (jas + dasi + selempang kilat) yang menawarkan solusi praktis dan ekonomis bagi wisudawan.",
+    "sections": [
+      {
+        "symbol": "BundlingHighlight",
+        "startLine": 1,
+        "endLine": 90,
+        "summary": "Merender kartu penawaran paket bundling favorit wisuda."
+      }
+    ]
+  },
+  "src/components/sections/CatalogSection.tsx": {
+    "summary": "Seksi katalog produk pada beranda yang menampilkan 1 produk utama Custom Selempang dan produk unggulan sewa outfit wisuda.",
+    "sections": [
+      {
+        "symbol": "CatalogSection",
+        "startLine": 1,
+        "endLine": 180,
+        "summary": "Merender katalog produk utama beranda dan menghubungkan ke halaman detail."
+      }
+    ]
+  },
+  "src/components/sections/CategorySection.tsx": {
+    "summary": "Seksi navigasi visual berbasis kartu kategori layanan (Selempang Wisuda, Sewa Outfit Formal, dan Konveksi PDH/Atribut).",
+    "sections": [
+      {
+        "symbol": "CategorySection",
+        "startLine": 1,
+        "endLine": 80,
+        "summary": "Menyediakan kartu pintasan cepat menuju masing-masing kategori produk."
+      }
+    ]
+  },
+  "src/components/sections/FaqSection.tsx": {
+    "summary": "Seksi daftar pertanyaan yang sering diajukan (FAQ) mengenai layanan kilat 1 hari, garansi anti-typo, deposit sewa, dan metode pembayaran.",
+    "sections": [
+      {
+        "symbol": "FaqSection",
+        "startLine": 1,
+        "endLine": 95,
+        "summary": "Merender accordion tanya jawab seputar layanan toko FHD."
+      }
+    ]
+  },
+  "src/components/sections/GallerySection.tsx": {
+    "summary": "Seksi galeri foto visual pada beranda yang menampilkan deretan foto dokumentasi pesanan selempang bordir dan sewa jas pelanggan.",
+    "sections": [
+      {
+        "symbol": "GallerySection",
+        "startLine": 1,
+        "endLine": 105,
+        "summary": "Merender grid galeri foto portofolio dokumentasi asli toko."
+      }
+    ]
+  },
+  "src/components/sections/HeroSection.tsx": {
+    "summary": "Seksi hero beranda dengan tajuk utama Selempang Aceh Barat, statistik 1000+ wisudawan terlayani, dan tombol aksi konsultasi cepat.",
+    "sections": [
+      {
+        "symbol": "HeroSection",
+        "startLine": 1,
+        "endLine": 115,
+        "summary": "Merender bagian pembuka beranda dengan pesan nilai utama dan CTA."
+      }
+    ]
+  },
+  "src/components/sections/LocationSection.tsx": {
+    "summary": "Seksi peta dan informasi lokasi workshop fisik di Alpen Meureubo Meulaboh, dilengkapi rute, jam buka, dan tautan Google Maps.",
+    "sections": [
+      {
+        "symbol": "LocationSection",
+        "startLine": 1,
+        "endLine": 90,
+        "summary": "Menampilkan alamat lengkap workshop toko dan jam operasional harian."
+      }
+    ]
+  },
+  "src/components/sections/OrderFlowSection.tsx": {
+    "summary": "Seksi visual panduan tahapan alur pemesanan mudah mulai dari pemilihan model, pengisian tulisan gelar, pembayaran DP, hingga serah terima.",
+    "sections": [
+      {
+        "symbol": "OrderFlowSection",
+        "startLine": 1,
+        "endLine": 85,
+        "summary": "Merender infografis alur pemesanan selempang dan sewa outfit."
+      }
+    ]
+  },
+  "src/components/sections/PartnerLogoWall.tsx": {
+    "summary": "Seksi dinding logo mitra universitas dan instansi pendidikan di Aceh Barat (UTU, STAIN Meulaboh, USK, AKN) yang sering dilayani.",
+    "sections": [
+      {
+        "symbol": "PartnerLogoWall",
+        "startLine": 1,
+        "endLine": 110,
+        "summary": "Merender logo kampus-kampus rekanan untuk membangun kepercayaan pelanggan."
+      }
+    ]
+  },
+  "src/components/sections/PaymentSection.tsx": {
+    "summary": "Seksi informasi saluran pembayaran yang menjelaskan metode transfer bank Virtual Account, QRIS otomatis, dan konfirmasi pembayaran resmi.",
+    "sections": [
+      {
+        "symbol": "PaymentSection",
+        "startLine": 1,
+        "endLine": 85,
+        "summary": "Menampilkan metode pembayaran terverifikasi yang didukung toko."
+      }
+    ]
+  },
+  "src/components/sections/ServicesSection.tsx": {
+    "summary": "Seksi ikhtisar 3 layanan utama FHD: produksi selempang bordir komputer, penyewaan busana formal sidang/wisuda, dan konveksi pakaian dinas.",
+    "sections": [
+      {
+        "symbol": "ServicesSection",
+        "startLine": 1,
+        "endLine": 90,
+        "summary": "Merender tiga kartu layanan inti bisnis Selempang Aceh Barat."
+      }
+    ]
+  },
+  "src/components/sections/TestimonialsSection.tsx": {
+    "summary": "Seksi testimoni pelanggan dan ulasan kepuasan wisudawan terhadap ketepatan waktu pengerjaan, kerapian bordir, dan keharuman jas sewa.",
+    "sections": [
+      {
+        "symbol": "TestimonialsSection",
+        "startLine": 1,
+        "endLine": 100,
+        "summary": "Merender ulasan dan feedback kepuasan pelanggan dari berbagai fakultas."
+      }
+    ]
+  },
+  "src/components/sections/ValueProposition.tsx": {
+    "summary": "Seksi nilai keunggulan utama toko seperti garansi pengerjaan kilat 24 jam, garansi anti-typo 100%, setrika uap higienis, dan nota resmi LPJ.",
+    "sections": [
+      {
+        "symbol": "ValueProposition",
+        "startLine": 1,
+        "endLine": 85,
+        "summary": "Menampilkan pilar-pilar keunggulan nilai yang ditawarkan kepada pelanggan."
+      }
+    ]
+  },
+  "src/components/ui/AIChatbot.tsx": {
+    "summary": "Komponen widget floating chatbot AI yang membantu menjawab pertanyaan pelanggan seputar tarif, ukuran jas, dan konsultasi warna selempang.",
+    "sections": [
+      {
+        "symbol": "AIChatbot",
+        "startLine": 1,
+        "endLine": 150,
+        "summary": "Menyediakan asisten percakapan cerdas otomatis pada pojok website."
+      }
+    ]
+  },
+  "src/components/ui/AntiGravity.tsx": {
+    "summary": "Komponen efek grafis animasi partikel mengambang untuk memberikan sentuhan estetika premium modern pada latar belakang halaman.",
+    "sections": [
+      {
+        "symbol": "AntiGravity",
+        "startLine": 1,
+        "endLine": 75,
+        "summary": "Merender efek partikel visual modern interaktif."
+      }
+    ]
+  },
+  "src/components/ui/BookingModal.tsx": {
+    "summary": "Komponen modal dialog pemesanan cepat yang merangkum spesifikasi pesanan dan menghubungkan pelanggan ke WhatsApp toko.",
+    "sections": [
+      {
+        "symbol": "BookingModal",
+        "startLine": 1,
+        "endLine": 120,
+        "summary": "Mengelola dialog pop-up konfirmasi pemesanan produk."
+      }
+    ]
+  },
+  "src/components/ui/CategoryFilter.tsx": {
+    "summary": "Komponen tombol seleksi filter kategori produk yang mendukung interaksi klik dan scroll horizontal pada layar ponsel.",
+    "sections": [
+      {
+        "symbol": "CategoryFilter",
+        "startLine": 1,
+        "endLine": 65,
+        "summary": "Merender kontrol pilihan filter kategori produk katalog."
+      }
+    ]
+  },
+  "src/components/ui/FloatingCTA.tsx": {
+    "summary": "Komponen tombol aksi mengambang WhatsApp di sudut layar yang memudahkan pelanggan menghubungi customer service secara langsung.",
+    "sections": [
+      {
+        "symbol": "FloatingCTA",
+        "startLine": 1,
+        "endLine": 55,
+        "summary": "Menyediakan tombol pintasan kontak langsung WhatsApp admin."
+      }
+    ]
+  },
+  "src/components/ui/ProductCard.tsx": {
+    "summary": "Komponen kartu produk modular yang menampilkan thumbnail gambar, badge kategori, harga resmi, dan tautan menuju halaman detail.",
+    "sections": [
+      {
+        "symbol": "ProductCard",
+        "startLine": 1,
+        "endLine": 110,
+        "summary": "Merender kartu produk standar dengan tombol Lihat Detail."
+      }
+    ]
+  },
+  "src/components/ui/SizeRecommender.tsx": {
+    "summary": "Komponen kalkulator rekomendasi ukuran jas pria dan wanita berdasarkan parameter tinggi dan berat badan pelanggan.",
+    "sections": [
+      {
+        "symbol": "SizeRecommender",
+        "startLine": 1,
+        "endLine": 95,
+        "summary": "Menghitung estimasi ukuran jas yang pas (S hingga XXL) bagi pelanggan."
+      }
+    ]
+  },
+  "src/lib/auth/adminAuth.ts": {
+    "summary": "Modul utilitas otentikasi admin yang menangani verifikasi sesi, validasi token cookie, dan pembatasan akses rute dashboard.",
+    "sections": [
+      {
+        "symbol": "verifyAdminSession",
+        "startLine": 1,
+        "endLine": 65,
+        "summary": "Memvalidasi keberadaan dan keabsahan token sesi admin dari request."
+      }
+    ]
+  },
+  "src/lib/blog-data.ts": {
+    "summary": "Koleksi data statis artikel blog seputar panduan wisuda, tips busana, dan checklist persiapan kelulusan kampus di Meulaboh.",
+    "sections": [
+      {
+        "symbol": "BLOG_POSTS",
+        "startLine": 1,
+        "endLine": 120,
+        "summary": "Array data artikel blog berisi konten, slug, tanggal, dan penulis."
+      }
+    ]
+  },
+  "src/lib/db/index.ts": {
+    "summary": "Modul inisialisasi koneksi pool basis data MySQL menggunakan mysql2/promise yang membaca konfigurasi variabel lingkungan.",
+    "sections": [
+      {
+        "symbol": "getDbPool",
+        "startLine": 1,
+        "endLine": 50,
+        "summary": "Menyediakan pool koneksi MySQL tunggal yang aman untuk kueri aplikasi."
+      }
+    ]
+  },
+  "src/lib/db/orderStore.ts": {
+    "summary": "Lapisan data akses (DAO) untuk kueri tabel orders dan order_items, pembuatan pesanan baru, pembaruan status, dan pelacakan resi.",
+    "sections": [
+      {
+        "symbol": "createOrder",
+        "startLine": 1,
+        "endLine": 140,
+        "summary": "Menyimpan data pesanan baru dan detail item selempang ke MySQL."
+      },
+      {
+        "symbol": "getOrderById",
+        "startLine": 141,
+        "endLine": 200,
+        "summary": "Mengambil rincian pesanan dan item terkait berdasarkan ID."
+      }
+    ]
+  },
+  "src/lib/pricing/calculator.ts": {
+    "summary": "Mesin kalkulasi harga resmi selempang (Model A Rp50k, B Rp85k, C Rp135k), validasi dekorasi renda eksklusif, dan kalkulasi nominal DP 50%.",
+    "sections": [
+      {
+        "symbol": "calculateItemPrice",
+        "startLine": 1,
+        "endLine": 110,
+        "summary": "Menghitung harga unit selempang berdasarkan model dan pilihan dekorasi sah."
+      },
+      {
+        "symbol": "sanitizeAddons",
+        "startLine": 111,
+        "endLine": 160,
+        "summary": "Menyaring dan memastikan pilihan dekorasi sesuai batasan bisnis tiap model."
+      }
+    ]
+  },
+  "src/lib/products-data.ts": {
+    "summary": "Sumber data katalog utama yang mendefinisikan 1 produk utama Custom Selempang dan 5 produk rental/konveksi/medali beserta foto asli dan spesifikasi.",
+    "sections": [
+      {
+        "symbol": "ALL_PRODUCTS",
+        "startLine": 1,
+        "endLine": 380,
+        "summary": "Array produk resmi lengkap dengan harga, foto asli, dan spesifikasi toko."
+      },
+      {
+        "symbol": "getProductBySlug",
+        "startLine": 381,
+        "endLine": 425,
+        "summary": "Mengambil detail produk berdasarkan slug atau mengalihkan slug alias varian lama."
+      }
+    ]
+  },
+  "src/lib/services/authService.ts": {
+    "summary": "Layanan autentikasi administrator untuk verifikasi kredensial login, pembangkitan token sesi, dan pengecekan profil admin aktif.",
+    "sections": [
+      {
+        "symbol": "authService.login",
+        "startLine": 1,
+        "endLine": 55,
+        "summary": "Memvalidasi kredensial pengguna dan mengembalikan status otentikasi."
+      }
+    ]
+  },
+  "src/lib/services/blogService.ts": {
+    "summary": "Layanan penyedia artikel blog untuk mengambil daftar seluruh tulisan dan menyaring artikel berdasarkan slug untuk pembaca.",
+    "sections": [
+      {
+        "symbol": "blogService.getPostBySlug",
+        "startLine": 1,
+        "endLine": 45,
+        "summary": "Mengambil data artikel blog tertentu berdasarkan parameter slug unik."
+      }
+    ]
+  },
+  "src/lib/services/midtransService.ts": {
+    "summary": "Layanan integrasi resmi Midtrans untuk membuat transaksi Snap token, konfigurasi payment gateway, dan verifikasi hash signature notifikasi.",
+    "sections": [
+      {
+        "symbol": "midtransService.createTransaction",
+        "startLine": 1,
+        "endLine": 85,
+        "summary": "Mengirim parameter transaksi ke API Midtrans untuk mendapatkan Snap token."
+      }
+    ]
+  },
+  "src/lib/services/transactionService.ts": {
+    "summary": "Layanan manajemen siklus transaksi pemesanan, pencatatan status DP 50%, pelunasan sisa tagihan, dan koordinasi dengan orderStore.",
+    "sections": [
+      {
+        "symbol": "transactionService.handleSettlement",
+        "startLine": 1,
+        "endLine": 70,
+        "summary": "Memproses pembaruan status transaksi saat menerima callback pembayaran lunas."
+      }
+    ]
+  },
+  "src/lib/types.ts": {
+    "summary": "Definisi tipe data TypeScript terpusat memuat antarmuka Product, SashConfig, BookingData, PaymentData, dan konstanta informasi toko STORE_INFO.",
+    "sections": [
+      {
+        "symbol": "Product",
+        "startLine": 1,
+        "endLine": 50,
+        "summary": "Antarmuka struktur data produk katalog toko."
+      },
+      {
+        "symbol": "STORE_INFO",
+        "startLine": 100,
+        "endLine": 170,
+        "summary": "Konstanta data operasional toko, jam buka, kontak WhatsApp, dan tarif sewa."
+      }
+    ]
+  },
+  "src/lib/utils.ts": {
+    "summary": "Kumpulan fungsi utilitas pembantu umum seperti cn (penggabung kelas Tailwind dengan clsx dan twMerge) dan fungsi format nominal mata uang rupiah.",
+    "sections": [
+      {
+        "symbol": "cn",
+        "startLine": 1,
+        "endLine": 25,
+        "summary": "Fungsi penggabung class name Tailwind CSS yang aman dari konflik kelas."
+      },
+      {
+        "symbol": "formatCurrency",
+        "startLine": 26,
+        "endLine": 45,
+        "summary": "Memformat angka bilangan ke format string mata uang Rupiah Indonesia."
+      }
+    ]
+  },
+  "tsconfig.json": {
+    "summary": "Konfigurasi compiler TypeScript proyek Next.js yang mengatur target ES2017, modul bundler, strict mode, dan path alias @/*."
+  }
+}

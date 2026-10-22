@@ -41,18 +41,10 @@ export async function POST(request: Request) {
     }
 
     // 2. Locate Matching Transaction in Database
-    const allOrders = await orderStore.getAllOrders();
-    let matchingOrder = null;
-    let matchingTx = null;
-
-    for (const ord of allOrders) {
-      const tx = ord.transactions.find((t) => t.midtransOrderId === order_id);
-      if (tx) {
-        matchingOrder = ord;
-        matchingTx = tx;
-        break;
-      }
-    }
+    const matchingOrder = await orderStore.getOrderByMidtransOrderId(order_id);
+    const matchingTx = matchingOrder
+      ? matchingOrder.transactions.find((t) => t.midtransOrderId === order_id)
+      : null;
 
     if (!matchingOrder || !matchingTx) {
       console.warn("[Midtrans Webhook] Order tidak ditemukan untuk Midtrans Order ID:", order_id);

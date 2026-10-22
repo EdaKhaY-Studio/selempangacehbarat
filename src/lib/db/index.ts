@@ -20,11 +20,40 @@ export function getMySqlConfig(): MySqlConfig | null {
     return { uri: dbUrl.trim() };
   }
 
-  const host = process.env.DB_HOST || "127.0.0.1";
-  const port = parseInt(process.env.DB_PORT || "3306", 10);
-  const user = process.env.DB_USER || "u911912137_SELEMPANG";
-  const password = process.env.DB_PASSWORD;
-  const database = process.env.DB_NAME || "u911912137_Selempang";
+  let host = process.env.DB_HOST || "srv1409.hstgr.io";
+  let port = parseInt(process.env.DB_PORT || "3306", 10);
+  let user = process.env.DB_USER || "u911912137_SelempangABAR";
+  let password = process.env.DB_PASSWORD;
+  let database = process.env.DB_NAME || "u911912137_Selempag4ceh";
+
+  // Fallback membaca .env.db-migration.local di lingkungan lokal jika env belum dimuat
+  if (!password) {
+    try {
+      const localEnvPath = path.join(process.cwd(), ".env.db-migration.local");
+      if (fs.existsSync(localEnvPath)) {
+        const raw = fs.readFileSync(localEnvPath, "utf-8");
+        for (const line of raw.split("\n")) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith("#")) continue;
+          const eq = trimmed.indexOf("=");
+          if (eq !== -1) {
+            const k = trimmed.slice(0, eq).trim();
+            let v = trimmed.slice(eq + 1).trim();
+            if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+              v = v.slice(1, -1);
+            }
+            if (k === "DB_PASSWORD") password = v;
+            if (k === "DB_HOST") host = v;
+            if (k === "DB_USER") user = v;
+            if (k === "DB_NAME") database = v;
+            if (k === "DB_PORT") port = parseInt(v, 10);
+          }
+        }
+      }
+    } catch {
+      // Abaikan jika tidak dapat membaca file lokal
+    }
+  }
 
   if (!password) {
     return null; // MySQL password not yet provided
@@ -55,6 +84,9 @@ export async function getDbPool(): Promise<mysql.Pool | null> {
           waitForConnections: true,
           connectionLimit: 10,
           queueLimit: 0,
+          ssl: {
+            rejectUnauthorized: false,
+          },
         });
       }
     } catch (e) {

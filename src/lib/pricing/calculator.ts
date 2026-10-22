@@ -78,8 +78,10 @@ export const ADDONS_SYAL: Record<string, AddonOption> = {
   motif_ujung: { id: "motif_ujung", label: "Motif Ujung", price: 5000 },
   motif_tengah: { id: "motif_tengah", label: "Motif Tengah", price: 5000 },
   les_pinggir: { id: "les_pinggir", label: "Les Pinggir", price: 10000 },
-  renda: { id: "renda", label: "Renda", price: 15000 },
-  rumbai_ujung: { id: "rumbai_ujung", label: "Rumbai Ujung", price: 15000 },
+  renda_syal: { id: "renda_syal", label: "Renda Syal", price: 15000 },
+  renda: { id: "renda", label: "Renda Syal", price: 15000 },
+  rumbai_ujung: { id: "rumbai_ujung", label: "Rumbai Ujung Syal", price: 15000 },
+  bordir_logo: { id: "bordir_logo", label: "Bordir Logo", price: 10000 },
 };
 
 export interface LogoPolicy {
@@ -98,8 +100,8 @@ export function getLogoPolicy(modelType: SashModelType): LogoPolicy {
   }
   return {
     allowed: true,
-    price: 0,
-    note: "Biaya bordir logo model leher/syal & timbal balik belum ditetapkan (+Rp0 di web / konfirmasi via CS).",
+    price: 10000,
+    note: "Bordir logo resmi Selempang Model Leher (+Rp10.000)",
   };
 }
 
@@ -126,14 +128,10 @@ export interface CalculationResult {
 /**
  * Validates and sanitizes addons according to business rules:
  * - For model biasa: only ONE lace type allowed ("renda_biasa" | "renda_mahkota" | "renda_marsyanda").
- * - For model timbal_balik: NO addons allowed (flat Rp135.000).
+ * - For model syal and timbal_balik: allowed options from ADDONS_SYAL.
  */
 export function sanitizeAddons(modelType: SashModelType, requestedAddons: string[]): string[] {
-  if (modelType === "timbal_balik") {
-    return [];
-  }
-
-  if (modelType === "syal") {
+  if (modelType === "syal" || modelType === "timbal_balik") {
     return requestedAddons.filter((id) => id in ADDONS_SYAL);
   }
 
@@ -183,7 +181,7 @@ export function calculateItemPrice(
         selectedAddons.push({ id: addon.id, label: addon.label, price: addon.price });
       }
     }
-  } else if (modelType === "syal") {
+  } else if (modelType === "syal" || modelType === "timbal_balik") {
     for (const id of sanitized) {
       const addon = ADDONS_SYAL[id];
       if (addon) {

@@ -200,14 +200,9 @@ export async function POST(request: Request) {
     const pricingCalc = calculateOrderTotals(
       items.map((it) => {
         let decors = Array.isArray(it.decorations) ? [...it.decorations] : [];
-        if (it.modelType === "biasa") {
-          if (it.hasLogo && !decors.includes("bordir_logo")) {
-            decors.push("bordir_logo");
-          } else if (!it.hasLogo) {
-            decors = decors.filter((d) => d !== "bordir_logo");
-          }
-        } else {
-          // Model syal & timbal_balik: logo does NOT incur any automated charge
+        if (it.hasLogo && !decors.includes("bordir_logo")) {
+          decors.push("bordir_logo");
+        } else if (!it.hasLogo) {
           decors = decors.filter((d) => d !== "bordir_logo");
         }
         return {
@@ -246,7 +241,54 @@ export async function POST(request: Request) {
       };
     });
 
-    // 5. Save Order Persistently in Database
+    // Siapkan data snapshot kustomisasi model
+    const firstItem = finalizedItems[0];
+    const modelInfo = SASH_MODELS[firstItem.modelType];
+    const mockModel = MOCK_SASH_MODELS.find((m) => m.slug === firstItem.modelType);
+
+    const customizationSnapshot = {
+      model_slug: firstItem.modelType,
+      model_name: mockModel?.nama || modelInfo?.name || firstItem.modelType,
+      base_price: firstItem.basePrice,
+      total_options_price: firstItem.addonsPrice,
+      unit_price: firstItem.unitPrice,
+      quantity: firstItem.quantity,
+      total_price: firstItem.subtotal,
+      custom_text: firstItem.customText,
+      cloth_material: firstItem.material,
+      cloth_color: firstItem.clothColor,
+      thread_color: firstItem.threadColor,
+      options_snapshot_json: JSON.stringify(firstItem.decorations),
+    };
+
+    // Siapkan data snapshot tiap opsi tambahan per item
+    const itemOptionsSnapshots: Array<{
+      order_item_index: number;
+      option_id?: number | null;
+      option_slug: string;
+      option_name: string;
+      group_name: string;
+      price: number;
+    }> = [];
+
+    finalizedItems.forEach((it, idx) => {
+      (it.decorations || []).forEach((decSlug) => {
+        const optFromMock = MOCK_CUSTOM_OPTIONS.find((o) => o.slug === decSlug);
+        const optGroup = optFromMock
+          ? MOCK_OPTION_GROUPS.find((g) => g.id === optFromMock.group_id)
+          : null;
+        const optInfo = ADDONS_BIASA[decSlug] || ADDONS_SYAL[decSlug];
+        itemOptionsSnapshots.push({
+          order_item_index: idx,
+          option_slug: decSlug,
+          option_name: optFromMock?.nama || optInfo?.label || decSlug,
+          group_name: optGroup?.nama_grup || optInfo?.group || "dekorasi",
+          price: optFromMock ? optFromMock.harga : optInfo?.price || 0,
+        });
+      });
+    });
+
+    // 5. Simpan Pesanan & Snapshot dalam Transaksi Database Atomik
     const newOrder = await orderStore.createOrder({
       idempotencyKey,
       customerName: customerName.trim(),
@@ -265,100 +307,18 @@ export async function POST(request: Request) {
       balanceAmount: pricingCalc.balanceAmount,
       shippingCost: 0,
       items: finalizedItems,
+      customizationSnapshot,
+      itemOptionsSnapshots,
     });
 
-    // 5b. Save Snapshots into sc_order_customizations & sc_order_item_options
-    try {
-      if (finalizedItems.length > 0) {
-        const firstItem = finalizedItems[0];
-        const modelInfo = SASH_MODELS[firstItem.modelType];
-        const mockModel = MOCK_SASH_MODELS.find((m) => m.slug === firstItem.modelType);
-        await saveOrderCustomizationSnapshot({
-          order_id: newOrder.id,
-          order_item_id: newOrder.items?.[0]?.id || null,
-          model_slug: firstItem.modelType,
-          model_name: mockModel?.nama || modelInfo?.name || firstItem.modelType,
-          base_price: firstItem.basePrice,
-          total_options_price: firstItem.addonsPrice,
-          unit_price: firstItem.unitPrice,
-          quantity: firstItem.quantity,
-          total_price: firstItem.subtotal,
-          custom_text: firstItem.customText,
-          cloth_material: firstItem.material,
-          cloth_color: firstItem.clothColor,
-          thread_color: firstItem.threadColor,
-          options_snapshot_json: JSON.stringify(firstItem.decorations),
-        });
-
-        if (newOrder.items && Array.isArray(newOrder.items)) {
-          for (const itemRecord of newOrder.items) {
-            const matchingItem = finalizedItems.find((fi) => fi.customText === itemRecord.customText);
-            const decors = matchingItem?.decorations || [];
-            if (decors.length > 0) {
-              const optionSnapshots = decors.map((decSlug) => {
-                const optFromMock = MOCK_CUSTOM_OPTIONS.find((o) => o.slug === decSlug);
-                const optGroup = optFromMock
-                  ? MOCK_OPTION_GROUPS.find((g) => g.id === optFromMock.group_id)
-                  : null;
-                const optInfo = ADDONS_BIASA[decSlug] || ADDONS_SYAL[decSlug];
-                return {
-                  order_item_id: itemRecord.id,
-                  option_slug: decSlug,
-                  option_name: optFromMock?.nama || optInfo?.label || decSlug,
-                  group_name: optGroup?.nama_grup || optInfo?.group || "dekorasi",
-                  price: optFromMock ? optFromMock.harga : optInfo?.price || 0,
-                };
-              });
-              await saveOrderItemOptionsSnapshot(optionSnapshots);
-            }
-          }
-        }
-      }
-    } catch (snapErr) {
-      console.warn("[Orders] Non-fatal: Gagal menyimpan snapshot kustomisasi tambahan:", snapErr);
-    }
-
-    // 6. Generate Midtrans Snap Transaction for DP 50%
+    // 6. Inisialisasi Rekaman Pembayaran DP 50% di Database sab_payment_transactions
     const midtransOrderId = `${newOrder.orderNumber.replace(/[^A-Za-z0-9]/g, "")}-DP-${Date.now()}`;
-    let snapToken: string | undefined;
-    let snapRedirectUrl: string | undefined;
-
-    if (MidtransService.isConfigured()) {
-      const snapRes = await MidtransService.createSnapTransaction({
-        orderId: midtransOrderId,
-        grossAmount: newOrder.dpAmount,
-        customerName: newOrder.customerName,
-        customerPhone: newOrder.customerPhone,
-        customerEmail: newOrder.customerEmail,
-        itemDescription: `DP 50% ${newOrder.orderNumber}`,
-      });
-
-      if (snapRes) {
-        snapToken = snapRes.token;
-        snapRedirectUrl = snapRes.redirectUrl;
-
-        await orderStore.recordTransaction(newOrder.id, {
-          paymentPhase: "dp",
-          midtransOrderId,
-          grossAmount: newOrder.dpAmount,
-          transactionStatus: "pending",
-          snapToken,
-          snapRedirectUrl,
-        });
-
-        await orderStore.updateStatus(newOrder.id, {
-          paymentStatus: "deposit_pending",
-        });
-      }
-    } else {
-      // Record transaction placeholder so record is visible
-      await orderStore.recordTransaction(newOrder.id, {
-        paymentPhase: "dp",
-        midtransOrderId,
-        grossAmount: newOrder.dpAmount,
-        transactionStatus: "pending",
-      });
-    }
+    await orderStore.recordTransaction(newOrder.id, {
+      paymentPhase: "dp",
+      midtransOrderId,
+      grossAmount: newOrder.dpAmount,
+      transactionStatus: "pending",
+    });
 
     return NextResponse.json({
       success: true,
@@ -369,8 +329,6 @@ export async function POST(request: Request) {
       totalProductAmount: newOrder.totalProductAmount,
       paymentStatus: newOrder.paymentStatus,
       productionStatus: newOrder.productionStatus,
-      snapToken,
-      snapRedirectUrl,
       message: "Pesanan berhasil dibuat.",
     });
   } catch (err: unknown) {

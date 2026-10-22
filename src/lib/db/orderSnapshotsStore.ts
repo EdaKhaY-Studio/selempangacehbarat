@@ -42,59 +42,67 @@ export interface ScOrderCustomizationSnapshot {
  * Menyimpan snapshot rincian kustomisasi pesanan selempang (sc_order_customizations)
  */
 export async function saveOrderCustomizationSnapshot(
-  data: ScOrderCustomizationSnapshot
+  data: ScOrderCustomizationSnapshot,
+  customConn?: any
 ): Promise<boolean> {
-  const pool = await getDbPool();
-  if (!pool) return false;
+  let conn = customConn;
+  let shouldRelease = false;
+
+  if (!conn) {
+    const pool = await getDbPool();
+    if (!pool) return false;
+    conn = await pool.getConnection();
+    shouldRelease = true;
+  }
 
   try {
-    const conn = await pool.getConnection();
-    try {
-      await conn.query(
-        `
-        INSERT INTO sc_order_customizations (
-          order_id, order_item_id, model_slug, model_name,
-          base_price, total_options_price, unit_price, quantity, total_price,
-          custom_text, cloth_material, cloth_color, thread_color, options_snapshot_json
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE
-          model_slug = VALUES(model_slug),
-          model_name = VALUES(model_name),
-          base_price = VALUES(base_price),
-          total_options_price = VALUES(total_options_price),
-          unit_price = VALUES(unit_price),
-          quantity = VALUES(quantity),
-          total_price = VALUES(total_price),
-          custom_text = VALUES(custom_text),
-          cloth_material = VALUES(cloth_material),
-          cloth_color = VALUES(cloth_color),
-          thread_color = VALUES(thread_color),
-          options_snapshot_json = VALUES(options_snapshot_json)
-      `,
-        [
-          data.order_id,
-          data.order_item_id || null,
-          data.model_slug,
-          data.model_name,
-          data.base_price,
-          data.total_options_price,
-          data.unit_price,
-          data.quantity,
-          data.total_price,
-          data.custom_text || null,
-          data.cloth_material || null,
-          data.cloth_color || null,
-          data.thread_color || null,
-          data.options_snapshot_json || null,
-        ]
-      );
-      return true;
-    } finally {
-      conn.release();
-    }
+    await conn.query(
+      `
+      INSERT INTO sc_order_customizations (
+        order_id, order_item_id, model_slug, model_name,
+        base_price, total_options_price, unit_price, quantity, total_price,
+        custom_text, cloth_material, cloth_color, thread_color, options_snapshot_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON DUPLICATE KEY UPDATE
+        model_slug = VALUES(model_slug),
+        model_name = VALUES(model_name),
+        base_price = VALUES(base_price),
+        total_options_price = VALUES(total_options_price),
+        unit_price = VALUES(unit_price),
+        quantity = VALUES(quantity),
+        total_price = VALUES(total_price),
+        custom_text = VALUES(custom_text),
+        cloth_material = VALUES(cloth_material),
+        cloth_color = VALUES(cloth_color),
+        thread_color = VALUES(thread_color),
+        options_snapshot_json = VALUES(options_snapshot_json)
+    `,
+      [
+        data.order_id,
+        data.order_item_id || null,
+        data.model_slug,
+        data.model_name,
+        data.base_price,
+        data.total_options_price,
+        data.unit_price,
+        data.quantity,
+        data.total_price,
+        data.custom_text || null,
+        data.cloth_material || null,
+        data.cloth_color || null,
+        data.thread_color || null,
+        data.options_snapshot_json || null,
+      ]
+    );
+    return true;
   } catch (error) {
     console.error("[Database] Gagal menyimpan snapshot kustomisasi pesanan:", error);
-    return false;
+    if (!customConn) return false;
+    throw error;
+  } finally {
+    if (shouldRelease && conn) {
+      conn.release();
+    }
   }
 }
 
@@ -102,40 +110,48 @@ export async function saveOrderCustomizationSnapshot(
  * Menyimpan snapshot item-level opsi tambahan (sc_order_item_options)
  */
 export async function saveOrderItemOptionsSnapshot(
-  options: ScOrderItemOptionSnapshot[]
+  options: ScOrderItemOptionSnapshot[],
+  customConn?: any
 ): Promise<boolean> {
   if (options.length === 0) return true;
 
-  const pool = await getDbPool();
-  if (!pool) return false;
+  let conn = customConn;
+  let shouldRelease = false;
+
+  if (!conn) {
+    const pool = await getDbPool();
+    if (!pool) return false;
+    conn = await pool.getConnection();
+    shouldRelease = true;
+  }
 
   try {
-    const conn = await pool.getConnection();
-    try {
-      for (const opt of options) {
-        await conn.query(
-          `
-          INSERT INTO sc_order_item_options (
-            order_item_id, option_id, option_slug, option_name, group_name, price
-          ) VALUES (?, ?, ?, ?, ?, ?)
-        `,
-          [
-            opt.order_item_id,
-            opt.option_id || null,
-            opt.option_slug || null,
-            opt.option_name,
-            opt.group_name,
-            opt.price,
-          ]
-        );
-      }
-      return true;
-    } finally {
-      conn.release();
+    for (const opt of options) {
+      await conn.query(
+        `
+        INSERT INTO sc_order_item_options (
+          order_item_id, option_id, option_slug, option_name, group_name, price
+        ) VALUES (?, ?, ?, ?, ?, ?)
+      `,
+        [
+          opt.order_item_id,
+          opt.option_id || null,
+          opt.option_slug || null,
+          opt.option_name,
+          opt.group_name,
+          opt.price,
+        ]
+      );
     }
+    return true;
   } catch (error) {
     console.error("[Database] Gagal menyimpan snapshot opsi item:", error);
-    return false;
+    if (!customConn) return false;
+    throw error;
+  } finally {
+    if (shouldRelease && conn) {
+      conn.release();
+    }
   }
 }
 

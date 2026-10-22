@@ -55,6 +55,14 @@ export interface PaymentTransactionRecord {
   transactionStatus: "pending" | "settlement" | "capture" | "expire" | "cancel" | "deny";
   snapToken?: string;
   snapRedirectUrl?: string;
+  vaNumber?: string;
+  bank?: string;
+  billKey?: string;
+  billerCode?: string;
+  qrString?: string;
+  qrUrl?: string;
+  deepLinkUrl?: string;
+  expiryTime?: string;
   paidAt?: string;
   rawNotification?: string;
   createdAt: string;
@@ -88,6 +96,30 @@ export interface OrderRecord {
   updatedAt: string;
 }
 
+export interface CreateOrderCustomizationSnapshotParam {
+  model_slug: string;
+  model_name: string;
+  base_price: number;
+  total_options_price: number;
+  unit_price: number;
+  quantity: number;
+  total_price: number;
+  custom_text?: string | null;
+  cloth_material?: string | null;
+  cloth_color?: string | null;
+  thread_color?: string | null;
+  options_snapshot_json?: string | null;
+}
+
+export interface CreateOrderItemOptionSnapshotParam {
+  order_item_index?: number;
+  option_id?: number | null;
+  option_slug?: string | null;
+  option_name: string;
+  group_name: string;
+  price: number;
+}
+
 export interface CreateOrderParams {
   idempotencyKey: string;
   customerName: string;
@@ -106,6 +138,8 @@ export interface CreateOrderParams {
   balanceAmount: number;
   shippingCost: number;
   items: Omit<OrderItemRecord, "id" | "orderId" | "createdAt">[];
+  customizationSnapshot?: CreateOrderCustomizationSnapshotParam;
+  itemOptionsSnapshots?: CreateOrderItemOptionSnapshotParam[];
 }
 
 // ─── Environment & Persistence Policy ────────────────────────────────────────
@@ -198,6 +232,39 @@ export const orderStore = {
   },
 
   /**
+   * Find order by Midtrans order ID (fast lookup for webhook notifications)
+   */
+  async getOrderByMidtransOrderId(midtransOrderId: string): Promise<OrderRecord | null> {
+    if (!midtransOrderId) return null;
+
+    if (isMySqlConfigured()) {
+      await initMySqlTables();
+      const pool = await getDbPool();
+      if (pool) {
+        try {
+          const [txRows]: [any[], any] = await pool.query(
+            "SELECT order_id FROM sab_payment_transactions WHERE midtrans_order_id = ? LIMIT 1",
+            [midtransOrderId]
+          );
+          if (txRows.length > 0 && txRows[0].order_id) {
+            return this.getOrderById(txRows[0].order_id);
+          }
+        } catch (e) {
+          console.error("[OrderStore MySQL] getOrderByMidtransOrderId error:", e);
+        }
+      }
+    }
+
+    // Fallback: File Store
+    const data = ensureStoreFile();
+    return (
+      data.orders.find((o) =>
+        o.transactions.some((t) => t.midtransOrderId === midtransOrderId)
+      ) || null
+    );
+  },
+
+  /**
    * Get single order by internal ID or public order number
    */
   async getOrderById(idOrNumber: string): Promise<OrderRecord | null> {
@@ -215,16 +282,53 @@ export const orderStore = {
           );
           if (orderRows.length > 0) {
             const row = orderRows[0];
+
             // Get items
             const [itemRows]: [any[], any] = await pool.query(
               "SELECT * FROM sab_order_items WHERE order_id = ? ORDER BY created_at ASC",
               [row.id]
             );
+
             // Get transactions
             const [txRows]: [any[], any] = await pool.query(
               "SELECT * FROM sab_payment_transactions WHERE order_id = ? ORDER BY created_at ASC",
               [row.id]
             );
+
+            // Get customization snapshot if available
+            let custSnapshot: any = null;
+            try {
+              const [cRows]: [any[], any] = await pool.query(
+                "SELECT * FROM sc_order_customizations WHERE order_id = ? LIMIT 1",
+                [row.id]
+              );
+              if (cRows.length > 0) custSnapshot = cRows[0];
+            } catch {
+              // ignore
+            }
+
+            // Get item options snapshots if available
+            const itemOptionsMap: Record<string, any[]> = {};
+            try {
+              const itemIds = itemRows.map((it: any) => it.id);
+              if (itemIds.length > 0) {
+                const [optRows]: [any[], any] = await pool.query(
+                  "SELECT * FROM sc_order_item_options WHERE order_item_id IN (?)",
+                  [itemIds]
+                );
+                for (const opt of optRows) {
+                  if (!itemOptionsMap[opt.order_item_id]) itemOptionsMap[opt.order_item_id] = [];
+                  itemOptionsMap[opt.order_item_id].push({
+                    slug: opt.option_slug,
+                    name: opt.option_name,
+                    groupName: opt.group_name,
+                    price: Number(opt.price),
+                  });
+                }
+              }
+            } catch {
+              // ignore
+            }
 
             return {
               id: row.id,
@@ -253,6 +357,7 @@ export const orderStore = {
                 id: it.id,
                 orderId: it.order_id,
                 modelType: it.model_type,
+                modelName: custSnapshot?.model_name || undefined,
                 material: it.material,
                 clothColor: it.cloth_color,
                 edgeTapeColor: it.edge_tape_color,
@@ -261,6 +366,7 @@ export const orderStore = {
                 hasLogo: Boolean(it.has_logo),
                 logoUrl: it.logo_url,
                 decorations: it.decorations_json ? JSON.parse(it.decorations_json) : [],
+                selectedOptions: itemOptionsMap[it.id] || undefined,
                 designNotes: it.design_notes,
                 basePrice: it.base_price,
                 addonsPrice: it.addons_price,
@@ -269,20 +375,49 @@ export const orderStore = {
                 subtotal: it.subtotal,
                 createdAt: new Date(it.created_at).toISOString(),
               })),
-              transactions: txRows.map((tx: any) => ({
-                id: tx.id,
-                orderId: tx.order_id,
-                paymentPhase: tx.payment_phase,
-                midtransOrderId: tx.midtrans_order_id,
-                grossAmount: tx.gross_amount,
-                paymentMethod: tx.payment_method,
-                transactionStatus: tx.transaction_status,
-                snapToken: tx.snap_token,
-                snapRedirectUrl: tx.snap_redirect_url,
-                paidAt: tx.paid_at ? new Date(tx.paid_at).toISOString() : undefined,
-                createdAt: new Date(tx.created_at).toISOString(),
-                updatedAt: new Date(tx.updated_at).toISOString(),
-              })),
+              transactions: txRows.map((tx: any) => {
+                let parsedRaw: any = null;
+                if (tx.raw_notification) {
+                  try {
+                    parsedRaw = typeof tx.raw_notification === "string" ? JSON.parse(tx.raw_notification) : tx.raw_notification;
+                  } catch {
+                    // ignore
+                  }
+                }
+
+                const vaNumber = parsedRaw?.va_numbers?.[0]?.va_number || parsedRaw?.permata_va_number || undefined;
+                const bank = parsedRaw?.va_numbers?.[0]?.bank || (parsedRaw?.permata_va_number ? "permata" : undefined) || (parsedRaw?.bill_key ? "mandiri" : undefined);
+                const billKey = parsedRaw?.bill_key || undefined;
+                const billerCode = parsedRaw?.biller_code || undefined;
+                const qrString = parsedRaw?.qr_string || undefined;
+                const qrUrl = parsedRaw?.actions?.find((a: any) => a.name === "generate-qr-code")?.url || undefined;
+                const deepLinkUrl = parsedRaw?.actions?.find((a: any) => a.name === "deeplink-redirect")?.url || undefined;
+                const expiryTime = parsedRaw?.expiry_time || undefined;
+
+                return {
+                  id: tx.id,
+                  orderId: tx.order_id,
+                  paymentPhase: tx.payment_phase,
+                  midtransOrderId: tx.midtrans_order_id,
+                  grossAmount: tx.gross_amount,
+                  paymentMethod: tx.payment_method,
+                  transactionStatus: tx.transaction_status,
+                  snapToken: tx.snap_token,
+                  snapRedirectUrl: tx.snap_redirect_url,
+                  vaNumber,
+                  bank,
+                  billKey,
+                  billerCode,
+                  qrString,
+                  qrUrl,
+                  deepLinkUrl,
+                  expiryTime,
+                  paidAt: tx.paid_at ? new Date(tx.paid_at).toISOString() : undefined,
+                  rawNotification: tx.raw_notification,
+                  createdAt: new Date(tx.created_at).toISOString(),
+                  updatedAt: new Date(tx.updated_at).toISOString(),
+                };
+              }),
             };
           }
         } catch (e) {
@@ -310,156 +445,199 @@ export const orderStore = {
       return existing;
     }
 
-    const orderId = `ord_${crypto.randomUUID().replace(/-/g, "")}`;
-    const nowIso = new Date().toISOString();
-
-    // Generate public order number
-    let count = 0;
-    if (isMySqlConfigured()) {
-      const pool = await getDbPool();
-      if (pool) {
-        try {
-          const [cntRows]: [any[], any] = await pool.query(
-            "SELECT COUNT(*) as cnt FROM sab_orders"
-          );
-          count = cntRows[0]?.cnt || 0;
-        } catch {
-          // fallback
-        }
-      }
-    } else {
-      const fileData = ensureStoreFile();
-      count = fileData.orders.length;
-    }
-
-    const orderNumber = generateOrderNumber(count);
-
-    const items: OrderItemRecord[] = params.items.map((it) => ({
-      ...it,
-      id: `item_${crypto.randomUUID().replace(/-/g, "")}`,
-      orderId,
-      createdAt: nowIso,
-    }));
-
-    const newRecord: OrderRecord = {
-      id: orderId,
-      orderNumber,
-      idempotencyKey: params.idempotencyKey,
-      customerName: params.customerName,
-      customerPhone: params.customerPhone,
-      customerEmail: params.customerEmail,
-      customerInstitution: params.customerInstitution,
-      eventDate: params.eventDate,
-      targetDate: params.targetDate,
-      deliveryMethod: params.deliveryMethod,
-      deliveryAddress: params.deliveryAddress,
-      deliveryCity: params.deliveryCity,
-      deliveryPostalCode: params.deliveryPostalCode,
-      scheduleNotes: params.scheduleNotes,
-      totalProductAmount: params.totalProductAmount,
-      dpAmount: params.dpAmount,
-      balanceAmount: params.balanceAmount,
-      shippingCost: params.shippingCost,
-      paymentStatus: "awaiting_deposit",
-      productionStatus: "awaiting_confirmation",
-      items,
-      transactions: [],
-      createdAt: nowIso,
-      updatedAt: nowIso,
-    };
-
-    if (isMySqlConfigured()) {
-      await initMySqlTables();
-      const pool = await getDbPool();
-      if (pool) {
-        const conn = await pool.getConnection();
-        try {
-          await conn.beginTransaction();
-
-          await conn.query(
-            `INSERT INTO sab_orders (
-              id, order_number, idempotency_key, customer_name, customer_phone,
-              customer_email, customer_institution, event_date, target_date,
-              delivery_method, delivery_address, delivery_city, delivery_postal_code,
-              schedule_notes, total_product_amount, dp_amount, balance_amount,
-              shipping_cost, payment_status, production_status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [
-              newRecord.id,
-              newRecord.orderNumber,
-              newRecord.idempotencyKey,
-              newRecord.customerName,
-              newRecord.customerPhone,
-              newRecord.customerEmail || null,
-              newRecord.customerInstitution || null,
-              newRecord.eventDate,
-              newRecord.targetDate,
-              newRecord.deliveryMethod,
-              newRecord.deliveryAddress || null,
-              newRecord.deliveryCity || null,
-              newRecord.deliveryPostalCode || null,
-              newRecord.scheduleNotes || null,
-              newRecord.totalProductAmount,
-              newRecord.dpAmount,
-              newRecord.balanceAmount,
-              newRecord.shippingCost,
-              newRecord.paymentStatus,
-              newRecord.productionStatus,
-            ]
-          );
-
-          for (const it of items) {
-            await conn.query(
-              `INSERT INTO sab_order_items (
-                id, order_id, model_type, material, cloth_color, edge_tape_color,
-                thread_color, custom_text, has_logo, logo_url, decorations_json,
-                design_notes, base_price, addons_price, unit_price, quantity, subtotal
-              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-              [
-                it.id,
-                it.orderId,
-                it.modelType,
-                it.material,
-                it.clothColor,
-                it.edgeTapeColor,
-                it.threadColor,
-                it.customText,
-                it.hasLogo ? 1 : 0,
-                it.logoUrl || null,
-                JSON.stringify(it.decorations || []),
-                it.designNotes || null,
-                it.basePrice,
-                it.addonsPrice,
-                it.unitPrice,
-                it.quantity,
-                it.subtotal,
-              ]
-            );
-          }
-
-          await conn.commit();
-          return newRecord;
-        } catch (e) {
-          await conn.rollback();
-          console.error("[OrderStore MySQL] createOrder error, rolling back:", e);
-          throw e;
-        } finally {
-          conn.release();
-        }
-      }
-    }
-
-    if (isProductionEnvironment() && !isJsonStoreAllowed()) {
+    // Verifikasi ketersediaan database transaksi MySQL resmi
+    if (!isMySqlConfigured()) {
       throw new Error(
-        "Layanan database MySQL tidak terkonfigurasi atau koneksi gagal di server produksi. Pembuatan pesanan ditolak demi keamanan integritas data transaksi."
+        "Koneksi database transaksi MySQL (u911912137_Selempag4ceh) tidak terkonfigurasi. Pembuatan pesanan ditolak demi keamanan dan integritas data."
       );
     }
 
-    // Fallback: File Store (Development/Test Mode Only)
-    const fileData = ensureStoreFile();
-    fileData.orders.unshift(newRecord);
-    writeStoreFile(fileData);
-    return newRecord;
+    await initMySqlTables();
+    const pool = await getDbPool();
+    if (!pool) {
+      throw new Error(
+        "Gagal memperoleh koneksi ke database transaksi MySQL (u911912137_Selempag4ceh). Pesanan tidak dapat disimpan."
+      );
+    }
+
+    const orderId = `ord_${crypto.randomUUID().replace(/-/g, "")}`;
+    const nowIso = new Date().toISOString();
+
+    const conn = await pool.getConnection();
+    try {
+      await conn.beginTransaction();
+
+      // Penomoran pesanan resmi berurutan dari database
+      let nextNum = 2636;
+      try {
+        const [maxRows]: [any[], any] = await conn.query(
+          "SELECT MAX(CAST(SUBSTRING(order_number, 10) AS UNSIGNED)) as max_num FROM sab_orders WHERE order_number LIKE '#SAB-CUS-%'"
+        );
+        if (maxRows && maxRows[0]?.max_num && Number(maxRows[0].max_num) >= 2633) {
+          nextNum = Number(maxRows[0].max_num) + 1;
+        }
+      } catch {
+        // fallback
+      }
+
+      const orderNumber = `#SAB-CUS-${nextNum}`;
+
+      const items: OrderItemRecord[] = params.items.map((it) => ({
+        ...it,
+        id: `item_${crypto.randomUUID().replace(/-/g, "")}`,
+        orderId,
+        createdAt: nowIso,
+      }));
+
+      const newRecord: OrderRecord = {
+        id: orderId,
+        orderNumber,
+        idempotencyKey: params.idempotencyKey,
+        customerName: params.customerName,
+        customerPhone: params.customerPhone,
+        customerEmail: params.customerEmail,
+        customerInstitution: params.customerInstitution,
+        eventDate: params.eventDate,
+        targetDate: params.targetDate,
+        deliveryMethod: params.deliveryMethod,
+        deliveryAddress: params.deliveryAddress,
+        deliveryCity: params.deliveryCity,
+        deliveryPostalCode: params.deliveryPostalCode,
+        scheduleNotes: params.scheduleNotes,
+        totalProductAmount: params.totalProductAmount,
+        dpAmount: params.dpAmount,
+        balanceAmount: params.balanceAmount,
+        shippingCost: params.shippingCost,
+        paymentStatus: "awaiting_deposit",
+        productionStatus: "awaiting_confirmation",
+        items,
+        transactions: [],
+        createdAt: nowIso,
+        updatedAt: nowIso,
+      };
+
+      // 1. Simpan tabel utama sab_orders
+      await conn.query(
+        `INSERT INTO sab_orders (
+          id, order_number, idempotency_key, customer_name, customer_phone,
+          customer_email, customer_institution, event_date, target_date,
+          delivery_method, delivery_address, delivery_city, delivery_postal_code,
+          schedule_notes, total_product_amount, dp_amount, balance_amount,
+          shipping_cost, payment_status, production_status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          newRecord.id,
+          newRecord.orderNumber,
+          newRecord.idempotencyKey,
+          newRecord.customerName,
+          newRecord.customerPhone,
+          newRecord.customerEmail || null,
+          newRecord.customerInstitution || null,
+          newRecord.eventDate,
+          newRecord.targetDate,
+          newRecord.deliveryMethod,
+          newRecord.deliveryAddress || null,
+          newRecord.deliveryCity || null,
+          newRecord.deliveryPostalCode || null,
+          newRecord.scheduleNotes || null,
+          newRecord.totalProductAmount,
+          newRecord.dpAmount,
+          newRecord.balanceAmount,
+          newRecord.shippingCost,
+          newRecord.paymentStatus,
+          newRecord.productionStatus,
+        ]
+      );
+
+      // 2. Simpan setiap item di sab_order_items
+      for (const it of items) {
+        await conn.query(
+          `INSERT INTO sab_order_items (
+            id, order_id, model_type, material, cloth_color, edge_tape_color,
+            thread_color, custom_text, has_logo, logo_url, decorations_json,
+            design_notes, base_price, addons_price, unit_price, quantity, subtotal
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            it.id,
+            it.orderId,
+            it.modelType,
+            it.material,
+            it.clothColor,
+            it.edgeTapeColor,
+            it.threadColor,
+            it.customText,
+            it.hasLogo ? 1 : 0,
+            it.logoUrl || null,
+            JSON.stringify(it.decorations || []),
+            it.designNotes || null,
+            it.basePrice,
+            it.addonsPrice,
+            it.unitPrice,
+            it.quantity,
+            it.subtotal,
+          ]
+        );
+      }
+
+      // 3. Simpan snapshot model dan harga dasar ke sc_order_customizations secara atomik
+      if (params.customizationSnapshot) {
+        const snap = params.customizationSnapshot;
+        await conn.query(
+          `INSERT INTO sc_order_customizations (
+            order_id, order_item_id, model_slug, model_name,
+            base_price, total_options_price, unit_price, quantity, total_price,
+            custom_text, cloth_material, cloth_color, thread_color, options_snapshot_json
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            orderId,
+            items[0]?.id || null,
+            snap.model_slug,
+            snap.model_name,
+            snap.base_price,
+            snap.total_options_price,
+            snap.unit_price,
+            snap.quantity,
+            snap.total_price,
+            snap.custom_text || null,
+            snap.cloth_material || null,
+            snap.cloth_color || null,
+            snap.thread_color || null,
+            snap.options_snapshot_json || null,
+          ]
+        );
+      }
+
+      // 4. Simpan snapshot rincian tiap opsi ke sc_order_item_options secara atomik
+      if (params.itemOptionsSnapshots && params.itemOptionsSnapshots.length > 0) {
+        for (const optSnap of params.itemOptionsSnapshots) {
+          const targetItemId = items[optSnap.order_item_index || 0]?.id || items[0]?.id;
+          if (targetItemId) {
+            await conn.query(
+              `INSERT INTO sc_order_item_options (
+                order_item_id, option_id, option_slug, option_name, group_name, price
+              ) VALUES (?, ?, ?, ?, ?, ?)`,
+              [
+                targetItemId,
+                optSnap.option_id || null,
+                optSnap.option_slug || null,
+                optSnap.option_name,
+                optSnap.group_name,
+                optSnap.price,
+              ]
+            );
+          }
+        }
+      }
+
+      await conn.commit();
+      return newRecord;
+    } catch (e) {
+      await conn.rollback();
+      console.error("[OrderStore MySQL] createOrder error, transaction rolled back:", e);
+      throw e;
+    } finally {
+      conn.release();
+    }
   },
 
   /**

@@ -57,15 +57,15 @@ export async function GET(request: Request, { params }: RouteParams) {
           it.modelName ||
           customizationSnapshot?.model_name ||
           (it.modelType === "biasa"
-            ? "Model Biasa Menyamping"
+            ? "Selempang Model Biasa (Menyamping)"
             : it.modelType === "syal"
-            ? "Model Leher / Syal (Dua Sisi Simetris)"
-            : "Model Leher Timbal Balik (Bolak-Balik 2 Sisi)");
+            ? "Selempang Model Leher / Syal"
+            : "Selempang Model Leher Timbal Balik");
 
         const basePrice =
           it.basePrice ||
           customizationSnapshot?.base_price ||
-          (it.modelType === "biasa" ? 50000 : it.modelType === "syal" ? 85000 : 120000);
+          (it.modelType === "biasa" ? 50000 : it.modelType === "syal" ? 85000 : 135000);
 
         const addonsPrice =
           it.addonsPrice ||
@@ -161,6 +161,14 @@ export async function GET(request: Request, { params }: RouteParams) {
           paidAt: tx.paidAt,
           snapToken: tx.snapToken,
           snapRedirectUrl: tx.snapRedirectUrl,
+          vaNumber: tx.vaNumber,
+          bank: tx.bank,
+          billKey: tx.billKey,
+          billerCode: tx.billerCode,
+          qrString: tx.qrString,
+          qrUrl: tx.qrUrl,
+          deepLinkUrl: tx.deepLinkUrl,
+          expiryTime: tx.expiryTime,
         })),
         createdAt: order.createdAt,
       },

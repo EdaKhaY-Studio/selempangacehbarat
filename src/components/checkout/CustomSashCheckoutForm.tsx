@@ -303,18 +303,13 @@ export function CustomSashCheckoutForm() {
       updatedItem.hasLogo = false;
     }
 
-    // Synchronize bordir_logo with hasLogo for model biasa
-    if (updates.hasLogo !== undefined && updatedItem.modelType === "biasa") {
+    // Synchronize bordir_logo with hasLogo
+    if (updates.hasLogo !== undefined) {
       if (updates.hasLogo && !updatedItem.decorations.includes("bordir_logo")) {
         updatedItem.decorations = [...updatedItem.decorations, "bordir_logo"];
       } else if (!updates.hasLogo) {
         updatedItem.decorations = updatedItem.decorations.filter((d) => d !== "bordir_logo");
       }
-    }
-
-    // For non-biasa models, logo does NOT incur any automated charge
-    if (updatedItem.modelType !== "biasa") {
-      updatedItem.decorations = updatedItem.decorations.filter((d) => d !== "bordir_logo");
     }
 
     copy[index] = updatedItem;
@@ -324,7 +319,6 @@ export function CustomSashCheckoutForm() {
   // Toggle Addon for Specific Item
   const handleToggleItemAddon = (index: number, addonId: string) => {
     const item = items[index];
-    if (item.modelType === "timbal_balik") return;
 
     let newDecorations: string[] = [];
 
@@ -353,12 +347,18 @@ export function CustomSashCheckoutForm() {
       }
       handleUpdateItem(index, updates);
       return;
-    } else if (item.modelType === "syal") {
+    } else if (item.modelType === "syal" || item.modelType === "timbal_balik") {
       if (item.decorations.includes(addonId)) {
         newDecorations = item.decorations.filter((id) => id !== addonId);
       } else {
         newDecorations = [...item.decorations, addonId];
       }
+      const updates: Partial<CheckoutItemState> = { decorations: newDecorations };
+      if (addonId === "bordir_logo") {
+        updates.hasLogo = newDecorations.includes("bordir_logo");
+      }
+      handleUpdateItem(index, updates);
+      return;
     }
 
     handleUpdateItem(index, { decorations: newDecorations });
@@ -492,8 +492,8 @@ export function CustomSashCheckoutForm() {
 
       setSubmitState("success");
 
-      // Redirect smoothly to customer order status page
-      router.push(`/pesanan/${encodeURIComponent(data.orderNumber)}`);
+      // Redirect ke halaman pembayaran resmi FHD
+      router.push(`/checkout/pembayaran/${encodeURIComponent(data.orderNumber)}`);
     } catch {
       setErrorMessage("Terjadi gangguan koneksi internet. Silakan coba kembali.");
       setSubmitState("error");
@@ -659,7 +659,7 @@ export function CustomSashCheckoutForm() {
                         {idx + 1}
                       </span>
                       <span className="text-sm font-bold text-[#0f172a]">
-                        Item #{idx + 1}: {model.shortName}
+                        Item #{idx + 1}: {model.name}
                       </span>
                     </div>
 
@@ -828,38 +828,40 @@ export function CustomSashCheckoutForm() {
                     </div>
                   )}
 
-                  {item.modelType === "syal" && (
+                  {(item.modelType === "syal" || item.modelType === "timbal_balik") && (
                     <div className="space-y-2 pt-2 border-t border-slate-100">
                       <div className="flex items-center justify-between">
                         <label className="text-xs font-bold text-[#0f172a]">
-                          Tambahan Dekorasi (Model Leher / Syal):
+                          Tambahan Dekorasi ({item.modelType === "syal" ? "Selempang Model Leher / Syal" : "Selempang Model Leher Timbal Balik"}):
                         </label>
                         <span className="text-[10px] text-slate-500">*Bisa dikombinasikan</span>
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                        {Object.values(ADDONS_SYAL).map((add) => {
-                          const isChecked = item.decorations.includes(add.id);
-                          return (
-                            <button
-                              key={add.id}
-                              type="button"
-                              onClick={() => handleToggleItemAddon(idx, add.id)}
-                              className={`p-2 rounded-xl border text-left text-xs transition-all cursor-pointer ${
-                                isChecked
-                                  ? "bg-amber-50/70 border-[#b48c28] ring-1 ring-[#b48c28] text-[#0f172a] font-bold"
-                                  : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
-                              }`}
-                            >
-                              <div className="flex items-center justify-between text-[11px]">
-                                <span>{add.label}</span>
-                                {isChecked && <Check size={12} className="text-[#b48c28]" />}
-                              </div>
-                              <div className="text-[10px] text-[#b48c28] font-bold">
-                                +{formatIDR(add.price)}
-                              </div>
-                            </button>
-                          );
-                        })}
+                        {Object.values(ADDONS_SYAL)
+                          .filter((add, i, arr) => arr.findIndex((a) => a.id === add.id) === i && add.id !== "renda")
+                          .map((add) => {
+                            const isChecked = item.decorations.includes(add.id) || (add.id === "renda_syal" && item.decorations.includes("renda"));
+                            return (
+                              <button
+                                key={add.id}
+                                type="button"
+                                onClick={() => handleToggleItemAddon(idx, add.id)}
+                                className={`p-2 rounded-xl border text-left text-xs transition-all cursor-pointer ${
+                                  isChecked
+                                    ? "bg-amber-50/70 border-[#b48c28] ring-1 ring-[#b48c28] text-[#0f172a] font-bold"
+                                    : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+                                }`}
+                              >
+                                <div className="flex items-center justify-between text-[11px]">
+                                  <span>{add.label}</span>
+                                  {isChecked && <Check size={12} className="text-[#b48c28]" />}
+                                </div>
+                                <div className="text-[10px] text-[#b48c28] font-bold">
+                                  +{formatIDR(add.price)}
+                                </div>
+                              </button>
+                            );
+                          })}
                       </div>
                     </div>
                   )}
@@ -898,17 +900,10 @@ export function CustomSashCheckoutForm() {
 
                     {item.hasLogo && (
                       <div className="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-200/80 space-y-2">
-                        {item.modelType === "biasa" ? (
-                          <div className="text-[11px] text-[#b48c28] font-bold flex items-center gap-1.5">
-                            <Info size={12} className="shrink-0" />
-                            <span>Bordir logo resmi Model Biasa (+Rp10.000 / unit).</span>
-                          </div>
-                        ) : (
-                          <div className="text-[11px] text-amber-800 bg-amber-100/70 px-2.5 py-1.5 rounded-xl flex items-center gap-1.5">
-                            <Info size={12} className="shrink-0 text-amber-800" />
-                            <span>Biaya bordir logo model leher/syal & timbal balik belum ditetapkan (+Rp0 di web / konfirmasi via CS).</span>
-                          </div>
-                        )}
+                        <div className="text-[11px] text-[#b48c28] font-bold flex items-center gap-1.5">
+                          <Info size={12} className="shrink-0" />
+                          <span>Bordir logo resmi kampus/organisasi (+Rp10.000 / unit).</span>
+                        </div>
 
                         <div className="text-xs text-[#0f172a] font-semibold flex items-center justify-between">
                           <span>Unggah File Logo Kampus / Organisasi (PNG / JPG / PDF maks 5MB):</span>
@@ -1245,7 +1240,7 @@ export function CustomSashCheckoutForm() {
                   </>
                 ) : (
                   <>
-                    <span>Lanjut ke Pembayaran DP ({formatIDR(pricingSummary.dpAmount)})</span>
+                    <span>Pesan Sekarang • Bayar DP 50% ({formatIDR(pricingSummary.dpAmount)})</span>
                     <ArrowRight size={16} />
                   </>
                 )}

@@ -376,22 +376,14 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
           {/* Action Button: Pay DP or Pelunasan */}
           {(order.paymentStatus === "awaiting_deposit" ||
             order.paymentStatus === "deposit_pending") && (
-            <div className="pt-2 border-t border-slate-800">
-              {order.transactions?.[0]?.snapRedirectUrl ? (
-                <a
-                  href={order.transactions[0].snapRedirectUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#b48c28] hover:bg-[#9a751e] text-white font-bold text-xs transition-all shadow-md text-center"
-                >
-                  <CreditCard size={15} />
-                  <span>Bayar DP 50% Sekarang ({formatIDR(order.dpAmount)})</span>
-                </a>
-              ) : (
-                <div className="text-xs text-amber-300 bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
-                  Pembayaran DP 50% menunggu verifikasi admin atau tautan pembayaran resmi.
-                </div>
-              )}
+            <div className="pt-2 border-t border-slate-800 space-y-2">
+              <Link
+                href={`/checkout/pembayaran/${encodeURIComponent(order.orderNumber)}`}
+                className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#b48c28] hover:bg-[#9a751e] text-white font-bold text-xs transition-all shadow-md text-center"
+              >
+                <CreditCard size={15} />
+                <span>Buka Halaman Pembayaran DP 50% ({formatIDR(order.dpAmount)})</span>
+              </Link>
             </div>
           )}
 
@@ -465,14 +457,14 @@ Mohon info update pengerjaan selempang saya. Terima kasih!`
             const officialModelName =
               it.modelName ||
               (it.modelType === "biasa"
-                ? "Model Biasa Menyamping"
+                ? "Selempang Model Biasa (Menyamping)"
                 : it.modelType === "syal"
-                ? "Model Leher / Syal (Dua Sisi Simetris)"
-                : "Model Leher Timbal Balik (Bolak-Balik 2 Sisi)");
+                ? "Selempang Model Leher / Syal"
+                : "Selempang Model Leher Timbal Balik");
 
             const basePrice =
               it.basePrice ||
-              (it.modelType === "biasa" ? 50000 : it.modelType === "syal" ? 85000 : 120000);
+              (it.modelType === "biasa" ? 50000 : it.modelType === "syal" ? 85000 : 135000);
 
             return (
               <div

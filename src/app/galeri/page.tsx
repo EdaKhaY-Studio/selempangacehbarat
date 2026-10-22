@@ -6,6 +6,7 @@ import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { Footer } from "@/components/layout/Footer";
 import { AIChatbot } from "@/components/ui/AIChatbot";
 import { ChevronRight, ArrowRight, MessageCircle } from "lucide-react";
+import { GALLERY_ITEMS } from "@/lib/gallery-data";
 
 export const metadata: Metadata = {
   title: "Galeri Wisuda & Portofolio — Selempang Aceh Barat (FHD)",
@@ -33,8 +34,36 @@ export const metadata: Metadata = {
 };
 
 export default function GaleriPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Galeri Wisuda & Portofolio — Selempang Aceh Barat (FHD)",
+    description:
+      "Dokumentasi foto nyata hasil bordir komputer selempang wisuda bludru & satin, setelan jas formal, dan koleksi sepatu pantofel di Meulaboh, Aceh Barat.",
+    url: "https://selempangacehbarat.com/galeri",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: GALLERY_ITEMS.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "ImageObject",
+          name: item.title,
+          description: item.description,
+          contentUrl: `https://selempangacehbarat.com${item.image}`,
+          caption: item.shortText,
+        },
+      })),
+    },
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#faf9f6] text-[#0f172a] selection:bg-[#b48c28] selection:text-white">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* 1. Header & Navigation */}
       <Navbar />
 

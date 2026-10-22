@@ -4,22 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { Images, ArrowRight, ExternalLink, Instagram, Sparkles } from "lucide-react";
 
+import { GALLERY_ITEMS } from "@/lib/gallery-data";
+
 export default function AdminGaleriPage() {
-  const sampleGallery = [
-    {
-      src: "https://lh3.googleusercontent.com/aida-public/AB6AXuACGb4x2T6Ey5MqMf2FS15rYdtYlVPM8sNxUDMnOd8Dkmxa1jBs_eT9IXzl8LfSgXjDDgve0S5qx5Bo28kSB5YtdCeVGKnTbBqABt7KtrvyDb5dvXHZ0coHthBjU5CpW1KwCuV0PBNo-9LBzXhQeZgBS9pKYjbosSCshPwBoHR2PV7wZ5AW_n6I_cf02YXECTjF7BPV1EdTp_z-ekTKmvvP9WH-Sm6KejQYPeGhlfRtjw5ShwR9hugT",
-      caption: "Bordir Selempang Komputer Wisuda UTU Meulaboh",
-    },
-    {
-      src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB3Vp2o5yT4B10sLz2iFfGgVqL2o5yT4B10sLz2iFfGgVqL2o5yT4B10sLz2iFfGgVqL2o5yT4B10sLz2iFfGgVqL2o5yT4B10sLz2iFfGgVqL2o5yT4B10sLz2iFfGgVqL",
-      fallback: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&auto=format&fit=crop&q=80",
-      caption: "Fitting Jas Pria Slim Fit Wisudawan STAIN Meulaboh",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80",
-      caption: "Selempang Bludru Maron Benang Emas Double Layer",
-    },
-  ];
+  const sampleGallery = GALLERY_ITEMS.map((item) => ({
+    src: item.image,
+    caption: item.title,
+    badge: item.badge,
+    objectPosition: item.objectPosition,
+  }));
 
   return (
     <div className="space-y-6">
@@ -84,10 +77,12 @@ export default function AdminGaleriPage() {
           >
             <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-slate-800">
               <Image
-                src={item.src || item.fallback || ""}
+                src={item.src}
                 alt={item.caption}
                 fill
+                unoptimized
                 sizes="(max-width: 768px) 100vw, 33vw"
+                style={{ objectPosition: item.objectPosition || "center" }}
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
