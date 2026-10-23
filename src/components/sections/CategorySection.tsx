@@ -24,8 +24,7 @@ const CATEGORIES: CategoryCardItem[] = [
     price: "Rp 50.000 / Sewa",
     badge: "Paling Populer",
     href: "#katalog",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAr-e_rGospVQPboskLeppHkkNvw5cKBoMLWiQszAbmnwrL97XVB2IdbN0DrYgXfXz481mZdol_oz8khfUPE402EnxDq9kdwu14H62QLVw2hE_mlI_LNlhgu5pWisITMYtDSjZlyhNNH6VkNmK-Ou1wNkk8ZMyeijmYTIpx5UrybfLltwi-Zo4SN4Oc2VSWcAEDWrkY4P-Jed-KLg-WL34fvMAH7dCL2CEJvC0S-GGAzQqLboF5dNf4",
+    image: "/Gambar/male-graduate-suit-full.jpg",
     icon: Shirt,
     featured: true,
   },
@@ -36,8 +35,7 @@ const CATEGORIES: CategoryCardItem[] = [
     price: "Rp 35.000 - 40.000",
     badge: "Sewa Formal",
     href: "#katalog",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBQ2rnP9Qui1nPXu3S5X6n1ewNiFQYmeHwr9yK46CEziVy3OpEnWyPoQBwOFi8pyXJNeyrfQJygx63YSFYdX3inFoVBlvLOrJ9DEHf44JdXhz9SJA_IuZK0MVo30NrtjZ9rReVeC_38kGEtwcrVJ5AryOU-vggX1mcNVBphwqTAhJT0QB_2QfLlTFZkZ5VXdhpuITOvZ6MhLs1lkOTYYQ4n1E6gJOa1RyYtxokvs4e1n-be4NjkreYx",
+    image: "/Gambar/stitch/blazer_charcoal.jpg",
     icon: Layers,
   },
   {
@@ -47,8 +45,7 @@ const CATEGORIES: CategoryCardItem[] = [
     price: "Rp 30.000 - 35.000",
     badge: "Sewa & Jual",
     href: "#katalog",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDyPYkVj9Hlt7dMpjNZkYtmyjmxcN3Zo_gOfJcvOC-dkEugOpLMdXKVPP7f09Gw14LWrg37G61DN_hbI_f-SBl8Dz6CQH7dLnWalW9w6QNM7ekE2SASgw5VfTP0jJs7rEUdmVZBNZv-gKnzqWiUtxkYIVuwJ0j6-2n38XzBxJ7MDLOxfiCDCl44DtQ2j_V_DQ5iOJaQ_jV1JrpJWvIslAjAuTu9sIw1eNIL6asVqa9UkmBYlXZRfjb2",
+    image: "/Gambar/stitch/shoes_oxford.jpg",
     icon: Footprints,
   },
   {
@@ -58,8 +55,7 @@ const CATEGORIES: CategoryCardItem[] = [
     price: "Rp 50.000 – 135.000 / pcs",
     badge: "Custom Kilat",
     href: "#customizer",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuACGb4x2T6Ey5MqMf2FS15rYdtYlVPM8sNxUDMnOd8Dkmxa1jBs_eT9IXzl8LfSgXjDDgve0S5qx5Bo28kSB5YtdCeVGKnTbBqABt7KtrvyDb5dvXHZ0coHthBjU5CpW1KwCuV0PBNo-9LBzXhQeZgBS9pKYjbosSCshPwBoHR2PV7wZ5AW_n6I_cf02YXECTjF7BPV1EdTp_z-ekTKmvvP9WH-Sm6KejQYPeGhlfRtjw5ShwR9hugT",
+    image: "/images/portfolio/selempang-cumlaude-navy.png",
     icon: Award,
   },
   {
@@ -69,8 +65,7 @@ const CATEGORIES: CategoryCardItem[] = [
     price: "Partai & Satuan (Dijual)",
     badge: "Produk Lengkap",
     href: "#bundling-sultan",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBgHlOgF4V7Xj8MQJpl8f_Qx7xqQWcUIwazxGf-CmHA322OfVhRNbRk-xjnZiYlcAOPL6T-h8rClR7o3ZvPfPeNHYa01jvg42L7hsSgxkKCJe0HTvJpDaE2Fhwa60luzortUrfBQZ8_wYSs85qKPvVXQx9bo2pHaOJkqQizWkgbPWBhBI8S9OBegJi9seU6mngFGVF8Z1FTip2p945sRq_4TLGOAaLbRFaWIiPJxCh4vqQfiqQa3tNe",
+    image: "/Gambar/05-medali-wisuda-custom-hijau.jpeg",
     icon: Sparkles,
     featured: true,
   },
@@ -126,8 +121,9 @@ export function CategorySection() {
                     src={item.image}
                     alt={item.title}
                     fill
-                    unoptimized
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={idx < 2}
+                    loading={idx < 2 ? "eager" : "lazy"}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-95 group-hover:opacity-100"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-60" />

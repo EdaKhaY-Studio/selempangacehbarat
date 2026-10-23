@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   AlertCircle,
   HelpCircle,
+  MessageCircle,
 } from "lucide-react";
 
 function formatIDR(val: number): string {
@@ -35,6 +36,9 @@ export interface SashPriceSummaryProps {
   error?: string;
   checkoutUrl: string;
   className?: string;
+  isDraft?: boolean;
+  draftItems?: string[];
+  whatsappUrl?: string;
 }
 
 export function SashPriceSummary({
@@ -49,6 +53,9 @@ export function SashPriceSummary({
   error,
   checkoutUrl,
   className = "",
+  isDraft = false,
+  draftItems = [],
+  whatsappUrl,
 }: SashPriceSummaryProps) {
   const dpEstimate = Math.floor(totalPrice * 0.5);
   const balanceEstimate = totalPrice - dpEstimate;
@@ -73,14 +80,33 @@ export function SashPriceSummary({
         </div>
       )}
 
+      {/* Customer-friendly notification when in draft status */}
+      {isDraft && (
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs space-y-1.5 shadow-xs">
+          <div className="flex items-center gap-2 font-bold text-amber-300">
+            <Sparkles size={15} className="text-[#D4AF37] shrink-0" />
+            <span>Pemberitahuan Pemesanan Online</span>
+          </div>
+          <p className="text-slate-300 leading-relaxed">
+            Pemesanan online otomatis untuk spesifikasi kustom ini sedang dalam tahap finalisasi harga resmi oleh Butik Selempang Aceh Barat (FHD). Anda dapat melihat kalkulasi estimasi di bawah dan melakukan pemesanan langsung melalui konsultasi WhatsApp resmi kami.
+          </p>
+        </div>
+      )}
+
       {/* Main Estimation Box */}
       <div className="p-5 sm:p-6 rounded-2xl bg-[#0f172a] text-white space-y-4 shadow-md border border-slate-800">
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div className="flex items-center gap-2">
             <span className="text-xs text-slate-400 font-medium">Model Potongan:</span>
-            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#b48c28]/20 text-[#D4AF37] border border-[#b48c28]/40">
-              Preview Mock
-            </span>
+            {isDraft ? (
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-[#D4AF37] border border-amber-500/40">
+                Tahap Finalisasi (Draft)
+              </span>
+            ) : (
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+                Katalog Resmi
+              </span>
+            )}
           </div>
           <span className="text-xs font-bold text-white max-w-[200px] sm:max-w-none truncate text-right">
             {modelName}
@@ -208,24 +234,45 @@ export function SashPriceSummary({
         </div>
       </div>
 
-      {/* Action CTA: Navigates to Standalone Checkout Page */}
-      <div className="pt-2">
-        <Link
-          href={isValid ? checkoutUrl : "#"}
-          className={`w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-bold text-base tracking-wide transition-all shadow-md active:scale-98 text-center cursor-pointer ${
-            isValid
-              ? "bg-[#b48c28] hover:bg-[#9a751e] text-white"
-              : "bg-slate-300 text-slate-500 cursor-not-allowed pointer-events-none"
-          }`}
-        >
-          <span>Pesan Model Ini ({formatIDR(dpEstimate)} DP)</span>
-          <ArrowRight size={18} />
-        </Link>
+      {/* Action CTA: WhatsApp Consultation when Draft, or Checkout when Published */}
+      <div className="pt-2 space-y-2.5">
+        {isDraft ? (
+          <>
+            <a
+              href={whatsappUrl || "https://wa.me/6282299256343"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl font-bold text-sm sm:text-base tracking-wide bg-[#b48c28] hover:bg-[#9a751e] text-white shadow-md transition-all active:scale-98 text-center cursor-pointer"
+            >
+              <MessageCircle size={18} />
+              <span>Konsultasi &amp; Pesan via WhatsApp (0822-9925-6343)</span>
+            </a>
 
-        <div className="mt-3 flex items-center justify-center gap-2 text-xs text-slate-500">
-          <ShieldCheck size={14} className="text-[#b48c28]" />
-          <span>Model, opsi, dan estimasi otomatis diteruskan ke formulir checkout resmi.</span>
-        </div>
+            <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
+              <ShieldCheck size={14} className="text-[#b48c28]" />
+              <span>Konsultasi gratis • Dilayani admin WhatsApp resmi Butik FHD</span>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link
+              href={isValid ? checkoutUrl : "#"}
+              className={`w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-bold text-base tracking-wide transition-all shadow-md active:scale-98 text-center cursor-pointer ${
+                isValid
+                  ? "bg-[#b48c28] hover:bg-[#9a751e] text-white"
+                  : "bg-slate-300 text-slate-500 cursor-not-allowed pointer-events-none"
+              }`}
+            >
+              <span>Pesan Model Ini ({formatIDR(dpEstimate)} DP)</span>
+              <ArrowRight size={18} />
+            </Link>
+
+            <div className="mt-3 flex items-center justify-center gap-2 text-xs text-slate-500">
+              <ShieldCheck size={14} className="text-[#b48c28]" />
+              <span>Model, opsi, dan estimasi otomatis diteruskan ke formulir checkout resmi.</span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

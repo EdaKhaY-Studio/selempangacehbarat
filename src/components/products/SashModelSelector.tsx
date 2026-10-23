@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Check, Sparkles, Tag, ShieldCheck } from "lucide-react";
+import { Sparkles, Tag } from "lucide-react";
 import { SashModelEntity } from "@/lib/catalog/mock-sash-catalog";
 
 function formatIDR(val: number): string {
@@ -42,51 +42,48 @@ export function SashModelSelector({
           const isSelected = model.id === selectedModelId;
 
           return (
-            <div
+            <button
               key={model.id}
+              type="button"
               role="radio"
               aria-checked={isSelected}
-              tabIndex={0}
+              aria-label={`${model.nama}, harga dasar ${formatIDR(model.harga_dasar)}`}
               onClick={() => onSelectModel(model)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  onSelectModel(model);
-                }
-              }}
-              className={`relative flex flex-col justify-between p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 select-none outline-hidden ${
+              className={`w-full text-left relative flex flex-col justify-between p-4 sm:p-4.5 rounded-2xl cursor-pointer transition-all duration-200 select-none outline-hidden ${
                 isSelected
-                  ? "bg-white border-[#b48c28] shadow-md ring-2 ring-[#b48c28]/20 scale-[1.01]"
-                  : "bg-white/80 border-slate-200 hover:border-slate-300 hover:bg-white text-slate-700 shadow-xs"
+                  ? "bg-gradient-to-b from-amber-50/40 via-white to-amber-50/15 border border-[#b48c28] shadow-sm ring-1 ring-[#b48c28]/25"
+                  : "bg-white border border-slate-200/90 hover:border-[#b48c28]/40 hover:bg-slate-50/40 text-slate-700 shadow-2xs"
               }`}
             >
-              {/* Header: Badge & Status */}
+              {/* Header: Short Name / Tag */}
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span
-                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors ${
                       isSelected
-                        ? "bg-amber-100 text-[#b48c28]"
-                        : "bg-slate-100 text-slate-600"
+                        ? "bg-[#b48c28]/10 text-[#b48c28] border border-[#b48c28]/30"
+                        : "bg-slate-100 text-slate-600 border border-slate-200/60"
                     }`}
                   >
                     <Tag size={10} />
                     {model.shortName}
                   </span>
 
-                  <div
-                    className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
-                      isSelected
-                        ? "bg-[#b48c28] text-white shadow-xs"
-                        : "border border-slate-300 bg-white"
+                  <span
+                    className={`text-[10px] font-semibold uppercase tracking-wider transition-colors ${
+                      isSelected ? "text-[#b48c28]" : "text-slate-400"
                     }`}
                   >
-                    {isSelected && <Check size={12} strokeWidth={3} />}
-                  </div>
+                    {isSelected ? "Terpilih" : "Pilih Model"}
+                  </span>
                 </div>
 
                 {/* Model Title (Full Official Name) */}
-                <h4 className="font-serif font-bold text-sm text-[#0f172a] leading-snug mb-1">
+                <h4
+                  className={`font-serif font-bold text-sm sm:text-base leading-snug mb-1.5 transition-colors ${
+                    isSelected ? "text-[#0f172a]" : "text-slate-800"
+                  }`}
+                >
                   {model.nama}
                 </h4>
 
@@ -100,12 +97,20 @@ export function SashModelSelector({
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                 <div>
                   <span className="text-[10px] text-slate-400 block font-medium">Harga Dasar:</span>
-                  <span className="text-base font-bold text-[#0f172a] font-mono">
+                  <span
+                    className={`text-base font-bold font-mono transition-colors ${
+                      isSelected ? "text-[#b48c28]" : "text-[#0f172a]"
+                    }`}
+                  >
                     {formatIDR(model.harga_dasar)}
                   </span>
                 </div>
 
-                <div className="relative w-12 h-12 rounded-lg overflow-hidden border border-slate-200 bg-slate-50 shrink-0">
+                <div
+                  className={`relative w-12 h-12 rounded-lg overflow-hidden border bg-slate-50 shrink-0 transition-colors ${
+                    isSelected ? "border-[#b48c28]/40" : "border-slate-200"
+                  }`}
+                >
                   <Image
                     src={model.photos.main}
                     alt={model.nama}
@@ -115,12 +120,7 @@ export function SashModelSelector({
                   />
                 </div>
               </div>
-
-              {/* Active Highlight Stripe */}
-              {isSelected && (
-                <div className="absolute top-0 inset-x-0 h-1 bg-[#b48c28] rounded-t-2xl" />
-              )}
-            </div>
+            </button>
           );
         })}
       </div>

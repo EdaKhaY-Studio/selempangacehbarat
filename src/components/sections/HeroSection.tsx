@@ -34,8 +34,8 @@ const STITCH_HERO_SLIDES = [
   },
   {
     id: 2,
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAr-e_rGospVQPboskLeppHkkNvw5cKBoMLWiQszAbmnwrL97XVB2IdbN0DrYgXfXz481mZdol_oz8khfUPE402EnxDq9kdwu14gXJ8R8tYc5Q8k1HhD7i9h9l0w77lG4j9m2aP_gLz_o1LqD_2kFw8mQ_7vJ9n_0oXz3bM",
-    alt: "A complete elegant male graduation suit bundle set arranged neatly on dark slate surface",
+    src: "/Gambar/stitch/blazer_charcoal.jpg",
+    alt: "Setelan jas blazer wanita dan busana formal graduation siap pakai",
     tag: "SEWA JAS WANITA & SEPATU",
     title: "Jas Wanita & Sepatu Pantofel",
     price: "Rp 35k - 40k",
@@ -43,8 +43,8 @@ const STITCH_HERO_SLIDES = [
   },
   {
     id: 3,
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuACGb4x2T6Ey5MqMf2FS15rYdtYlVPM8sNxUDMnOd8Dkmxa1jBs_eT9IXzl8LfSgXjDDgve0S5qx5Bo28kSB5YtdCeVGKnTbBqAZ1x3mP0qK7l9vJ8sN5t2w4oX_7pB8m1kL3r5z0nQ_6tW2y8bM",
-    alt: "A close-up high-resolution shot of a deep black velvet graduation sash with gold computer embroidery",
+    src: "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
+    alt: "Foto selempang wisuda bordir komputer benang emas mewah dengan rumbai",
     tag: "PRODUKSI SELEMPANG (DIJUAL)",
     title: "Selempang Bludru & Satin Bordir",
     price: "Rp 50k - 135k",
@@ -367,7 +367,6 @@ export function HeroSection() {
                   alt="Male model wearing complete three-piece black formal graduation suit with embroidered sash and Oxford shoes"
                   fill
                   priority
-                  unoptimized
                   sizes="(max-width: 1024px) 100vw, 520px"
                   className="object-cover object-center filter contrast-[1.04] transition-transform duration-700 group-hover:scale-105"
                 />

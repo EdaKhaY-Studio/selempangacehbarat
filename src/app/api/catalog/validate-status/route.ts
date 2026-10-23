@@ -7,11 +7,48 @@ import {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { model, options = [], requirePublished = true } = body;
+    const { model, options = [], items, requirePublished = true } = body;
+
+    // Mendukung validasi beberapa item sekaligus (misal pada formulir checkout)
+    if (Array.isArray(items) && items.length > 0) {
+      const allDraftItems: string[] = [];
+      for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        const validation = await validateModelAndOptionGroupLimits(
+          it.modelType || it.model,
+          Array.isArray(it.decorations || it.options) ? (it.decorations || it.options) : [],
+          { requirePublished }
+        );
+
+        if (!validation.isValid) {
+          return NextResponse.json(
+            {
+              success: false,
+              isBlockedFromLiveTransactions: validation.statusCode === 403,
+              statusCode: validation.statusCode,
+              itemIndex: i,
+              message: validation.message,
+            },
+            { status: validation.statusCode }
+          );
+        }
+
+        if (validation.draftItems && validation.draftItems.length > 0) {
+          allDraftItems.push(...validation.draftItems);
+        }
+      }
+
+      return NextResponse.json({
+        success: true,
+        canProceedLive: allDraftItems.length === 0,
+        isDraft: allDraftItems.length > 0,
+        draftItems: allDraftItems,
+      });
+    }
 
     if (!model) {
       return NextResponse.json(
-        { success: false, message: "Field 'model' wajib disertakan." },
+        { success: false, message: "Field 'model' atau 'items' wajib disertakan." },
         { status: 400 }
       );
     }

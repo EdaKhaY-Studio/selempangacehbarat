@@ -17,22 +17,19 @@ const LOOK_PIECES = [
   {
     title: "Jas Pria + Dasi",
     desc: "Warna: Hitam, Cream, Abu-Abu, Coklat, Maron (Ukuran S - XXL)",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAr-e_rGospVQPboskLeppHkkNvw5cKBoMLWiQszAbmnwrL97XVB2IdbN0DrYgXfXz481mZdol_oz8khfUPE402EnxDq9kdwu14H62QLVw2hE_mlI_LNlhgu5pWisITMYtDSjZlyhNNH6VkNmK-Ou1wNkk8ZMyeijmYTIpx5UrybfLltwi-Zo4SN4Oc2VSWcAEDWrkY4P-Jed-KLg-WL34fvMAH7dCL2CEJvC0S-GGAzQqLboF5dNf4",
+    image: "/Gambar/male-graduate-suit-full.jpg",
     priceNormal: "Sewa Rp 50.000",
   },
   {
     title: "Sepatu Pantofel",
     desc: "Sewa Sepatu Pria (35k) & Wanita (30k) Kulit Kilap",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDyPYkVj9Hlt7dMpjNZkYtmyjmxcN3Zo_gOfJcvOC-dkEugOpLMdXKVPP7f09Gw14LWrg37G61DN_hbI_f-SBl8Dz6CQH7dLnWalW9w6QNM7ekE2SASgw5VfTP0jJs7rEUdmVZBNZv-gKnzqWiUtxkYIVuwJ0j6-2n38XzBxJ7MDLOxfiCDCl44DtQ2j_V_DQ5iOJaQ_jV1JrpJWvIslAjAuTu9sIw1eNIL6asVqa9UkmBYlXZRfjb2",
+    image: "/Gambar/stitch/shoes_oxford.jpg",
     priceNormal: "Rp 30k - 35k",
   },
   {
     title: "Selempang Wisuda",
     desc: "Bludru (7 Warna) & Satin (12 Warna) Bordir Komputer",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuACGb4x2T6Ey5MqMf2FS15rYdtYlVPM8sNxUDMnOd8Dkmxa1jBs_eT9IXzl8LfSgXjDDgve0S5qx5Bo28kSB5YtdCeVGKnTbBqABt7KtrvyDb5dvXHZ0coHthBjU5CpW1KwCuV0PBNo-9LBzXhQeZgBS9pKYjbosSCshPwBoHR2PV7wZ5AW_n6I_cf02YXECTjF7BPV1EdTp_z-ekTKmvvP9WH-Sm6KejQYPeGhlfRtjw5ShwR9hugT",
+    image: "/Gambar/04-selempang-hitam-emas-rumbai.jpeg",
     priceNormal: "Mulai Rp 50k",
   },
 ];
@@ -104,7 +101,8 @@ export function BundlingHighlight() {
                     src={piece.image}
                     alt={piece.title}
                     fill
-                    unoptimized
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-transparent opacity-60" />

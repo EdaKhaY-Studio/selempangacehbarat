@@ -112,12 +112,19 @@ export function PesanSelempangBuilder() {
   const [validationNotice, setValidationNotice] = useState<string | null>(null);
 
   // Sync saat initialModel berubah via query param
+  const currentQueryModel = searchParams?.get("model");
   useEffect(() => {
-    if (initialModel && initialModel.id !== activeModelId) {
-      setActiveModelId(initialModel.id);
-      setPreviewImage(initialModel.photos.main);
+    if (!currentQueryModel) return;
+    const found = models.find(
+      (m) =>
+        m.slug === currentQueryModel ||
+        m.shortName.toLowerCase().includes(currentQueryModel.toLowerCase())
+    );
+    if (found) {
+      setActiveModelId(found.id);
+      setPreviewImage(found.photos.main);
     }
-  }, [initialModel]);
+  }, [currentQueryModel, models]);
 
   // Model change handler (Reset pilihan opsi saat model diganti)
   const handleModelChange = (model: SashModelEntity) => {
@@ -152,6 +159,39 @@ export function PesanSelempangBuilder() {
   const calculation = useMemo(() => {
     return calculateMockSashPrice(activeModel.id, selectedAddonSlugs, quantity);
   }, [activeModel.id, selectedAddonSlugs, quantity]);
+
+  // WhatsApp consultation link menggunakan nomor resmi FHD (0822-9925-6343)
+  const whatsappInquiry = useMemo(() => {
+    const addonsList =
+      calculation.breakdown && calculation.breakdown.length > 0
+        ? calculation.breakdown.map((b) => b.name).join(", ")
+        : "Tanpa tambahan (standar)";
+    const totalStr = "Rp" + (calculation.totalPrice || 0).toLocaleString("id-ID");
+    const textBordir = customText.trim() ? `• Tulisan Bordir: "${customText.trim()}"\n` : "";
+
+    return encodeURIComponent(
+      `Halo Butik Selempang Aceh Barat (FHD),\nsaya ingin konsultasi pemesanan custom selempang:\n\n` +
+        `• Model: ${activeModel.nama}\n` +
+        `• Bahan/Warna Kain: ${selectedMaterial} / ${selectedClothColor}\n` +
+        `• Warna Benang: ${selectedThreadColor}\n` +
+        textBordir +
+        `• Opsi Terpilih: ${addonsList}\n` +
+        `• Jumlah: ${quantity} pcs\n` +
+        `• Estimasi Total: ${totalStr}\n\n` +
+        `Mohon info ketersediaan slot pengerjaan dan konfirmasi pemesanan langsung. Terima kasih!`
+    );
+  }, [
+    activeModel.nama,
+    selectedMaterial,
+    selectedClothColor,
+    selectedThreadColor,
+    customText,
+    calculation.breakdown,
+    calculation.totalPrice,
+    quantity,
+  ]);
+
+  const whatsappUrl = `https://wa.me/6282299256343?text=${whatsappInquiry}`;
 
   // Checkout redirect URL
   const checkoutUrl = `/checkout/custom-selempang?productId=selempang-custom-1&slug=custom-selempang&model=${activeModel.slug}${
@@ -436,6 +476,9 @@ export function PesanSelempangBuilder() {
               isValid={calculation.isValid}
               error={calculation.error}
               checkoutUrl={checkoutUrl}
+              isDraft={calculation.isDraft}
+              draftItems={calculation.draftItems}
+              whatsappUrl={whatsappUrl}
             />
           </div>
         </div>

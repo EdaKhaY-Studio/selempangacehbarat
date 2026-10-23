@@ -181,7 +181,8 @@ export const PRODUCTS: Product[] = [
     price: 50000,
     priceLabel: "Rp 50.000 / Sewa",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAr-e_rGospVQPboskLeppHkkNvw5cKBoMLWiQszAbmnwrL97XVB2IdbN0DrYgXfXz481mZdol_oz8khfUPE402EnxDq9kdwu14H62QLVw2hE_mlI_LNlhgu5pWisITMYtDSjZlyhNNH6VkNmK-Ou1wNkk8ZMyeijmYTIpx5UrybfLltwi-Zo4SN4Oc2VSWcAEDWrkY4P-Jed-KLg-WL34fvMAH7dCL2CEJvC0S-GGAzQqLboF5dNf4",
+      "/Gambar/male-graduate-suit-full.jpg",
+      "/images/portfolio/jas-formal-kelompok.png",
     ],
     availableSizes: ["S", "M", "L", "XL", "XXL"],
     badge: "Favorit Wisuda",
@@ -196,7 +197,8 @@ export const PRODUCTS: Product[] = [
     price: 35000,
     priceLabel: "Rp 35.000 - Rp 40.000",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBg6U_Dk2uibp68llXo4dyaKecUCUk5vieQQwU78-DOBgKrbgxU8aIB61r8cpn3qC8zpcPMB4mfYjyNDEzUO2qYb_nyk6YcyPRlN6WK14LP3d1mRU5vZnor4WHA8Dy5vkH_O4cAXslyXDqwOlXFoUSAWdHrS_tc8b_qt_HIRwalPAju85QLk4OQ6Up8yeV1LJdrZDCokqru7hnfmqqjyQdI5h2GSSBNvikGDFprDGMa9EPQMzae_5JK",
+      "/Gambar/stitch/blazer_charcoal.jpg",
+      "/images/portfolio/jas-formal-kelompok.png",
     ],
     availableSizes: ["S", "M", "L", "XL", "XXL"],
     badge: "Pria & Wanita",
@@ -228,7 +230,7 @@ export const PRODUCTS: Product[] = [
     price: 30000,
     priceLabel: "Rp 30.000 - Rp 35.000",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDyPYkVj9Hlt7dMpjNZkYtmyjmxcN3Zo_gOfJcvOC-dkEugOpLMdXKVPP7f09Gw14LWrg37G61DN_hbI_f-SBl8Dz6CQH7dLnWalW9w6QNM7ekE2SASgw5VfTP0jJs7rEUdmVZBNZv-gKnzqWiUtxkYIVuwJ0j6-2n38XzBxJ7MDLOxfiCDCl44DtQ2j_V_DQ5iOJaQ_jV1JrpJWvIslAjAuTu9sIw1eNIL6asVqa9UkmBYlXZRfjb2",
+      "/Gambar/stitch/shoes_oxford.jpg",
     ],
     badge: "Sewa & Jual",
   },
@@ -241,7 +243,8 @@ export const PRODUCTS: Product[] = [
     price: 85000,
     priceLabel: "Partai & Satuan",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBQ2rnP9Qui1nPXu3S5X6n1ewNiFQYmeHwr9yK46CEziVy3OpEnWyPoQBwOFi8pyXJNeyrfQJygx63YSFYdX3inFoVBlvLOrJ9DEHf44JdXhz9SJA_IuZK0MVo30NrtjZ9rReVeC_38kGEtwcrVJ5AryOU-vggX1mcNVBphwqTAhJT0QB_2QfLlTFZkZ5VXdhpuITOvZ6MhLs1lkOTYYQ4n1E6gJOa1RyYtxokvs4e1n-be4NjkreYx",
+      "/Gambar/stitch/bundle_wisuda.jpg",
+      "/Gambar/stitch/hero_mannequin.jpg",
     ],
     availableSizes: ["S", "M", "L", "XL", "XXL"],
     badge: "Produksi Konveksi",

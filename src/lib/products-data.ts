@@ -115,8 +115,8 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
     inStock: true,
     sku: "SAB-JAS-PRIA-001",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAr-e_rGospVQPboskLeppHkkNvw5cKBoMLWiQszAbmnwrL97XVB2IdbN0DrYgXfXz481mZdol_oz8khfUPE402EnxDq9kdwu14H62QLVw2hE_mlI_LNlhgu5pWisITMYtDSjZlyhNNH6VkNmK-Ou1wNkk8ZMyeijmYTIpx5UrybfLltwi-Zo4SN4Oc2VSWcAEDWrkY4P-Jed-KLg-WL34fvMAH7dCL2CEJvC0S-GGAzQqLboF5dNf4",
       "/Gambar/male-graduate-suit-full.jpg",
+      "/images/portfolio/jas-formal-kelompok.png",
     ],
     imageAlts: [
       "Sewa jas wisuda pria formal slimfit dan dasi di Meulaboh",
@@ -174,7 +174,8 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
     inStock: true,
     sku: "SAB-JAS-WNT-002",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBg6U_Dk2uibp68llXo4dyaKecUCUk5vieQQwU78-DOBgKrbgxU8aIB61r8cpn3qC8zpcPMB4mfYjyNDEzUO2qYb_nyk6YcyPRlN6WK14LP3d1mRU5vZnor4WHA8Dy5vkH_O4cAXslyXDqwOlXFoUSAWdHrS_tc8b_qt_HIRwalPAju85QLk4OQ6Up8yeV1LJdrZDCokqru7hnfmqqjyQdI5h2GSSBNvikGDFprDGMa9EPQMzae_5JK",
+      "/Gambar/stitch/blazer_charcoal.jpg",
+      "/images/portfolio/jas-formal-kelompok.png",
     ],
     imageAlts: [
       "Sewa blazer jas wanita wisuda dan sidang di Meulaboh Aceh Barat",
@@ -232,7 +233,7 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
     inStock: true,
     sku: "SAB-SPTU-003",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDyPYkVj9Hlt7dMpjNZkYtmyjmxcN3Zo_gOfJcvOC-dkEugOpLMdXKVPP7f09Gw14LWrg37G61DN_hbI_f-SBl8Dz6CQH7dLnWalW9w6QNM7ekE2SASgw5VfTP0jJs7rEUdmVZBNZv-gKnzqWiUtxkYIVuwJ0j6-2n38XzBxJ7MDLOxfiCDCl44DtQ2j_V_DQ5iOJaQ_jV1JrpJWvIslAjAuTu9sIw1eNIL6asVqa9UkmBYlXZRfjb2",
+      "/Gambar/stitch/shoes_oxford.jpg",
     ],
     imageAlts: [
       "Sewa dan jual sepatu pantofel formal pria wanita wisuda di Meulaboh",
@@ -286,7 +287,8 @@ export const ALL_PRODUCTS: DetailedProduct[] = [
     inStock: true,
     sku: "SAB-KNVK-004",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBQ2rnP9Qui1nPXu3S5X6n1ewNiFQYmeHwr9yK46CEziVy3OpEnWyPoQBwOFi8pyXJNeyrfQJygx63YSFYdX3inFoVBlvLOrJ9DEHf44JdXhz9SJA_IuZK0MVo30NrtjZ9rReVeC_38kGEtwcrVJ5AryOU-vggX1mcNVBphwqTAhJT0QB_2QfLlTFZkZ5VXdhpuITOvZ6MhLs1lkOTYYQ4n1E6gJOa1RyYtxokvs4e1n-be4NjkreYx",
+      "/Gambar/stitch/bundle_wisuda.jpg",
+      "/Gambar/stitch/hero_mannequin.jpg",
     ],
     imageAlts: [
       "Jasa konveksi seragam baju PDH dan jas almamater di Meulaboh Aceh Barat",

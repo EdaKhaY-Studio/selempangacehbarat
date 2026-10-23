@@ -447,16 +447,22 @@ export const orderStore = {
 
     // Verifikasi ketersediaan database transaksi MySQL resmi
     if (!isMySqlConfigured()) {
+      console.error(
+        "[orderStore] Koneksi database transaksi MySQL tidak terkonfigurasi. Variabel server-side DB_PASSWORD belum tersedia."
+      );
       throw new Error(
-        "Koneksi database transaksi MySQL (u911912137_Selempag4ceh) tidak terkonfigurasi. Pembuatan pesanan ditolak demi keamanan dan integritas data."
+        "Maaf, pemesanan online sedang mengalami gangguan. Pesanan Anda belum berhasil dibuat. Silakan coba kembali beberapa saat lagi atau hubungi tim FHD."
       );
     }
 
     await initMySqlTables();
     const pool = await getDbPool();
     if (!pool) {
+      console.error(
+        "[orderStore] Gagal memperoleh koneksi ke pool database transaksi MySQL."
+      );
       throw new Error(
-        "Gagal memperoleh koneksi ke database transaksi MySQL (u911912137_Selempag4ceh). Pesanan tidak dapat disimpan."
+        "Maaf, pemesanan online sedang mengalami gangguan. Pesanan Anda belum berhasil dibuat. Silakan coba kembali beberapa saat lagi atau hubungi tim FHD."
       );
     }
 

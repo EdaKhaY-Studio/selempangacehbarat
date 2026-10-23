@@ -15,16 +15,34 @@ export type MySqlConfig =
 let pool: mysql.Pool | null = null;
 
 export function getMySqlConfig(): MySqlConfig | null {
-  const dbUrl = process.env.DATABASE_URL;
+  const dbUrl = process.env.DATABASE_URL || process.env.MYSQL_URL;
   if (dbUrl && dbUrl.trim() !== "") {
     return { uri: dbUrl.trim() };
   }
 
-  let host = process.env.DB_HOST || "srv1409.hstgr.io";
-  let port = parseInt(process.env.DB_PORT || "3306", 10);
-  let user = process.env.DB_USER || "u911912137_SelempangABAR";
-  let password = process.env.DB_PASSWORD;
-  let database = process.env.DB_NAME || "u911912137_Selempag4ceh";
+  const isProduction = process.env.NODE_ENV === "production";
+  // Pada deployment Hostinger, aplikasi Node.js mengakses MySQL lokal via 127.0.0.1 (bukan srv1409.hstgr.io yang khusus akses remote luar)
+  let host =
+    process.env.DB_HOST ||
+    process.env.MYSQL_HOST ||
+    (isProduction ? "127.0.0.1" : "srv1409.hstgr.io");
+  let port = parseInt(
+    process.env.DB_PORT || process.env.MYSQL_PORT || "3306",
+    10
+  );
+  let user =
+    process.env.DB_USER ||
+    process.env.MYSQL_USER ||
+    "u911912137_SelempangABAR";
+  let password =
+    process.env.DB_PASSWORD ||
+    process.env.DB_PASS ||
+    process.env.MYSQL_PASSWORD;
+  let database =
+    process.env.DB_NAME ||
+    process.env.MYSQL_DATABASE ||
+    process.env.MYSQL_DB ||
+    "u911912137_Selempag4ceh";
 
   // Fallback membaca .env.db-migration.local di lingkungan lokal jika env belum dimuat
   if (!password) {
@@ -42,11 +60,11 @@ export function getMySqlConfig(): MySqlConfig | null {
             if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
               v = v.slice(1, -1);
             }
-            if (k === "DB_PASSWORD") password = v;
-            if (k === "DB_HOST") host = v;
-            if (k === "DB_USER") user = v;
-            if (k === "DB_NAME") database = v;
-            if (k === "DB_PORT") port = parseInt(v, 10);
+            if (k === "DB_PASSWORD" || k === "MYSQL_PASSWORD" || k === "DB_PASS") password = v;
+            if (k === "DB_HOST" || k === "MYSQL_HOST") host = v;
+            if (k === "DB_USER" || k === "MYSQL_USER") user = v;
+            if (k === "DB_NAME" || k === "MYSQL_DATABASE") database = v;
+            if (k === "DB_PORT" || k === "MYSQL_PORT") port = parseInt(v, 10);
           }
         }
       }
@@ -75,6 +93,11 @@ export async function getDbPool(): Promise<mysql.Pool | null> {
       if ("uri" in config) {
         pool = mysql.createPool(config.uri);
       } else {
+        const isLocal =
+          config.host === "127.0.0.1" ||
+          config.host === "localhost" ||
+          config.host === "::1";
+
         pool = mysql.createPool({
           host: config.host,
           port: config.port,
@@ -84,9 +107,8 @@ export async function getDbPool(): Promise<mysql.Pool | null> {
           waitForConnections: true,
           connectionLimit: 10,
           queueLimit: 0,
-          ssl: {
-            rejectUnauthorized: false,
-          },
+          connectTimeout: 10000,
+          ...(isLocal ? {} : { ssl: { rejectUnauthorized: false } }),
         });
       }
     } catch (e) {
@@ -102,16 +124,46 @@ export async function getDbPool(): Promise<mysql.Pool | null> {
 let catalogPool: mysql.Pool | null = null;
 
 export function getCatalogMySqlConfig(): MySqlConfig | null {
-  const catalogDbUrl = process.env.CATALOG_DATABASE_URL;
+  const catalogDbUrl =
+    process.env.CATALOG_DATABASE_URL || process.env.CATALOG_MYSQL_URL;
   if (catalogDbUrl && catalogDbUrl.trim() !== "") {
     return { uri: catalogDbUrl.trim() };
   }
 
-  let host = process.env.CATALOG_DB_HOST || process.env.DB_HOST || "srv1409.hstgr.io";
-  let port = parseInt(process.env.CATALOG_DB_PORT || process.env.DB_PORT || "3306", 10);
-  let user = process.env.CATALOG_DB_USER || "u911912137_SelempangABAR";
-  let password = process.env.CATALOG_DB_PASSWORD || process.env.DB_PASSWORD;
-  let database = process.env.CATALOG_DB_NAME || "u911912137_Selempag4ceh";
+  const isProduction = process.env.NODE_ENV === "production";
+  let host =
+    process.env.CATALOG_DB_HOST ||
+    process.env.CATALOG_MYSQL_HOST ||
+    process.env.DB_HOST ||
+    process.env.MYSQL_HOST ||
+    (isProduction ? "127.0.0.1" : "srv1409.hstgr.io");
+  let port = parseInt(
+    process.env.CATALOG_DB_PORT ||
+      process.env.CATALOG_MYSQL_PORT ||
+      process.env.DB_PORT ||
+      process.env.MYSQL_PORT ||
+      "3306",
+    10
+  );
+  let user =
+    process.env.CATALOG_DB_USER ||
+    process.env.CATALOG_MYSQL_USER ||
+    process.env.DB_USER ||
+    process.env.MYSQL_USER ||
+    "u911912137_SelempangABAR";
+  let password =
+    process.env.CATALOG_DB_PASSWORD ||
+    process.env.CATALOG_DB_PASS ||
+    process.env.CATALOG_MYSQL_PASSWORD ||
+    process.env.DB_PASSWORD ||
+    process.env.DB_PASS ||
+    process.env.MYSQL_PASSWORD;
+  let database =
+    process.env.CATALOG_DB_NAME ||
+    process.env.CATALOG_MYSQL_DATABASE ||
+    process.env.DB_NAME ||
+    process.env.MYSQL_DATABASE ||
+    "u911912137_Selempag4ceh";
 
   // Fallback membaca .env.db-migration.local di environment lokal jika env belum dimuat
   if (!password) {
@@ -129,11 +181,20 @@ export function getCatalogMySqlConfig(): MySqlConfig | null {
             if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
               v = v.slice(1, -1);
             }
-            if (k === "DB_PASSWORD" || k === "CATALOG_DB_PASSWORD") password = v;
-            if (k === "DB_HOST" || k === "CATALOG_DB_HOST") host = v;
-            if (k === "DB_USER" || k === "CATALOG_DB_USER") user = v;
-            if (k === "DB_NAME" || k === "CATALOG_DB_NAME") database = v;
-            if (k === "DB_PORT" || k === "CATALOG_DB_PORT") port = parseInt(v, 10);
+            if (
+              k === "DB_PASSWORD" ||
+              k === "CATALOG_DB_PASSWORD" ||
+              k === "MYSQL_PASSWORD"
+            )
+              password = v;
+            if (k === "DB_HOST" || k === "CATALOG_DB_HOST" || k === "MYSQL_HOST")
+              host = v;
+            if (k === "DB_USER" || k === "CATALOG_DB_USER" || k === "MYSQL_USER")
+              user = v;
+            if (k === "DB_NAME" || k === "CATALOG_DB_NAME" || k === "MYSQL_DATABASE")
+              database = v;
+            if (k === "DB_PORT" || k === "CATALOG_DB_PORT" || k === "MYSQL_PORT")
+              port = parseInt(v, 10);
           }
         }
       }
@@ -162,6 +223,11 @@ export async function getCatalogDbPool(): Promise<mysql.Pool | null> {
       if ("uri" in config) {
         catalogPool = mysql.createPool(config.uri);
       } else {
+        const isLocal =
+          config.host === "127.0.0.1" ||
+          config.host === "localhost" ||
+          config.host === "::1";
+
         catalogPool = mysql.createPool({
           host: config.host,
           port: config.port,
@@ -171,9 +237,8 @@ export async function getCatalogDbPool(): Promise<mysql.Pool | null> {
           waitForConnections: true,
           connectionLimit: 10,
           queueLimit: 0,
-          ssl: {
-            rejectUnauthorized: false,
-          },
+          connectTimeout: 10000,
+          ...(isLocal ? {} : { ssl: { rejectUnauthorized: false } }),
         });
       }
     } catch (e) {

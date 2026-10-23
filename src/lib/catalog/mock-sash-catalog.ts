@@ -350,6 +350,16 @@ export function calculateMockSashPrice(
   const unitPrice = model.harga_dasar + optionsTotal;
   const totalPrice = unitPrice * Math.max(1, quantity);
 
+  const draftItems: string[] = [];
+  if (model.status === "draft") {
+    draftItems.push(`Model ${model.nama}`);
+  }
+  for (const mo of matchedOptions) {
+    if (mo.option.status === "draft") {
+      draftItems.push(`Opsi ${mo.option.nama}`);
+    }
+  }
+
   return {
     isValid: true,
     modelName: model.nama,
@@ -357,6 +367,8 @@ export function calculateMockSashPrice(
     optionsTotal,
     unitPrice,
     totalPrice,
+    isDraft: draftItems.length > 0,
+    draftItems,
     breakdown: matchedOptions.map((mo) => ({
       name: mo.option.nama,
       group: mo.group.nama_grup,

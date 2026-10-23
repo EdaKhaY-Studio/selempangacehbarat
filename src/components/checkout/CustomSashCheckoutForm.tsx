@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useId, useRef } from "react";
+import { useState, useEffect, useId, useRef, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,6 +24,7 @@ import {
   Loader2,
   Info,
   Check,
+  MessageCircle,
 } from "lucide-react";
 import {
   SASH_MODELS,
@@ -34,6 +35,7 @@ import {
   sanitizeAddons,
 } from "@/lib/pricing/calculator";
 import { getProductBySlug, DetailedProduct } from "@/lib/products-data";
+import { STORE_INFO } from "@/lib/types";
 
 function formatIDR(val: number): string {
   return "Rp" + val.toLocaleString("id-ID");
@@ -260,6 +262,68 @@ export function CustomSashCheckoutForm() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [uploadingLogoIdx, setUploadingLogoIdx] = useState<number | null>(null);
 
+  // Pemeriksaan Status Publikasi Katalog di Server (Mencegah pengisian checkout jika berstatus draft)
+  const [serverStatusCheck, setServerStatusCheck] = useState<{
+    isChecking: boolean;
+    isDraftBlocked: boolean;
+    message?: string;
+    draftItems?: string[];
+  }>({
+    isChecking: true,
+    isDraftBlocked: false,
+    draftItems: [],
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    const checkServerStatus = async () => {
+      try {
+        const res = await fetch("/api/catalog/validate-status", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            items: items.map((it) => ({
+              model: it.modelType,
+              options: it.decorations,
+            })),
+            requirePublished: true,
+          }),
+        });
+        const data = await res.json();
+        if (!isMounted) return;
+
+        if (res.status === 403 || data.isBlockedFromLiveTransactions || !data.success) {
+          setServerStatusCheck({
+            isChecking: false,
+            isDraftBlocked: true,
+            message:
+              data.message ||
+              "Pemesanan online untuk spesifikasi kustom ini sedang dalam tahap finalisasi harga oleh butik FHD dan belum dibuka otomatis.",
+            draftItems: data.draftItems || [],
+          });
+        } else {
+          setServerStatusCheck({
+            isChecking: false,
+            isDraftBlocked: false,
+            draftItems: [],
+          });
+        }
+      } catch {
+        if (isMounted) {
+          setServerStatusCheck({
+            isChecking: false,
+            isDraftBlocked: false,
+          });
+        }
+      }
+    };
+
+    checkServerStatus();
+    return () => {
+      isMounted = false;
+    };
+  }, [items]);
+
   // Check deadline proximity
   const isUrgentDeadline = () => {
     if (!targetDate) return false;
@@ -410,12 +474,46 @@ export function CustomSashCheckoutForm() {
     }))
   );
 
+  // URL WhatsApp Konsultasi Resmi Butik FHD (0822-9925-6343)
+  const whatsappConsultationUrl = useMemo(() => {
+    const waPhone = STORE_INFO.accounts.selempang.whatsappRaw; // 6282299256343
+    const itemsDesc = items
+      .map((it, idx) => {
+        const modelLabel = SASH_MODELS[it.modelType]?.name || it.modelType;
+        const addonsLabel =
+          it.decorations && it.decorations.length > 0
+            ? it.decorations.join(", ")
+            : "Tanpa tambahan (standar)";
+        const textNote = it.customText.trim() ? `\n   - Tulisan Bordir: "${it.customText.trim()}"` : "";
+        return `Item #${idx + 1} (${it.quantity} pcs):\n   - Model: ${modelLabel}\n   - Bahan/Warna: ${it.material} / ${it.clothColor}\n   - Opsi: ${addonsLabel}${textNote}`;
+      })
+      .join("\n");
+
+    const text = encodeURIComponent(
+      `Halo Butik Selempang Aceh Barat (FHD),\nsaya ingin memesan custom selempang dengan rincian berikut:\n\n` +
+      `${itemsDesc}\n\n` +
+      `• Estimasi Total: ${formatIDR(pricingSummary.totalProduct)}\n` +
+      (customerName.trim() ? `• Nama Pemesan: ${customerName.trim()}\n` : "") +
+      `\nMohon info ketersediaan slot pengerjaan dan konfirmasi pemesanan manual. Terima kasih!`
+    );
+
+    return `https://wa.me/${waPhone}?text=${text}`;
+  }, [items, pricingSummary.totalProduct, customerName]);
+
   // Form Submit Handler with Double-Submit Protection
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitState === "submitting" || submitState === "success") return;
 
     setErrorMessage(null);
+
+    // Kunci Draft Status: Mencegah pemesanan online jika katalog belum published
+    if (serverStatusCheck.isDraftBlocked) {
+      setErrorMessage(
+        "Pemesanan online otomatis untuk spesifikasi ini belum dibuka karena masih dalam tahap finalisasi harga butik. Silakan gunakan tombol WhatsApp resmi untuk pemesanan langsung."
+      );
+      return;
+    }
 
     // Frontend Validations
     if (!customerName.trim() || !customerPhone.trim()) {
@@ -485,6 +583,13 @@ export function CustomSashCheckoutForm() {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
+        if (res.status === 403 || data.isDraftBlocked) {
+          setServerStatusCheck({
+            isChecking: false,
+            isDraftBlocked: true,
+            message: data.message,
+          });
+        }
         setErrorMessage(data.message || "Gagal membuat pesanan.");
         setSubmitState("error");
         return;
@@ -505,6 +610,47 @@ export function CustomSashCheckoutForm() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         {/* Left Form Column (7 cols on lg) */}
         <div className="lg:col-span-7 space-y-8">
+          {/* Customer-Friendly Draft Status Notice Banner */}
+          {serverStatusCheck.isDraftBlocked && (
+            <div className="p-5 sm:p-6 rounded-3xl bg-amber-50/90 border-2 border-[#b48c28]/60 shadow-xs space-y-4">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#b48c28] text-white flex items-center justify-center shrink-0 shadow-xs">
+                  <MessageCircle size={22} />
+                </div>
+                <div className="space-y-1.5 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#0f172a] text-[#D4AF37]">
+                      Tahap Finalisasi Harga
+                    </span>
+                    <span className="text-xs font-bold text-[#0f172a]">
+                      Pemesanan Online Belum Dibuka
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    Spesifikasi kustom yang Anda pilih saat ini masih dalam tahap finalisasi harga resmi oleh Butik Selempang Aceh Barat (FHD).
+                    Anda <strong>tidak perlu repot mengisi formulir checkout ini</strong>—silakan langsung gunakan tombol WhatsApp di bawah untuk konsultasi cepat dan pemesanan manual bersama tim kami.
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-t border-amber-300/40">
+                <a
+                  href={whatsappConsultationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm tracking-wide bg-[#b48c28] hover:bg-[#9a751e] text-white shadow-md transition-all active:scale-98 text-center cursor-pointer"
+                >
+                  <MessageCircle size={18} />
+                  <span>Pesan Sekarang via WhatsApp ({STORE_INFO.accounts.selempang.whatsappDisplay})</span>
+                </a>
+                <div className="flex items-center justify-center gap-1.5 text-xs text-slate-600">
+                  <ShieldCheck size={14} className="text-[#b48c28] shrink-0" />
+                  <span>Konsultasi gratis &amp; fast response via admin resmi</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Showcase Produk Terpilih dari Katalog Resmi */}
           {verifiedProduct && (
             <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-amber-50/80 via-white to-amber-50/40 border border-[#b48c28]/40 shadow-xs flex flex-col sm:flex-row items-center gap-5">
@@ -1215,41 +1361,67 @@ export function CustomSashCheckoutForm() {
               </div>
             )}
 
-            {/* Submit Button with Anti-Double-Submit Protection */}
-            <div className="pt-2">
-              <button
-                type="submit"
-                disabled={submitState === "submitting" || submitState === "success"}
-                className={`w-full py-4 px-6 rounded-xl font-bold text-sm tracking-wide transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer ${
-                  submitState === "submitting"
-                    ? "bg-slate-700 text-slate-400 cursor-not-allowed"
-                    : submitState === "success"
-                    ? "bg-emerald-600 text-white cursor-not-allowed"
-                    : "bg-[#b48c28] hover:bg-[#9a751e] text-white active:scale-98"
-                }`}
-              >
-                {submitState === "submitting" ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin text-amber-300" />
-                    <span>Sedang Memproses Pesanan...</span>
-                  </>
-                ) : submitState === "success" ? (
-                  <>
-                    <CheckCircle2 size={18} />
-                    <span>Pesanan Berhasil Dibuat</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Pesan Sekarang • Bayar DP 50% ({formatIDR(pricingSummary.dpAmount)})</span>
-                    <ArrowRight size={16} />
-                  </>
-                )}
-              </button>
+            {/* Submit Area: WhatsApp Consultation when in Draft, or Online Order when Published */}
+            <div className="pt-2 space-y-3">
+              {serverStatusCheck.isDraftBlocked ? (
+                <>
+                  <a
+                    href={whatsappConsultationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 px-6 rounded-xl font-bold text-sm sm:text-base tracking-wide bg-[#b48c28] hover:bg-[#9a751e] text-white shadow-md flex items-center justify-center gap-2.5 transition-all active:scale-98 cursor-pointer text-center"
+                  >
+                    <MessageCircle size={18} />
+                    <span>Pesan via WhatsApp Resmi ({STORE_INFO.accounts.selempang.whatsappDisplay})</span>
+                  </a>
 
-              <div className="mt-3 text-center text-[11px] text-slate-500 flex items-center justify-center gap-1.5">
-                <ShieldCheck size={13} className="text-[#b48c28]" />
-                <span>Proteksi sistem anti-duplikasi aktif.</span>
-              </div>
+                  <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-center text-xs text-slate-400 space-y-1">
+                    <div className="flex items-center justify-center gap-1.5 font-semibold text-amber-300">
+                      <Info size={14} className="text-[#D4AF37]" />
+                      <span>Pemesanan Online Otomatis Belum Dibuka</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                      Konfigurasi selempang ini dalam tahap finalisasi harga butik FHD. Pemesanan dan konfirmasi manual dilayani langsung via admin WhatsApp di atas.
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <button
+                    type="submit"
+                    disabled={submitState === "submitting" || submitState === "success"}
+                    className={`w-full py-4 px-6 rounded-xl font-bold text-sm tracking-wide transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer ${
+                      submitState === "submitting"
+                        ? "bg-slate-700 text-slate-400 cursor-not-allowed"
+                        : submitState === "success"
+                        ? "bg-emerald-600 text-white cursor-not-allowed"
+                        : "bg-[#b48c28] hover:bg-[#9a751e] text-white active:scale-98"
+                    }`}
+                  >
+                    {submitState === "submitting" ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin text-amber-300" />
+                        <span>Sedang Memproses Pesanan...</span>
+                      </>
+                    ) : submitState === "success" ? (
+                      <>
+                        <CheckCircle2 size={18} />
+                        <span>Pesanan Berhasil Dibuat</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Pesan Sekarang • Bayar DP 50% ({formatIDR(pricingSummary.dpAmount)})</span>
+                        <ArrowRight size={16} />
+                      </>
+                    )}
+                  </button>
+
+                  <div className="mt-3 text-center text-[11px] text-slate-500 flex items-center justify-center gap-1.5">
+                    <ShieldCheck size={13} className="text-[#b48c28]" />
+                    <span>Proteksi sistem anti-duplikasi aktif.</span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

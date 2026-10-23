@@ -10,10 +10,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Info,
-  Database,
   Layers,
   HelpCircle,
-  AlertCircle,
 } from "lucide-react";
 import {
   getMockSashModels,
@@ -61,7 +59,7 @@ export function CustomSashShowcase({ initialModels }: CustomSashShowcaseProps = 
   }, [models, searchParams]);
 
   // State: model yang aktif
-  const [activeModelId, setActiveModelId] = useState<number>(initialModel?.id || 1);
+  const [activeModelId, setActiveModelId] = useState<number>(() => initialModel?.id || models[0]?.id || 1);
   const activeModel: SashModelEntity =
     models.find((m) => m.id === activeModelId) || models[0];
 
@@ -95,19 +93,33 @@ export function CustomSashShowcase({ initialModels }: CustomSashShowcaseProps = 
   // State: gambar pratinjau utama
   const [previewImage, setPreviewImage] = useState<string>(activeModel.photos.main);
 
-  // Sync saat initialModel berubah lewat query param
+  // Sync hanya saat parameter ?model di URL berubah dari luar (misal back/forward)
+  const currentQueryModel = searchParams?.get("model");
   useEffect(() => {
-    if (initialModel && initialModel.id !== activeModelId) {
-      setActiveModelId(initialModel.id);
-      setPreviewImage(initialModel.photos.main);
+    if (!currentQueryModel) return;
+    const found = models.find(
+      (m) =>
+        m.slug === currentQueryModel ||
+        m.shortName.toLowerCase().includes(currentQueryModel.toLowerCase())
+    );
+    if (found) {
+      setActiveModelId(found.id);
+      setPreviewImage(found.photos.main);
     }
-  }, [initialModel, activeModelId]);
+  }, [currentQueryModel, models]);
 
-  // Handler ganti model
+  // Handler ganti model (seluruh model: biasa, syal, timbal_balik)
   const handleModelChange = (model: SashModelEntity) => {
     setActiveModelId(model.id);
     setSelectedAddonSlugs([]);
     setPreviewImage(model.photos.main);
+
+    // Update query string di URL secara halus tanpa reload halaman
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("model", model.slug);
+      window.history.replaceState({}, "", url.toString());
+    }
   };
 
   // Handler toggle opsi tambahan dengan penegakan aturan batas grup (maks_pilih)
@@ -172,6 +184,17 @@ export function CustomSashShowcase({ initialModels }: CustomSashShowcaseProps = 
       price: mo.effectivePrice,
     }));
 
+    const draftItems: string[] = [];
+    if (activeModel.status === "draft") {
+      draftItems.push(`Model ${activeModel.nama}`);
+    }
+    for (const mo of matchedOptions) {
+      if (mo.option.status === "draft") {
+        draftItems.push(`Opsi ${mo.option.nama}`);
+      }
+    }
+    const isDraft = draftItems.length > 0;
+
     return {
       isValid: true,
       error: undefined,
@@ -180,8 +203,30 @@ export function CustomSashShowcase({ initialModels }: CustomSashShowcaseProps = 
       unitPrice,
       totalPrice,
       breakdown,
+      isDraft,
+      draftItems,
     };
   }, [activeModel, groupedOptions, selectedAddonSlugs, quantity]);
+
+  // WhatsApp consultation link menggunakan nomor resmi FHD (0822-9925-6343)
+  const whatsappInquiry = useMemo(() => {
+    const addonsList =
+      calculation.breakdown && calculation.breakdown.length > 0
+        ? calculation.breakdown.map((b) => b.name).join(", ")
+        : "Tanpa tambahan (standar)";
+    const totalStr = formatIDR(calculation.totalPrice);
+
+    return encodeURIComponent(
+      `Halo Butik Selempang Aceh Barat (FHD),\nsaya ingin konsultasi pemesanan custom selempang:\n\n` +
+        `• Model: ${activeModel.nama}\n` +
+        `• Opsi Terpilih: ${addonsList}\n` +
+        `• Jumlah: ${quantity} pcs\n` +
+        `• Estimasi Total: ${totalStr}\n\n` +
+        `Mohon info ketersediaan slot pengerjaan dan konfirmasi pemesanan langsung. Terima kasih!`
+    );
+  }, [activeModel.nama, calculation.breakdown, calculation.totalPrice, quantity]);
+
+  const whatsappUrl = `https://wa.me/6282299256343?text=${whatsappInquiry}`;
 
   const checkoutUrl = `/checkout/custom-selempang?productId=selempang-custom-1&slug=custom-selempang&model=${activeModel.slug}${
     selectedAddonSlugs.length > 0 ? `&addons=${selectedAddonSlugs.join(",")}` : ""
@@ -189,27 +234,17 @@ export function CustomSashShowcase({ initialModels }: CustomSashShowcaseProps = 
 
   return (
     <div className="w-full">
-      {/* 1. Database Badge Notification */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 px-4 py-3 rounded-xl bg-slate-900 text-slate-200 border border-slate-800 text-xs shadow-xs">
-        <div className="flex items-center gap-2.5">
-          <Database size={16} className="text-[#b48c28]" />
-          <div>
-            <div className="font-semibold text-white flex items-center gap-2">
-              <span>Katalog MySQL Hostinger Terhubung</span>
-              <span className="hidden sm:inline px-1.5 py-0.5 rounded bg-slate-800 text-[10px] text-slate-300 font-mono">
-                u911912137_Selempag4ceh
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-400">
-              Model, grup opsi, dan harga dibaca dari database katalog terpisah tanpa mengganggu sistem pesanan.
-            </p>
-          </div>
-        </div>
+      {/* 1. Jaminan Kualitas Butik FHD */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 px-4 py-3 rounded-2xl bg-amber-50/50 border border-amber-200/60 text-xs text-amber-950 shadow-2xs">
         <div className="flex items-center gap-2">
-          <span className="px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1.5">
-            <AlertCircle size={12} className="text-amber-400" />
-            Status: Draft Peninjauan
-          </span>
+          <Sparkles size={15} className="text-[#b48c28] shrink-0" />
+          <span className="font-semibold text-[#0f172a]">Kustomisasi Selempang Butik FHD</span>
+          <span className="text-slate-400 hidden sm:inline">•</span>
+          <span className="text-slate-600 hidden sm:inline">Pilihan model presisi, bahan bludru &amp; satin premium dua lapis</span>
+        </div>
+        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#b48c28]">
+          <ShieldCheck size={14} className="text-[#b48c28]" />
+          <span>Garansi 100% Bebas Typo Ganti Baru</span>
         </div>
       </div>
 
@@ -286,9 +321,6 @@ export function CustomSashShowcase({ initialModels }: CustomSashShowcaseProps = 
           <div className="space-y-6">
             {/* Model Title & Price Summary */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-amber-50 border border-amber-200 text-[#b48c28] text-xs font-bold uppercase tracking-wider mb-2">
-                Model Terpilih: {activeModel.nama}
-              </div>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#0f172a] mb-2">
                 {activeModel.nama}
               </h2>
@@ -334,6 +366,9 @@ export function CustomSashShowcase({ initialModels }: CustomSashShowcaseProps = 
               isValid={calculation.isValid}
               error={calculation.error}
               checkoutUrl={checkoutUrl}
+              isDraft={calculation.isDraft}
+              draftItems={calculation.draftItems}
+              whatsappUrl={whatsappUrl}
             />
           </div>
         </div>

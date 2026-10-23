@@ -138,18 +138,27 @@ export async function POST(request: Request) {
         );
       }
 
-      // 2c. Validate Decorations/Addons against official approved catalog & group limits (max_pilih)
-      if (Array.isArray(it.decorations) && it.decorations.length > 0) {
-        const validation = await validateModelAndOptionGroupLimits(it.modelType, it.decorations);
-        if (!validation.isValid) {
-          return NextResponse.json(
-            {
-              success: false,
-              message: `Item #${i + 1}: ${validation.message}`,
-            },
-            { status: validation.statusCode || 400 }
-          );
-        }
+      // 2c. Validasi Model, Opsi, Batas Grup, dan Penguncian Status Publikasi Katalog
+      // Memastikan pelanggan tidak dapat membuat pesanan berbayar jika model/harga masih berstatus "draft"
+      const validation = await validateModelAndOptionGroupLimits(
+        it.modelType,
+        Array.isArray(it.decorations) ? it.decorations : [],
+        { requirePublished: true }
+      );
+      if (!validation.isValid) {
+        const isDraftBlock = validation.statusCode === 403;
+        const customerMessage = isDraftBlock
+          ? "Pemesanan online untuk spesifikasi kustom ini sedang dalam tahap finalisasi harga oleh butik FHD dan belum dapat diproses otomatis. Silakan hubungi butik FHD via WhatsApp untuk konsultasi langsung."
+          : `Item #${i + 1}: ${validation.message}`;
+
+        return NextResponse.json(
+          {
+            success: false,
+            isDraftBlocked: isDraftBlock,
+            message: customerMessage,
+          },
+          { status: validation.statusCode || 400 }
+        );
       }
 
       // 2d. Validate Custom Text & Logo File
@@ -333,7 +342,24 @@ export async function POST(request: Request) {
     });
   } catch (err: unknown) {
     console.error("[Orders API] Error creating order:", err);
-    const errorMsg = err instanceof Error ? err.message : "Terjadi kesalahan saat memproses pesanan.";
-    return NextResponse.json({ success: false, message: errorMsg }, { status: 500 });
+    const rawMsg = err instanceof Error ? err.message : "";
+    const isSensitive =
+      rawMsg.includes("MySQL") ||
+      rawMsg.includes("u911912137") ||
+      rawMsg.includes("SELECT") ||
+      rawMsg.includes("INSERT") ||
+      rawMsg.includes("database") ||
+      rawMsg.includes("ECONNREFUSED") ||
+      rawMsg.includes("ETIMEDOUT") ||
+      rawMsg.includes("PROTOCOL") ||
+      rawMsg.includes("ER_") ||
+      rawMsg.includes("terkonfigurasi");
+
+    const customerMessage =
+      isSensitive || !rawMsg
+        ? "Maaf, pemesanan online sedang mengalami gangguan. Pesanan Anda belum berhasil dibuat. Silakan coba kembali beberapa saat lagi atau hubungi tim FHD."
+        : rawMsg;
+
+    return NextResponse.json({ success: false, message: customerMessage }, { status: 500 });
   }
 }

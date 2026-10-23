@@ -67,7 +67,7 @@ export function GallerySection() {
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout">
-            {filteredItems.map((item) => (
+            {filteredItems.map((item, idx) => (
               <motion.div
                 key={item.id}
                 layout
@@ -83,7 +83,8 @@ export function GallerySection() {
                     src={item.image}
                     alt={item.alt}
                     fill
-                    unoptimized
+                    priority={idx < 3}
+                    loading={idx < 3 ? "eager" : "lazy"}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     style={{ objectPosition: item.objectPosition || "center" }}
                     className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-95 group-hover:opacity-100"
@@ -177,7 +178,8 @@ export function GallerySection() {
                   src={activeModalItem.image}
                   alt={activeModalItem.alt}
                   fill
-                  unoptimized
+                  priority
+                  sizes="(max-width: 768px) 100vw, 800px"
                   style={{ objectPosition: activeModalItem.objectPosition || "center" }}
                   className="object-contain"
                 />
